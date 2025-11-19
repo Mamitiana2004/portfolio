@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Mamitiana Portfolio - Fullstack Developer</title>
+    <title>Mamitiana Faneva - Fullstack Developer</title>
 
     <meta name="description" content="Mamitiana Faneva - Fullstack developer">
     <meta name="author" content="Mamitiana Faneva">
@@ -13,415 +13,285 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="robots" content="index, follow">
     <meta http-equiv="Content-Language" content="en">
-    <meta name="theme-color" content="#50c878">
+    <meta name="theme-color" content="#000000">
 
     <meta property="og:type" content="website">
     <meta property="og:image" content="assets/images/logo.png">
     <meta property="og:title" content="Mamitiana Faneva website">
-    <meta property="og:description" content="Mamitiana Faneva - Fullstack developer ">
+    <meta property="og:description" content="Mamitiana Faneva - Fullstack developer">
 
     <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
 
-    <!-- Three.js for 3D animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-
-    <!-- GSAP for advanced animations -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-
-    <!-- Feather Icons -->
-    <script src="https://unpkg.com/feather-icons"></script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <!-- Custom Styles -->
-    <link rel="stylesheet" href="assets/css/fullpage-style.css">
+    <link rel="stylesheet" href="assets/css/minimal-style.css">
 </head>
 
 <body>
-    <!-- Loading Screen -->
+    <!-- Loader -->
     <div id="loader" class="loader">
         <div class="loader-content">
-            <div class="loader-logo">
-                <img src="assets/images/logo.png" alt="Logo">
-            </div>
-            <div class="loader-bar">
-                <div class="loader-progress"></div>
-            </div>
-            <div class="loader-text">Loading Experience...</div>
-            <div class="loader-percentage">0%</div>
+            <div class="loader-bar"></div>
         </div>
     </div>
 
-    <!-- 3D Background Canvas -->
-    <canvas id="bg-canvas"></canvas>
-
-    <!-- Navigation Dots -->
-    <nav class="nav-dots">
-        <button class="dot active" data-section="0" aria-label="Home"></button>
-        <button class="dot" data-section="1" aria-label="About"></button>
-        <button class="dot" data-section="2" aria-label="Experience"></button>
-        <button class="dot" data-section="3" aria-label="Skills"></button>
-        <button class="dot" data-section="4" aria-label="Portfolio"></button>
-        <button class="dot" data-section="5" aria-label="Contact"></button>
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-logo">
+            <a href="#home">MF</a>
+        </div>
+        <div class="nav-links">
+            <a href="#home" class="nav-link active" data-index="0">
+                <span class="nav-num">01</span>
+                <span class="nav-text">Home</span>
+            </a>
+            <a href="#about" class="nav-link" data-index="1">
+                <span class="nav-num">02</span>
+                <span class="nav-text">About</span>
+            </a>
+            <a href="#work" class="nav-link" data-index="2">
+                <span class="nav-num">03</span>
+                <span class="nav-text">Work</span>
+            </a>
+            <a href="#contact" class="nav-link" data-index="3">
+                <span class="nav-num">04</span>
+                <span class="nav-text">Contact</span>
+            </a>
+        </div>
     </nav>
 
     <!-- Main Container -->
-    <div id="fullpage-container" class="fullpage-container">
+    <main id="main-container">
 
-        <!-- Section 1: Hero/Home -->
-        <section class="fullpage-section" data-section="0">
-            <div class="section-content hero-section">
-                <div class="hero-main">
-                    <div class="hero-text">
-                        <span class="welcome-badge">Welcome to my world</span>
-                        <h1 class="hero-title">
-                            Hi, I'm <br>
-                            <span class="gradient-text">Mamitiana Faneva</span>
-                        </h1>
-                        <div class="typing-container">
-                            <span class="typing-prefix">a </span>
-                            <span class="typed-text"></span>
-                            <span class="cursor">|</span>
-                        </div>
-                        <p class="hero-description">
-                            Full Stack Developer passionate about creating dynamic and high-performing web solutions.
-                        </p>
-                        <div class="hero-actions">
-                            <button class="btn btn-primary scroll-btn" data-target="5">
-                                <span>Get In Touch</span>
-                                <i data-feather="arrow-right"></i>
-                            </button>
-                            <a href="assets/file/Mamitiana_Faneva_ANRIAHARIMANANA _Cv.pdf" download class="btn btn-secondary">
-                                <span>Download CV</span>
-                                <i data-feather="download"></i>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="hero-visual">
-                        <div class="floating-avatar">
-                            <img src="assets/images/slider/banner-01.png" alt="Mamitiana">
-                            <div class="avatar-ring"></div>
-                            <div class="avatar-ring-2"></div>
-                        </div>
+        <!-- Section 01: Home -->
+        <section id="home" class="section" data-index="0">
+            <div class="section-content">
+                <div class="section-number">01</div>
+                <div class="hero">
+                    <p class="hero-greeting">Hi, I'm</p>
+                    <h1 class="hero-name">Mamitiana<br>Faneva</h1>
+                    <p class="hero-title">Fullstack Developer</p>
+                    <p class="hero-description">
+                        I build exceptional digital experiences.<br>
+                        Specialized in creating robust web applications.
+                    </p>
+                    <div class="hero-cta">
+                        <a href="#work" class="btn-primary">View My Work</a>
+                        <a href="assets/file/Mamitiana_Faneva_ANRIAHARIMANANA _Cv.pdf" download class="btn-secondary">Download CV</a>
                     </div>
                 </div>
-                <div class="social-bar">
-                    <a href="https://www.facebook.com/mamitiana.andria.56" target="_blank" class="social-link">
-                        <i data-feather="facebook"></i>
-                    </a>
-                    <a href="https://github.com/Mamitiana2004/" target="_blank" class="social-link">
-                        <i data-feather="github"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/faneva-mamitiana-andriaharimanana/" target="_blank" class="social-link">
-                        <i data-feather="linkedin"></i>
-                    </a>
-                    <a href="https://www.instagram.com/mamitiana042/" target="_blank" class="social-link">
-                        <i data-feather="instagram"></i>
-                    </a>
-                </div>
-                <div class="scroll-hint">
-                    <span>Scroll to explore</span>
-                    <div class="mouse-icon"></div>
+                <div class="scroll-indicator">
+                    <span>Scroll</span>
+                    <div class="scroll-line"></div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 2: About -->
-        <section class="fullpage-section" data-section="1">
-            <div class="section-content about-section">
-                <div class="section-header">
-                    <span class="section-number">01</span>
-                    <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
-                </div>
-                <div class="about-grid">
-                    <div class="about-image-wrapper">
-                        <div class="about-image">
-                            <img src="assets/images/slider/aa.JPG" alt="Mamitiana">
-                            <div class="image-overlay"></div>
-                        </div>
+        <!-- Section 02: About -->
+        <section id="about" class="section" data-index="1">
+            <div class="section-content">
+                <div class="section-number">02</div>
+                <div class="about-container">
+                    <div class="about-header">
+                        <h2 class="section-title">About Me</h2>
+                        <p class="section-subtitle">Who I am and what I do</p>
                     </div>
-                    <div class="about-content">
-                        <p class="about-text">
-                            As a full stack developer, I am passionate about transforming concepts into functional
-                            applications that enhance the user experience. I love exploring new technologies and web
-                            development trends, which keeps me up to date and enables me to offer innovative solutions.
-                        </p>
-                        <div class="info-grid">
-                            <div class="info-item">
-                                <i data-feather="user"></i>
-                                <div>
+                    <div class="about-grid">
+                        <div class="about-text">
+                            <p>
+                                As a full stack developer, I am passionate about transforming concepts into functional
+                                applications that enhance the user experience. I love exploring new technologies and web
+                                development trends, which keeps me up to date and enables me to offer innovative solutions.
+                            </p>
+                            <p>
+                                With over 3 years of experience, I've worked with various companies and startups,
+                                delivering high-quality web solutions using modern technologies.
+                            </p>
+                            <div class="info-list">
+                                <div class="info-item">
                                     <span class="info-label">Name</span>
-                                    <span class="info-value">Mamitiana Faneva</span>
+                                    <span class="info-value">Mamitiana Faneva Andriaharimanana</span>
                                 </div>
-                            </div>
-                            <div class="info-item">
-                                <i data-feather="phone"></i>
-                                <div>
+                                <div class="info-item">
+                                    <span class="info-label">Location</span>
+                                    <span class="info-value">Antananarivo, Madagascar</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-label">Email</span>
+                                    <span class="info-value">mamitianafaneva2004@gmail.com</span>
+                                </div>
+                                <div class="info-item">
                                     <span class="info-label">Phone</span>
                                     <span class="info-value">+261 34 11 092 23</span>
                                 </div>
                             </div>
-                            <div class="info-item">
-                                <i data-feather="mail"></i>
-                                <div>
-                                    <span class="info-label">Email</span>
-                                    <span class="info-value">mamitianafaneva2004@gmail.com</span>
+                        </div>
+                        <div class="about-skills">
+                            <h3>Experience</h3>
+                            <div class="experience-list">
+                                <div class="experience-item">
+                                    <div class="exp-header">
+                                        <span class="exp-title">Fullstack Developer</span>
+                                        <span class="exp-date">2024 - Present</span>
+                                    </div>
+                                    <p class="exp-company">ENERGETICS SARL</p>
+                                </div>
+                                <div class="experience-item">
+                                    <div class="exp-header">
+                                        <span class="exp-title">Frontend Developer</span>
+                                        <span class="exp-date">2020 - 2024</span>
+                                    </div>
+                                    <p class="exp-company">AkeTech Agency</p>
+                                </div>
+                                <div class="experience-item">
+                                    <div class="exp-header">
+                                        <span class="exp-title">Fullstack Developer</span>
+                                        <span class="exp-date">2023</span>
+                                    </div>
+                                    <p class="exp-company">NEXITIA TECHNOLOGIES</p>
                                 </div>
                             </div>
-                            <div class="info-item">
-                                <i data-feather="map-pin"></i>
-                                <div>
-                                    <span class="info-label">Location</span>
-                                    <span class="info-value">Antananarivo, Madagascar</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
 
-        <!-- Section 3: Experience -->
-        <section class="fullpage-section" data-section="2">
-            <div class="section-content experience-section">
-                <div class="section-header">
-                    <span class="section-number">02</span>
-                    <h2 class="section-title">My <span class="gradient-text">Journey</span></h2>
-                </div>
-                <div class="experience-timeline">
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-date">Feb 2024 - Present</span>
-                            <h3>Fullstack Developer</h3>
-                            <h4>ENERGETICS SARL</h4>
-                            <span class="badge">FREELANCE</span>
-                            <ul>
-                                <li>License Management Platform</li>
-                                <li>Transit management platform</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-date">July 2020 - October 2024</span>
-                            <h3>Frontend Developer</h3>
-                            <h4>AkeTech Agency</h4>
-                            <span class="badge">FREELANCE</span>
-                            <ul>
-                                <li>Creation of web application for tourists</li>
-                                <li>Utilized Next.js for interactive features</li>
-                                <li>Responsive design implementation</li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="timeline-item">
-                        <div class="timeline-marker"></div>
-                        <div class="timeline-content">
-                            <span class="timeline-date">Aug 2023 - Nov 2023</span>
-                            <h3>Fullstack Developer</h3>
-                            <h4>NEXITIA TECHNOLOGIES</h4>
-                            <span class="badge badge-alt">INTERNSHIP</span>
-                            <ul>
-                                <li>HTML, CSS, JavaScript, JAVA, PostgreSQL</li>
-                                <li>Website performance optimization</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- Section 4: Skills -->
-        <section class="fullpage-section" data-section="3">
-            <div class="section-content skills-section">
-                <div class="section-header">
-                    <span class="section-number">03</span>
-                    <h2 class="section-title">Technical <span class="gradient-text">Skills</span></h2>
-                </div>
-                <div class="skills-container">
-                    <div class="skills-category">
-                        <h3>Languages</h3>
-                        <div class="skill-grid">
-                            <div class="skill-item">
-                                <div class="skill-icon">JS</div>
+                            <h3>Skills</h3>
+                            <div class="skills-tags">
                                 <span>JavaScript</span>
-                                <div class="skill-level" style="--level: 90%"></div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-icon">SQL</div>
-                                <span>SQL</span>
-                                <div class="skill-level" style="--level: 85%"></div>
-                            </div>
-                            <div class="skill-item">
-                                <div class="skill-icon">JAVA</div>
                                 <span>Java</span>
-                                <div class="skill-level" style="--level: 75%"></div>
+                                <span>React</span>
+                                <span>Next.js</span>
+                                <span>Spring Boot</span>
+                                <span>Node.js</span>
+                                <span>PostgreSQL</span>
+                                <span>Docker</span>
+                                <span>Git</span>
                             </div>
-                            <div class="skill-item">
-                                <div class="skill-icon">C#</div>
-                                <span>C Sharp</span>
-                                <div class="skill-level" style="--level: 70%"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="skills-category">
-                        <h3>Frameworks</h3>
-                        <div class="framework-tags">
-                            <span class="tag">React</span>
-                            <span class="tag">Next.js</span>
-                            <span class="tag">Angular</span>
-                            <span class="tag">Vue.js</span>
-                            <span class="tag">Spring Boot</span>
-                            <span class="tag">Laravel</span>
-                            <span class="tag">Node.js</span>
-                            <span class="tag">.NET</span>
-                        </div>
-                    </div>
-                    <div class="skills-category">
-                        <h3>Tools & Databases</h3>
-                        <div class="framework-tags">
-                            <span class="tag">PostgreSQL</span>
-                            <span class="tag">MySQL</span>
-                            <span class="tag">MongoDB</span>
-                            <span class="tag">Docker</span>
-                            <span class="tag">Git</span>
-                            <span class="tag">Figma</span>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 5: Portfolio -->
-        <section class="fullpage-section" data-section="4">
-            <div class="section-content portfolio-section">
-                <div class="section-header">
-                    <span class="section-number">04</span>
-                    <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
-                </div>
-                <div class="projects-grid">
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/images/portfolio/portfolio.png" alt="Java Resources">
-                            <div class="project-overlay">
-                                <a href="https://github.com/Mamitiana2004/StartSpace" target="_blank" class="project-link">
-                                    <i data-feather="github"></i>
-                                </a>
-                            </div>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-category">Resource</span>
-                            <h3>Java Resources</h3>
-                            <p>Collection of generalized Java codes to simplify development</p>
-                        </div>
+        <!-- Section 03: Work -->
+        <section id="work" class="section" data-index="2">
+            <div class="section-content">
+                <div class="section-number">03</div>
+                <div class="work-container">
+                    <div class="work-header">
+                        <h2 class="section-title">Selected Work</h2>
+                        <p class="section-subtitle">Projects I'm proud of</p>
                     </div>
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/images/portfolio/clinique.png" alt="Clinic Management">
-                            <div class="project-overlay">
-                                <a href="https://github.com/Mamitiana2004/eval3" target="_blank" class="project-link">
-                                    <i data-feather="github"></i>
-                                </a>
+                    <div class="projects-list">
+                        <a href="https://github.com/Mamitiana2004/StartSpace" target="_blank" class="project-item">
+                            <div class="project-number">01</div>
+                            <div class="project-info">
+                                <h3 class="project-title">Java Resources</h3>
+                                <p class="project-desc">Collection of generalized Java codes to simplify development</p>
+                                <span class="project-tag">Resource</span>
                             </div>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-category">Website</span>
-                            <h3>Clinic Management</h3>
-                            <p>Spring Boot & Thymeleaf platform for patient tracking</p>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/images/portfolio/aftrip.png" alt="Aftrip">
-                            <div class="project-overlay">
-                                <div class="project-link disabled">
-                                    <i data-feather="lock"></i>
-                                </div>
+                            <div class="project-arrow">→</div>
+                        </a>
+
+                        <a href="https://github.com/Mamitiana2004/eval3" target="_blank" class="project-item">
+                            <div class="project-number">02</div>
+                            <div class="project-info">
+                                <h3 class="project-title">Clinic Management Platform</h3>
+                                <p class="project-desc">Spring Boot & Thymeleaf platform for patient tracking</p>
+                                <span class="project-tag">Web App</span>
                             </div>
-                        </div>
-                        <div class="project-info">
-                            <span class="project-category">Frontend</span>
-                            <h3>Aftrip Platform</h3>
-                            <p>Tourism platform with modern technologies</p>
-                        </div>
-                    </div>
-                    <div class="project-card">
-                        <div class="project-image">
-                            <img src="assets/images/portfolio/trex.jpg" alt="T-Rex Runner">
-                            <div class="project-overlay">
-                                <a href="https://github.com/Mamitiana2004/t_rex_runner" target="_blank" class="project-link">
-                                    <i data-feather="github"></i>
-                                </a>
+                            <div class="project-arrow">→</div>
+                        </a>
+
+                        <div class="project-item disabled">
+                            <div class="project-number">03</div>
+                            <div class="project-info">
+                                <h3 class="project-title">Aftrip Platform</h3>
+                                <p class="project-desc">Tourism platform with modern technologies</p>
+                                <span class="project-tag">Frontend</span>
                             </div>
+                            <div class="project-arrow">🔒</div>
                         </div>
-                        <div class="project-info">
-                            <span class="project-category">Desktop</span>
-                            <h3>T-Rex Runner</h3>
-                            <p>2D endless runner game with Java Swing</p>
-                        </div>
+
+                        <a href="https://github.com/Mamitiana2004/t_rex_runner" target="_blank" class="project-item">
+                            <div class="project-number">04</div>
+                            <div class="project-info">
+                                <h3 class="project-title">T-Rex Runner</h3>
+                                <p class="project-desc">2D endless runner game with Java Swing</p>
+                                <span class="project-tag">Desktop App</span>
+                            </div>
+                            <div class="project-arrow">→</div>
+                        </a>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- Section 6: Contact -->
-        <section class="fullpage-section" data-section="5">
-            <div class="section-content contact-section">
-                <div class="section-header">
-                    <span class="section-number">05</span>
-                    <h2 class="section-title">Get In <span class="gradient-text">Touch</span></h2>
-                </div>
-                <div class="contact-wrapper">
-                    <div class="contact-info-cards">
-                        <div class="contact-card">
-                            <i data-feather="phone"></i>
-                            <div>
-                                <span class="contact-label">Phone</span>
-                                <span class="contact-value">+261 34 11 092 23</span>
-                            </div>
-                        </div>
-                        <div class="contact-card">
-                            <i data-feather="mail"></i>
-                            <div>
-                                <span class="contact-label">Email</span>
-                                <span class="contact-value">mamitianafaneva2004@gmail.com</span>
-                            </div>
-                        </div>
-                        <div class="contact-card">
-                            <i data-feather="map-pin"></i>
-                            <div>
-                                <span class="contact-label">Location</span>
-                                <span class="contact-value">Antananarivo, Madagascar</span>
-                            </div>
-                        </div>
+        <!-- Section 04: Contact -->
+        <section id="contact" class="section" data-index="3">
+            <div class="section-content">
+                <div class="section-number">04</div>
+                <div class="contact-container">
+                    <div class="contact-header">
+                        <h2 class="section-title">Get In Touch</h2>
+                        <p class="section-subtitle">Let's work together</p>
                     </div>
-                    <form id="contact-form" class="contact-form">
-                        <div class="form-row">
-                            <input type="text" name="name" placeholder="Your Name" required>
-                            <input type="email" name="email" placeholder="Your Email" required>
+                    <div class="contact-content">
+                        <div class="contact-info">
+                            <p class="contact-text">
+                                I'm currently available for freelance work and interesting projects.
+                                If you have a project in mind or just want to chat, feel free to reach out.
+                            </p>
+                            <div class="contact-methods">
+                                <a href="mailto:mamitianafaneva2004@gmail.com" class="contact-method">
+                                    <span class="method-label">Email</span>
+                                    <span class="method-value">mamitianafaneva2004@gmail.com</span>
+                                </a>
+                                <a href="tel:+261341109223" class="contact-method">
+                                    <span class="method-label">Phone</span>
+                                    <span class="method-value">+261 34 11 092 23</span>
+                                </a>
+                            </div>
                         </div>
-                        <input type="text" name="subject" placeholder="Subject" required>
-                        <textarea name="message" placeholder="Your Message" rows="5" required></textarea>
-                        <button type="submit" class="btn btn-primary">
-                            <span>Send Message</span>
-                            <i data-feather="send"></i>
-                        </button>
-                    </form>
-                </div>
-                <div class="footer-text">
-                    <p>&copy; 2024 Mamitiana Faneva. All rights reserved.</p>
+                        <form id="contact-form" class="contact-form">
+                            <div class="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" name="email" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Message</label>
+                                <textarea name="message" rows="4" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-primary">Send Message</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
 
-    </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-social">
+                <a href="https://github.com/Mamitiana2004/" target="_blank">GitHub</a>
+                <a href="https://www.linkedin.com/in/faneva-mamitiana-andriaharimanana/" target="_blank">LinkedIn</a>
+                <a href="https://www.facebook.com/mamitiana.andria.56" target="_blank">Facebook</a>
+                <a href="https://www.instagram.com/mamitiana042/" target="_blank">Instagram</a>
+            </div>
+            <p class="footer-copy">&copy; 2024 Mamitiana Faneva</p>
+        </div>
+    </footer>
 
     <!-- Scripts -->
     <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
-    <script src="assets/js/fullpage-animations.js"></script>
-    <script>
-        feather.replace();
-    </script>
+    <script src="assets/js/minimal-script.js"></script>
 </body>
 
 </html>
