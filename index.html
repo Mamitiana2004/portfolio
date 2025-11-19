@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <title>Mamitiana Portfolio</title>
-    
+    <title>Mamitiana Portfolio - Fullstack Developer</title>
+
     <meta name="description" content="Mamitiana Faneva - Fullstack developer">
     <meta name="author" content="Mamitiana Faneva">
     <meta name="google-site-verification" content="QYm6cBMIW8JbZs8VSaDLp470IKw3U8cLOgeXtiDiPU8" />
@@ -15,1798 +15,730 @@
     <meta http-equiv="Content-Language" content="en">
     <meta name="theme-color" content="#50c878">
 
-    
     <meta property="og:type" content="website">
     <meta property="og:image" content="assets/images/logo.png">
     <meta property="og:title" content="Mamitiana Faneva website">
     <meta property="og:description" content="Mamitiana Faneva - Fullstack developer ">
-    
-    <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="assets/css/vendor/bootstrap.min.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick.css">
-    <link rel="stylesheet" href="assets/css/vendor/slick-theme.css">
-    <link rel="stylesheet" href="assets/css/vendor/aos.css">
-    <link rel="stylesheet" href="assets/css/plugins/feature.css">
-    
 
-    <link rel="stylesheet" href="assets/css/style.css">
+    <link rel="shortcut icon" href="assets/images/logo.png" type="image/x-icon">
+
+    <!-- Three.js for 3D animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+    <!-- GSAP for advanced animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <!-- Feather Icons -->
+    <script src="https://unpkg.com/feather-icons"></script>
+
+    <!-- Custom Styles -->
+    <link rel="stylesheet" href="assets/css/new-style.css">
 </head>
 
-<body class="template-color-1 spybody" data-spy="scroll" data-target=".navbar-example2" data-offset="70">
+<body>
+    <!-- 3D Background Canvas -->
+    <canvas id="bg-canvas"></canvas>
 
-    <!-- Start Header -->
-    <header class="rn-header haeder-default black-logo-version header--fixed header--sticky">
-        <div class="header-wrapper rn-popup-mobile-menu m--0 row align-items-center">
-            <!-- Start Header Left -->
-            <div class="col-lg-2 col-6">
-                <div class="header-left">
-                    <div class="logo">
-                        <a href="index.html">
-                            <img src="assets/images/logo.png" width=90 height="90" alt="logo">
+    <!-- Animated Gradient Background -->
+    <div class="gradient-bg"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar glass-nav">
+        <div class="nav-container">
+            <div class="logo-container">
+                <img src="assets/images/logo.png" alt="Mamitiana Logo" class="logo">
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#portfolio" class="nav-link">Portfolio</a></li>
+                <li><a href="#blog" class="nav-link">Blog</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="parallax-layer layer-1"></div>
+        <div class="parallax-layer layer-2"></div>
+        <div class="parallax-layer layer-3"></div>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <span class="welcome-text">Welcome to my world</span>
+                <h1 class="hero-title">
+                    Hi, I'm <span class="gradient-text">Mamitiana Faneva</span>
+                </h1>
+                <div class="typing-container">
+                    <span class="typing-prefix">a </span>
+                    <span class="typed-text"></span>
+                    <span class="cursor">|</span>
+                </div>
+                <p class="hero-description">
+                    Full Stack Developer passionate about creating dynamic and high-performing web solutions.
+                    I combine front-end and back-end development skills to design intuitive and efficient applications.
+                </p>
+                <div class="hero-actions">
+                    <a href="#contact" class="btn btn-primary">
+                        <span>Get In Touch</span>
+                        <i data-feather="arrow-right"></i>
+                    </a>
+                    <a href="assets/file/Mamitiana_Faneva_ANRIAHARIMANANA _Cv.pdf" download class="btn btn-secondary">
+                        <span>Download CV</span>
+                        <i data-feather="download"></i>
+                    </a>
+                </div>
+                <div class="social-links">
+                    <span class="social-title">Find me on</span>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/mamitiana.andria.56" class="social-icon facebook" target="_blank">
+                            <i data-feather="facebook"></i>
+                        </a>
+                        <a href="https://github.com/Mamitiana2004/" class="social-icon github" target="_blank">
+                            <i data-feather="github"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/in/faneva-mamitiana-andriaharimanana/" class="social-icon linkedin" target="_blank">
+                            <i data-feather="linkedin"></i>
+                        </a>
+                        <a href="https://www.instagram.com/mamitiana042/" class="social-icon instagram" target="_blank">
+                            <i data-feather="instagram"></i>
                         </a>
                     </div>
                 </div>
             </div>
-            <!-- End Header Left -->
-            <!-- Start Header Center -->
-            <div class="col-lg-10 col-6">
-                <div class="header-center">
-                    <nav id="sideNav" class="mainmenu-nav navbar-example2 d-none d-xl-block onepagenav">
-                        <!-- Start Mainmanu Nav -->
-                        <ul class="primary-menu nav nav-pills">
-                            <li class="nav-item"><a class="nav-link" href="#home">home</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#about">about</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#resume">resume</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#skills">skills</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#features">features</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#portfolio">portfolio</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#blog">blog</a></li>
-                            <li class="nav-item"><a class="nav-link" href="#contacts">Contact</a></li>
-                        </ul>
-                        <!-- End Mainmanu Nav -->
-                    </nav>
-                    <!-- Start Header Right  -->
-                    <div class="header-right">
-                        <div class="hamberger-menu d-block d-xl-none">
-                            <i id="menuBtn" class="feather-menu humberger-menu"></i>
-                        </div>
-                        <div class="close-menu d-block">
-                            <span class="closeTrigger">
-                            <i data-feather="x"></i>
-                        </span>
-                        </div>
+            <div class="hero-image">
+                <div class="floating-card">
+                    <img src="assets/images/slider/banner-01.png" alt="Mamitiana Faneva">
+                    <div class="floating-shapes">
+                        <div class="shape shape-1"></div>
+                        <div class="shape shape-2"></div>
+                        <div class="shape shape-3"></div>
                     </div>
-                    <!-- End Header Right  -->
-
                 </div>
             </div>
-            <!-- End Header Center -->
         </div>
-    </header>
-    <!-- End Header Area -->
 
-    <!-- Start Popup Mobile Menu  -->
-    <div class="popup-mobile-menu">
-        <div class="inner">
-            <div class="menu-top">
-                <div class="menu-header">
-                    <a class="logo" href="index.html">
-                        <img src="assets/images/logo.png" width="60" alt="Personal Portfolio">
-                    </a>
-                    <div class="close-button">
-                        <button class="close-menu-activation close"><i data-feather="x"></i></button>
+        <div class="scroll-indicator">
+            <div class="mouse"></div>
+            <span>Scroll Down</span>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Get to know me</span>
+                <h2 class="section-title">About <span class="gradient-text">Me</span></h2>
+            </div>
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-container">
+                        <img src="assets/images/slider/aa.JPG" alt="Mamitiana Faneva">
+                        <div class="image-overlay"></div>
+                    </div>
+                </div>
+                <div class="about-info">
+                    <p class="about-description">
+                        As a full stack developer, I am passionate about transforming concepts into functional
+                        applications that enhance the user experience. I love exploring new technologies and web
+                        development trends, which keeps me up to date and enables me to offer innovative solutions.
+                    </p>
+                    <div class="info-cards">
+                        <div class="info-card">
+                            <i data-feather="user"></i>
+                            <div class="card-content">
+                                <h4>Name</h4>
+                                <p>Mamitiana Faneva ANDRIAHARIMANANA</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i data-feather="phone"></i>
+                            <div class="card-content">
+                                <h4>Phone</h4>
+                                <p>+261 34 11 092 23</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i data-feather="mail"></i>
+                            <div class="card-content">
+                                <h4>Email</h4>
+                                <p>mamitianafaneva2004@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="info-card">
+                            <i data-feather="map-pin"></i>
+                            <div class="card-content">
+                                <h4>Location</h4>
+                                <p>Iavoloha, Antananarivo - Madagascar</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="content">
-                <ul class="primary-menu nav nav-pills onepagenav">
-                    <li class="nav-item current"><a class="nav-link smoth-animation active" href="#home">Home</a></li>
-                    <li class="nav-item"><a class="nav-link smoth-animation" href="#about">About</a></li>
-                    <li class="nav-item"><a class="nav-link smoth-animation" href="#experiences">Experience</a></li>
-                    <li class="nav-item"><a class="nav-link smoth-animation" href="#education">Education</a></li>
-                    <li class="nav-item"><a class="nav-link smoth-animation" href="#skills">Skills</a></li>
-                    <li class="nav-item"><a class="nav-link smoth-animation" href="#features">Features</a></li>
-                    <li class="nav-item"><a class="nav-link smoth-animation" href="#portfolio">Portfolio</a></li>
-                    <li class="nav-item"><a class="nav-link smoth-animation" href="#blog">blog</a></li>
-                    <li class="nav-item"><a class="nav-link smoth-animation" href="#contacts">Contact</a></li>
-                    
-                </ul>
-                <!-- social sharea area -->
-                <div class="social-share-style-1 mt--40">
-                    <span class="title">find with me</span>
-                    <ul class="social-share d-flex liststyle">
-                        <li class="facebook"><a href="https://www.facebook.com/mamitiana.andria.56"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-facebook">
-                                    <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
-                                </svg></a>
-                        </li>
-                        <li class="instagram"><a href="https://github.com/Mamitiana2004/"><i data-feather="github"></i></a>
-                        </li>
-                        <li class="linkedin"><a href="https://www.linkedin.com/in/faneva-mamitiana-andriaharimanana/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-linkedin">
-                                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                                    <rect x="2" y="9" width="4" height="12"></rect>
-                                    <circle cx="4" cy="4" r="2"></circle>
-                                </svg></a>
-                        </li>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="services-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">What I Do</span>
+                <h2 class="section-title">My <span class="gradient-text">Services</span></h2>
+            </div>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i data-feather="globe"></i>
+                    </div>
+                    <h3>Web Development</h3>
+                    <p>I offer custom web application development services, combining modern design with advanced features to meet the specific needs of each client.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i data-feather="monitor"></i>
+                    </div>
+                    <h3>Desktop Development</h3>
+                    <p>I provide custom desktop application development services, designed to deliver an optimal user experience and meet the specific requirements of each project.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon">
+                        <i data-feather="smartphone"></i>
+                    </div>
+                    <h3>Mobile App</h3>
+                    <p>I offer custom mobile application development services, blending usability and performance to deliver solutions tailored to your users' needs.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="experience-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">3+ Years of Experience</span>
+                <h2 class="section-title">My <span class="gradient-text">Journey</span></h2>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Feb 2024 - Present</span>
+                        <h3>Fullstack Developer</h3>
+                        <h4>ENERGETICS SARL</h4>
+                        <span class="badge">FREELANCE</span>
+                        <ul class="timeline-list">
+                            <li>License Management Platform</li>
+                            <li>Transit management platform</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">July 2020 - October 2024</span>
+                        <h3>Frontend Developer</h3>
+                        <h4>AkeTech Agency</h4>
+                        <span class="badge">FREELANCE</span>
+                        <ul class="timeline-list">
+                            <li>Creation of a web application for tourists</li>
+                            <li>Utilized Next Js to develop interactive features and functionalities</li>
+                            <li>Implemented responsive design to ensure optimal user experience on various devices</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-dot"></div>
+                    <div class="timeline-content">
+                        <span class="timeline-date">Aug 2023 - Nov 2023</span>
+                        <h3>Fullstack Developer</h3>
+                        <h4>NEXITIA TECHNOLOGIES</h4>
+                        <span class="badge badge-internship">INTERNSHIP</span>
+                        <ul class="timeline-list">
+                            <li>Using technologies such as HTML, CSS, JavaScript, JAVA and POSTGRESQL</li>
+                            <li>Optimizing website performance to ensure a smooth user experience</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Education -->
+            <div class="section-header mt-5">
+                <span class="section-subtitle">Academic Background</span>
+                <h2 class="section-title">My <span class="gradient-text">Education</span></h2>
+            </div>
+            <div class="education-grid">
+                <div class="education-card">
+                    <div class="education-icon">
+                        <i data-feather="award"></i>
+                    </div>
+                    <span class="education-date">2020 - 2023</span>
+                    <h3>Licence in Web Development</h3>
+                    <h4>IT University Andohoranifotsy</h4>
+                    <ul class="education-list">
+                        <li>Mobile Development</li>
+                        <li>Project Management</li>
+                        <li>Web design / Web optimization</li>
+                        <li>Database management</li>
                     </ul>
                 </div>
-                <!-- end -->
-            </div>
-        </div>
-    </div>
-    <!-- End Popup Mobile Menu  -->
-
-
-
-
-    <main class="main-page-wrapper">
-
-        <!-- Start Slider Area -->
-        <div id="home" class="rn-slider-area">
-            <div class="slide slider-style-1">
-                <div class="container">
-                    <div class="row row--30 align-items-center">
-                        <div class="order-2 order-lg-1 col-lg-7 mt_md--50 mt_sm--50 mt_lg--30">
-                            <div class="content">
-                                <div class="inner">
-                                    <span class="subtitle">Welcome to my world</span>
-                                    <h1 class="title">Hi, I’m <span>Mamitiana Faneva</span><br>
-                                        <span class="header-caption" id="page-top">
-                                            <!-- type headline start-->
-                                            <span class="cd-headline clip is-full-width">
-                                                <span>a </span>
-                                        <!-- ROTATING TEXT -->
-                                        <span class="cd-words-wrapper">
-                                                    <b class="is-visible">Fullstack Developer.</b>
-                                                    <b class="is-hidden">Java Developer.</b>
-                                                    <b class="is-hidden">Javascript Developer.</b>
-                                                </span>
-                                        </span>
-                                        <!-- type headline end -->
-                                        </span>
-                                    </h1>
-
-                                    <div>
-                                        <p class="description">Full Stack Developer passionate about creating dynamic and high-performing web solutions. 
-                                            I combine front-end and back-end development skills to design intuitive and efficient applications. 
-                                            My approach is user-centered, and I am committed to transforming ideas into digital solutions that meet the specific needs of each client.
-                                        </p>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-12">
-                                        <div class="social-share-inner-left">
-                                            <span class="title">find with me</span>
-                                            <ul class="social-share d-flex liststyle">
-                                                <li class="facebook"><a href="https://www.facebook.com/mamitiana.andria.56"><i data-feather="facebook"></i></a>
-                                                </li>
-                                                <li class="instagram"><a href="https://www.instagram.com/mamitiana042/"><i data-feather="instagram"></i></a>
-                                                </li>
-                                                <li class="linkedin"><a href="https://www.linkedin.com/in/faneva-mamitiana-andriaharimanana/"><i data-feather="linkedin"></i></a>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6 col-xl-6 col-md-6 col-sm-6 col-12 mt_mobile--30">
-                                        <div class="skill-share-inner">
-                                            <span class="title">best skill on</span>
-                                            <ul class="skill-share d-flex liststyle">
-                                                <li><img style="max-height: 40px;" src="assets/images/icons/icons-01.png" alt="Icons Images"></li>
-                                                <li><img style="max-height: 30px;" src="assets/images/icons/icons-02.png" alt="Icons Images"></li>
-                                                <li><img style="max-height: 30px;" src="assets/images/icons/icons-03.png" alt="Icons Images"></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="order-1 order-lg-2 col-lg-5">
-                            <div class="thumbnail">
-                                <div class="inner">
-                                    <img src="assets/images/slider/banner-01.png" alt="Personal Portfolio Images">
-                                </div>
-                            </div>
-                        </div>
+                <div class="education-card">
+                    <div class="education-icon">
+                        <i data-feather="book"></i>
                     </div>
+                    <span class="education-date">2012 - 2020</span>
+                    <h3>Scientific Baccalaureate</h3>
+                    <h4>Gallo Junior Private High School</h4>
+                    <p>I completed my secondary education at the private Gallo Junior High School, where I acquired a solid academic background, which laid the foundations for my professional career.</p>
                 </div>
             </div>
         </div>
-        <!-- End Slider Area -->
+    </section>
 
-        <!-- Start Slider Area -->
-        <div id="about" class="rn-slide-area">
-            <div class="slide slider-style-3">
-                <div class="container">
-                    <div class="row slider-wrapper">
-                        <div class="order-2 order-xl-1 col-lg-12 col-xl-5 mt_lg--50 mt_md--50 mt_sm--50">
-                            <div class="slider-info">
-                                <div class="row">
-                                    <div class="col-xl-12 col-lg-12 col-12">
-                                        <div class="user-info-top">
-                                            <div class="user-info-header">
-                                                <div class="user">
-                                                    <i data-feather="user"></i>
-                                                </div>
-                                                <h2 class="title">
-                                                    About <span>me</span>
-                                                </h2>
-                                                <p class="disc">As a full stack developer, 
-                                                    I am passionate about transforming concepts into functional applications that enhance the user experience. 
-                                                    I love exploring new technologies and web development trends, 
-                                                    which keeps me up to date and enables me to offer innovative solutions.
-                                                </p>
-                                            </div>
-                                            <div class="user-info-footer">
-                                                <div class="info">
-                                                    <i data-feather="user"></i>
-                                                    <span>Mamitiana Faneva ANDRIAHARIMANANA</span>
-                                                </div>
-                                                <div class="info">
-                                                    <i data-feather="phone"></i>
-                                                    <span>+261 34 11 092 23</span>
-                                                </div>
-                                                <div class="info">
-                                                    <i data-feather="mail"></i>
-                                                    <span>mamitianafaneva2004@gmail.com</span>
-                                                </div>
-                                                <div class="info">
-                                                    <i data-feather="map-pin"></i>
-                                                    <span>Iavoloha , Antananarivo - Madagascar</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-xl-12 col-lg-12 col-12">
-                                        <div class="user-info-bottom">
-                                            <span>Download my curriculum vitae: </span>
-                                            <div class="button-wrapper d-flex">
-                                                <a class="rn-btn mr--30" href="assets/file/Mamitiana_Faneva_ANRIAHARIMANANA _Cv.pdf" download="Mamitiana Faneva_ANDRIAHARIMANANA.pdf"><span>DOWNLOAD CV</span></a>
-                                                <a class="rn-btn" href="#contacts"><span>CONTACT ME</span></a>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="order-1 order-xl-2 col-lg-12 col-xl-7">
-                            <div class="background-image-area">
-                                <div class="thumbnail-image">
-                                    <img src="assets/images/slider/aa.JPG" style="width: 100%;object-fit: contain;" alt="Personal Portfolio">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Slider Area -->
-
-        <!-- Start Experience area -->
-        <div id="experiences" class="rn-experience-area section-separator rn-section-gap">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="section-title text-center">
-                            <span class="subtitle">+ year of experience</span>
-                            <h2 class="title">My Experience</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt--10">
-                    <div class="col-12 mt_experience">
-
-
-                        <!-- single skills -->
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="200" data-aos-once="true" class="experience-style-two">
-                            <div class="experience-left">
-                                <div class="experience-center">
-                                    <span class="date">Feb 2024 - Present</span>
-                                    <h4 class="experience-title">
-                                        ENERGETICS SARL
-                                    </h4>
-                                    <h6 class="subtitle">
-                                        Fullstack developer
-                                    </h6>
-                                    <ul>
-                                        <li>License Management Platform</li>
-                                        <li>Transit management platform</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="experience-right">
-                                <div class="experience-footer">
-                                    <a class="rn-btn"><span>FREELANCE</span></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single skills -->
-
-                        
-                        <!-- single skills -->
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="experience-style-two">
-                            <div class="experience-left">
-                                <div class="experience-center">
-                                    <span class="date">July 2020 - October 2024</span>
-                                    <h4 class="experience-title">
-                                        AkeTech Agency 
-                                    </h4>
-                                    <h6 class="subtitle">
-                                        Frontend Developer
-                                    </h6>
-                                    <ul>
-                                        <li>Creation of a web application for tourists</li>
-                                        <li>Utilized Next Js to develop interactive features and functionalities</li>
-                                        <li>Implemented responsive design to ensure optimal user experience on various devices</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="experience-right">
-                                <div class="experience-footer">
-                                    <a class="rn-btn"><span>FREELANCE</span></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single skills -->
-
-                        <!-- single skills -->
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="300" data-aos-once="true" class="experience-style-two">
-                            <div class="experience-left">
-                                <div class="experience-center">
-                                    <span class="date">Aug 2023 - Nov 2023</span>
-                                    <h4 class="experience-title">
-                                        NEXITIA TECHNOLOGIES
-                                    </h4>
-                                    <h6 class="subtitle">
-                                        Fullstack developer
-                                    </h6>
-                                    <ul>
-                                        <li>Using technologies such as HTML, CSS, JavaScript, JAVA and POSTGRESQL</li>
-                                        <li>Optimizing website performance to ensure a smooth user experience</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="experience-right">
-                                <div class="experience-footer">
-                                    <a class="rn-btn"><span>INTERNSHIP</span></a>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single skills -->
-
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Experience area -->
-
-        <!-- Start education section -->
-        <div id="educations" class="rn-education-area rn-section-gap section-separator">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="section-title text-center">
-                            <span class="subtitle">Bacclaureat & Licence</span>
-                            <h2 class="title">Education</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt--10">
-                    <div class="col-12 mt_experience">
-                        <!-- single skills -->
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="experience-style-two">
-                            <div class="experience-left">
-                                <div class="experience-center">
-                                    <span class="date">2020 - 2023</span>
-                                    <h4 class="experience-title">
-                                        Licence in web developpement
-                                    </h4>
-                                    <h6 class="subtitle">
-                                        IT University Andohoranifotsy 
-                                    </h6>
-                                    <span class="disc">That's allowed me to acquire solid skills in :
-                                        <ul>
-                                            <li>Mobile Development</li>
-                                            <li>Project Management</li>
-                                            <li>Web design / Web optimization</li>
-                                            <li>Database management</li>
-                                        </ul>
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single skills -->
-
-                        <!-- single skills -->
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="200" data-aos-once="true" class="experience-style-two">
-                            <div class="experience-left">
-                                <div class="experience-center">
-                                    <span class="date">2012 - 2020</span>
-                                    <h4 class="experience-title">
-                                        Scientific baccalaureate
-                                    </h4>
-                                    <h6 class="subtitle">
-                                        Gallo Juinor private high school 
-                                    </h6>
-                                    <p class="disc">I completed my secondary education at the private Gallo Junior High School, 
-                                        where I acquired a solid academic background, 
-                                        which laid the foundations for my professional career.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <!-- single skills -->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End education section -->
-
-        <!-- Start Resume Area -->
-        <div class="rn-resume-area rn-section-gap section-separator" id="skills">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-title text-center">
-                            <span class="subtitle">3+ Years of Experience</span>
-                            <h2 class="title">Skills</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt--45">
-                    <div class="col-lg-12">
-                        <ul class="rn-nav-list nav nav-tabs" id="myTabs" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" id="education-tab" data-bs-toggle="tab" href="#professional" role="tab" aria-controls="professional" aria-selected="true">professional skills</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="professional-tab" data-bs-toggle="tab" href="#language" role="tab" aria-controls="language" aria-selected="false">language
-                                    Skills</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="experience-tab" data-bs-toggle="tab" href="#assets" role="tab" aria-controls="assets" aria-selected="false">assets</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" id="interview-tab" data-bs-toggle="tab" href="#framework" role="tab" aria-controls="framework" aria-selected="false">Framework</a>
-                            </li>
-                        </ul>
-
-                        <!-- Start Tab Content Wrapper  -->
-                        <div class="rn-nav-content tab-content" id="myTabContents">
-                            <!-- Start Single Tab  -->
-                            <div class="tab-pane show active fade single-tab-area" id="professional" role="tabpanel" aria-labelledby="professional-tab">
-                                <div class="personal-experience-inner mt--40">
-                                    <div class="row row--40">
-
-                                        <!-- Start Single Progressbar  -->
-                                        <div class="col-lg-6 col-md-6 col-12">
-                                            <div class="progress-wrapper">
-                                                <div class="content">
-                                                    <span class="subtitle">Features</span>
-                                                    <h4 class="maintitle">Software Skill</h4>
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">Github</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".3s" role="progressbar" style="width: 90%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">90%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">Postman</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.9s" data-wow-delay=".7s" role="progressbar" style="width: 90%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">90%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">Docker</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay=".6s" role="progressbar" style="width: 70%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">70%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">FIGMA</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.6s" data-wow-delay=".4s" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">65%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">ADOBE XD</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.7s" data-wow-delay=".5s" role="progressbar" style="width: 70%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">70%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Single Progressbar  -->
-
-                                        <!-- Start Single Progressbar  -->
-                                        <div class="col-lg-6 col-md-6 col-12 mt_sm--60">
-                                            <div class="progress-wrapper">
-                                                <div class="content">
-                                                    <span class="subtitle">Features</span>
-                                                    <h4 class="maintitle">Development Skill</h4>
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">JAVASCRIPT</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.6s" data-wow-delay=".4s" role="progressbar" style="width: 90%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">90%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">JAVA</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.7s" data-wow-delay=".5s" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">75%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">SQL</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.8s" data-wow-delay=".6s" role="progressbar" style="width: 85%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">85%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">C#</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.9s" data-wow-delay=".7s" role="progressbar" style="width: 70%" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">70%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">Php</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".3s" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"><span
-                                                                    class="percent-label">70%</span></div>
-                                                        </div>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Single Progressbar  -->
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Tab  -->
-
-                            <!-- Start Single Tab  -->
-                            <div class="tab-pane fade " id="language" role="tabpanel" aria-labelledby="language-tab">
-                                <div class="personal-experience-inner mt--40">
-                                    <div class="row row--40">
-
-                                        <!-- Start Single Progressbar  -->
-                                        <div class="col-12">
-                                            <div class="progress-wrapper">
-                                                <div class="content">
-                                                    <span class="subtitle">Features</span>
-                                                    <h4 class="maintitle">Language</h4>
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">FRENCH</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.6s" data-wow-delay=".4s" role="progressbar" style="width:100%" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"><span
-                                                            class="percent-label">100%</span></div>
-                                                        </div>
-                                                        <span class="language_label" style="font-size: 14px;">can carry on a conversation and
-                                                            express himself without hesitation
-                                                        </span>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-                                                    <!-- Start Single Progress Charts -->
-                                                    <div class="progress-charts">
-                                                        <h6 class="heading heading-h6">ENGLISH</h6>
-                                                        <div class="progress">
-                                                            <div class="progress-bar wow fadeInLeft" data-wow-duration="0.5s" data-wow-delay=".3s" role="progressbar" style="width: 70%" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"><span
-                                                            class="percent-label">70%</span></div>
-                                                        </div>
-                                                        <span class="language_label" style="font-size: 14px;"> can understand and write but
-                                                            not express spontaneously
-                                                        </span>
-                                                    </div>
-                                                    <!-- End Single Progress Charts -->
-
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <!-- End Single Progressbar  -->
-
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Tab  -->
-
-                            <!-- Start Single Tab  -->
-                            <div class="tab-pane fade" id="assets" role="tabpanel" aria-labelledby="assets-tab">
-                                <div class="personal-experience-inner mt--40">
-                                    <div class="row">
-                                        <!-- Start Skill List Area  -->
-                                        <div class="col-12">
-                                            <div class="content">
-                                                <span class="subtitle">Soft skill</span>
-                                                <h4 class="maintitle">Assets & Quality</h4>
-                                                <p class="disc"><b>Autonomious :</b><br><small>Ability to adapt and make decisions</small></p>
-                                                <p class="disc"><b>Open to new thing :</b><br><small>Like to learn new things to enrich his experience and knowledge.</small></p>
-                                                <p class="disc"><b>Creative :</b><br><small>Finds interesting ideas for new feature</small></p>
-                                            </div>
-                                        </div>
-                                        <!-- End Skill List Area  -->
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Tab  -->
-                             
-                            
-                            <div class="tab-pane fade rn-client-area  mt--40" id="framework" aria-labelledby="framework-tab">
-                                <div class="container">
-                                    <div class="row">
-                                        <div class="col-lg-12">
-                                            <div class="section-title">
-                                                <span class="subtitle">Mastered<span>
-                                                <h4 class="title">Framework</h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                    
-                                    <div class="row row--25 mt--50 mt_md--40 mt_sm--40">
-                                        <div class="col-lg-4">
-                                            <div class="d-flex flex-wrap align-content-start h-100">
-                                                <div class="position-sticky clients-wrapper sticky-top rbt-sticky-top-adjust">
-                                                    <ul class="nav tab-navigation-button flex-column nav-pills me-3" id="v-pills-tab" role="tablist">
-                    
-                                                        <li class="nav-item">
-                                                            <a class="nav-link active" id="v-pills-front-tab" data-bs-toggle="tab" href="#v-pills-front" role="tab" aria-selected="true">Frontend</a>
-                                                        </li>
-                    
-                    
-                                                        <li class="nav-item">
-                                                            <a class="nav-link" id="v-pills-back-tab" data-bs-toggle="tab" href="#v-pills-back" role="tab" aria-selected="true">Backend</a>
-                                                        </li>
-                    
-                    
-                                                        <li class="nav-item">
-                                                            <a class="nav-link" id="v-pills-database-tab" data-bs-toggle="tab" href="#v-pills-database" role="tab" aria-selected="true">Database</a>
-                                                        </li>
-                    
-                                                    </ul>
-                                                </div>
-                                            </div>
-                                        </div>
-                    
-                                        <div class="col-lg-8">
-                                            <div class="tab-area">
-                                                <div class="d-flex align-items-start">
-                                                    <div class="tab-content" id="v-pills-tabContent">
-                    
-                                                        <div class="tab-pane fade  show active" id="v-pills-front" role="tabpanel" aria-labelledby="v-pills-front-tab">
-                                                            <div class="client-card">
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/react.png" alt="react-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">React</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/next.png" alt="next-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Next</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/angular.png" alt="angular-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Angular</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/Vue.png" alt="Vue-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Vue Js</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/iconic.png" alt="Ionic-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Ionic</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/flutter.png" alt="flutter-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Flutter</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/electron.png" alt="electron-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Electron Js</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/jsp.png" alt="JSp-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Java Server page</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/thymeleaf.png" alt="thymeleaf-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Thymeleaf</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                            
-                    
-                                                            </div>
-                                                        </div>
-                    
-                                                        <div class="tab-pane fade" id="v-pills-back" role="tabpanel" aria-labelledby="v-pills-back-tab">
-                                                            <div class="client-card">
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/spring.png" alt="spring-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Spring boot</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/laravel.png" alt="Laravel"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Laravel</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/node.png" alt="Client-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Node Js</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/dotnet.png" alt="Client-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">.Net</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/codeigniter.png" alt="Client-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">CodeIgniter</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                
-                                                            </div>
-                                                        </div>
-                    
-                                                        <div class="tab-pane fade" id="v-pills-database" role="tabpanel" aria-labelledby="v-pills-database-tab">
-                                                            <div class="client-card">
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/postgres.png" alt="postgres-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Postgres</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/mysql.svg" alt="mysql-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Mysql</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/sqlite.png" alt="sqlite-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">Sqlite</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/mongodb.svg" alt="mongo-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">MongoDB</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                <!-- Start Single Brand  -->
-                                                                <div class="main-content">
-                                                                    <div class="inner text-center">
-                                                                        <div class="thumbnail">
-                                                                            <a href="#"><img src="assets/images/icons/framework/h2.svg" alt="h2-image"></a>
-                                                                        </div>
-                                                                        <div class="seperator"></div>
-                                                                        <div class="client-name"><span><a href="#">H2 Database</a></span>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                                <!-- End Single Brand  -->
-                    
-                                                                
-                    
-                                                            </div>
-                                                        </div>
-                    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Testimonia Area  -->
-         
-
-        <!-- Start Service Area -->
-        <div class="rn-service-area rn-section-gap section-separator" id="features">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-title text-left" data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true">
-                            <span class="subtitle">Features</span>
-                            <h2 class="title">What I Do</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row--25 mt_md--10 mt_sm--10">
-
-                    <!-- Start Single Service -->
-                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-sm-12 col-12 mt--50 mt_md--30 mt_sm--30">
-                        <div class="rn-service">
-                            <div class="inner">
-                                <div class="icon">
-                                    <i data-feather="globe"></i>
-                                </div>
-                                <div class="content">
-                                    <h4 class="title"><a href="#">Web development</a></h4>
-                                    <p class="description">
-                                        I offer custom web application development services, combining modern design with advanced features to meet the specific needs of each client.
-                                    </p>
-                                    <a class="read-more-button" href="#"><i class="feather-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            <a class="over-link" href="#"></a>
-                        </div>
-                    </div>
-                    <!-- End SIngle Service -->
-                    <!-- Start Single Service -->
-                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="500" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-sm-12 col-12 mt--50 mt_md--30 mt_sm--30">
-                        <div class="rn-service">
-                            <div class="inner">
-                                <div class="icon">
-                                    <i data-feather="monitor"></i>
-                                </div>
-                                <div class="content">
-                                    <h4 class="title"><a href="#">Desktop Development</a></h4>
-                                    <p class="description">I provide custom desktop application development services, designed to deliver an optimal user experience and meet the specific requirements of each project.</p>
-                                    <a class="read-more-button" href="#"><i class="feather-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            <a class="over-link" href="#"></a>
-                        </div>
-                    </div>
-                    <!-- End SIngle Service -->
-                    <!-- Start Single Service -->
-                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 col-md-6 col-sm-12 col-12 mt--50 mt_md--30 mt_sm--30">
-                        <div class="rn-service">
-                            <div class="inner">
-                                <div class="icon">
-                                    <i data-feather="twitch"></i>
-                                </div>
-                                <div class="content">
-                                    <h4 class="title"><a href="#">Mobile App</a></h4>
-                                    <p class="description">I offer custom mobile application development services, blending usability and performance to deliver solutions tailored to your users' needs
-                                    </p>
-                                    <a class="read-more-button" href="#"><i class="feather-arrow-right"></i></a>
-                                </div>
-                            </div>
-                            <a class="over-link" href="#"></a>
-                        </div>
-                    </div>
-                    <!-- End SIngle Service -->
-                    
-
-                </div>
-            </div>
-        </div>
-        <!-- End Service Area  -->
-         <!-- Start Portfolio Area -->
-        <div id="portfolio" class="rn-portfolio-area portfolio-style-three rn-section-gap section-separator">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="section-title text-center">
-                            <span class="subtitle">Visit my portfolio</span>
-                            <h2 class="title">My Portfolio</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row mt--25 mt_md--5 mt_sm--5">
-                    <div class="col-lg-12">
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="200" data-aos-once="true" class="portfolio-wrapper portfolio-slick-activation slick-arrow-style-one rn-slick-dot-style">
-
-                            <!-- Start Single Portfolio  -->
-                            <div class="rn-portfolio-slick">
-                                <div class="rn-portfolio" data-bs-toggle="modal" data-bs-target="#projet1">
-                                    <div class="inner">
-                                        <div class="thumbnail">
-                                            <a href="javascript:void(0)">
-                                                <img src="assets/images/portfolio/portfolio.png" alt="Personal Portfolio Images">
-                                            </a>
-                                        </div>
-                                        <div class="content">
-                                            <div class="category-info">
-                                                <div class="category-list">
-                                                    <a href="javascript:void(0)">Ressource</a>
-                                                </div>
-                                            </div>
-                                            <h4 class="title"><a href="javascript:void(0)">
-                                                Java resources to make development easier
-                                                <i class="feather-arrow-up-right"></i></a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Portfolio  -->
-
-                            
-                            <!-- Start Single Portfolio  -->
-                            <div class="rn-portfolio-slick">
-                                <div class="rn-portfolio" data-bs-toggle="modal" data-bs-target="#projet2">
-                                    <div class="inner">
-                                        <div class="thumbnail">
-                                            <a href="javascript:void(0)">
-                                                <img src="assets/images/portfolio/clinique.png" alt="Personal Portfolio Images">
-                                            </a>
-                                        </div>
-                                        <div class="content">
-                                            <div class="category-info">
-                                                <div class="category-list">
-                                                    <a href="javascript:void(0)">Website</a>
-                                                </div>
-                                            </div>
-                                            <h4 class="title"><a href="javascript:void(0)">
-                                                Clinic management platform with spring boot & thymeleaf
-                                                <i class="feather-arrow-up-right"></i></a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Portfolio  -->
-
-                            
-                            <!-- Start Single Portfolio  -->
-                            <div class="rn-portfolio-slick">
-                                <div class="rn-portfolio" data-bs-toggle="modal" data-bs-target="#projet3">
-                                    <div class="inner">
-                                        <div class="thumbnail">
-                                            <a href="javascript:void(0)">
-                                                <img src="assets/images/portfolio/aftrip.png" alt="Personal Portfolio Images">
-                                            </a>
-                                        </div>
-                                        <div class="content">
-                                            <div class="category-info">
-                                                <div class="category-list">
-                                                    <a href="javascript:void(0)">Website - Front</a>
-                                                </div>
-                                            </div>
-                                            <h4 class="title"><a href="javascript:void(0)">
-                                                Frontend of the aftrip platform
-                                                <i class="feather-arrow-up-right"></i></a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Portfolio  -->
-
-                            <!-- Start Single Portfolio  -->
-                            <div class="rn-portfolio-slick">
-                                <div class="rn-portfolio" data-bs-toggle="modal" data-bs-target="#projet4">
-                                    <div class="inner">
-                                        <div class="thumbnail">
-                                            <a href="javascript:void(0)">
-                                                <img src="assets/images/portfolio/trex.jpg" alt="Personal Portfolio Images">
-                                            </a>
-                                        </div>
-                                        <div class="content">
-                                            <div class="category-info">
-                                                <div class="category-list">
-                                                    <a href="javascript:void(0)">Application desktop</a>
-                                                </div>
-                                            </div>
-                                            <h4 class="title"><a href="javascript:void(0)">
-                                                T-rex Runner
-                                                <i class="feather-arrow-up-right"></i></a></h4>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <!-- End Single Portfolio  -->
-
-                            
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End portfolio Area -->
-        <!-- Start News Area -->
-        <div class="rn-blog-area rn-section-gap section-separator" id="blog">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="section-title text-center">
-                            <span class="subtitle">Visit my blog and keep your feedback</span>
-                            <h2 class="title">My Blog</h2>
-                        </div>
-                    </div>
-                </div>
-                <div class="row row--25 mt--30 mt_md--10 mt_sm--10">
-
-                    <!-- Start Single blog -->
-                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 mt--30 col-md-6 col-sm-12 col-12 mt--30">
-                        <div class="rn-blog" data-bs-toggle="modal" data-bs-target="#personal">
-                            <div class="inner">
-                                <div class="thumbnail">
-                                    <a href="javascript:void(0)">
-                                        <img src="assets/images/blog/blog.jpg" alt="Personal  Images">
-                                    </a>
-                                </div>
-                                <div class="content">
-                                    <div class="category-info">
-                                        <div class="category-list">
-                                            <a href="javascript:void(0)">Personal</a>
-                                        </div>
-                                        <div class="meta">
-                                            <span><i class="feather-clock"></i> 5 min read</span>
-                                        </div>
-                                    </div>
-                                    <h4 class="title"><a href="javascript:void(0)">
-                                        My Journey in Web Development: From Beginner to Fullstack Freelancer
-                                        <i class="feather-arrow-up-right"></i></a></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single blog -->
-
-                    
-                    <!-- Start Single blog -->
-                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 mt--30 col-md-6 col-sm-12 col-12 mt--30">
-                        <div class="rn-blog" data-bs-toggle="modal" data-bs-target="#information">
-                            <div class="inner">
-                                <div class="thumbnail">
-                                    <a href="javascript:void(0)">
-                                        <img src="assets/images/blog/blog-02.jpg" alt="Personal Portfolio Images">
-                                    </a>
-                                </div>
-                                <div class="content">
-                                    <div class="category-info">
-                                        <div class="category-list">
-                                            <a href="javascript:void(0)">Coding</a>
-                                        </div>
-                                        <div class="meta">
-                                            <span><i class="feather-clock"></i> 10 min read</span>
-                                        </div>
-                                    </div>
-                                    <h4 class="title"><a href="javascript:void(0)">
-                                        Web Development Trends in 2024: What You Need to Know
-                                            <i class="feather-arrow-up-right"></i></a></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single blog -->
-
-                    
-                    <!-- Start Single blog -->
-                    <div data-aos="fade-up" data-aos-duration="500" data-aos-delay="100" data-aos-once="true" class="col-lg-6 col-xl-4 mt--30 col-md-6 col-sm-12 col-12 mt--30">
-                        <div class="rn-blog" data-bs-toggle="modal" data-bs-target="#coding-java">
-                            <div class="inner">
-                                <div class="thumbnail">
-                                    <a href="javascript:void(0)">
-                                        <img src="assets/images/blog/blog-03.jpg" alt="Personal Portfolio Images">
-                                    </a>
-                                </div>
-                                <div class="content">
-                                    <div class="category-info">
-                                        <div class="category-list">
-                                            <a href="javascript:void(0)">Coding</a>
-                                        </div>
-                                        <div class="meta">
-                                            <span><i class="feather-clock"></i> 5 min read</span>
-                                        </div>
-                                    </div>
-                                    <h4 class="title"><a href="javascript:void(0)">
-                                        5 Essential Tips to Become a More Effective Java Developer
-                                        <i class="feather-arrow-up-right"></i></a></h4>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- End Single blog -->
-
-                    
-
-                </div>
-            </div>
-        </div>
-        <!-- ENd Mews Area -->
-        <!-- Start Contact section -->
-        <div class="rn-contact-area rn-section-gap section-separator" id="contacts">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="section-title text-center">
-                            <span class="subtitle">Contact</span>
-                            <h2 class="title">Contact With Me</h2>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="row mt--50 mt_md--40 mt_sm--40 mt-contact-sm">
-                    <div class="col-lg-5">
-                        <div class="contact-about-area">
-                            <div class="thumbnail">
-                                <img src="assets/images/contact/contact1.png" alt="contact-img">
-                            </div>
-                            <div class="title-area">
-                                <h4 class="title">Mamitiana Faneva</h4>
-                                <span>Fullstack developer</span>
-                            </div>
-                            <div class="description">
-                                <p>I am available for freelance work. Connect with me via and call in to my account.
-                                </p>
-                                <span class="phone">Phone : <a href="tel:+261341109223">+261 34 11 092 23</a></span>
-                                <span class="mail">Email : <a href="mailto:mamitianafaneva2004@gmail.com">mamitianafaneva2004@gmail.com</a></span>
-                            </div>
-                            <div class="social-area">
-                                <div class="name">FIND WITH ME</div>
-                                <div class="social-icone">
-                                    <a href="https://www.facebook.com/mamitiana.andria.56"><i data-feather="facebook"></i></a>
-                                    <a href="https://www.linkedin.com/in/faneva-mamitiana-andriaharimanana/"><i data-feather="linkedin"></i></a>
-                                    <a href="https://github.com/Mamitiana2004/"><i data-feather="github"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div data-aos-delay="600" class="col-lg-7 contact-input">
-                        <div class="contact-form-wrapper">
-                            <div class="introduce">
-
-                                <form class="rnt-contact-form rwt-dynamic-form row" id="contact-form">
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="contact-name">Your Name</label>
-                                            <input class="form-control form-control-lg" name="contact-name" id="contact-name" required type="text">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label for="contact-phone">Phone Number</label>
-                                            <input class="form-control" name="contact-phone" id="contact-phone" required type="text">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="contact-email">Email</label>
-                                            <input class="form-control form-control-sm" id="contact-email" name="contact-email" required type="email">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="subject">subject</label>
-                                            <input class="form-control form-control-sm" id="subject" name="subject" required type="text">
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <div class="form-group">
-                                            <label for="contact-message">Your Message</label>
-                                            <textarea required name="contact-message" id="contact-message" cols="30" rows="10"></textarea>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-12">
-                                        <button name="submit" type="submit" id="submit" class="rn-btn">
-                                            <span>SEND MESSAGE</span>
-                                            <i data-feather="arrow-right"></i>
-                                        </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Contuct section -->
-        <!-- Modal Portfolio Body area Start -->
-        <div class="modal fade" id="projet2" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i data-feather="x"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row align-items-center">
-
-                            <div class="col-lg-6">
-                                <div class="portfolio-popup-thumbnail">
-                                    <div class="image">
-                                        <img class="w-100" src="assets/images/portfolio/clinique.png" alt="slide">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="text-content">
-                                    <h3>
-                                        <span>Featured - Website</span> Clinic management platform with spring boot & thymeleaf.
-                                    </h3>
-                                    <p class="mb--30">This project aims to transform the way clinics manage their daily operations by providing an intuitive and efficient system for patient tracking, appointment management, and resource organization. With a user-friendly interface, this platform allows healthcare professionals to focus on what matters most: the well-being of their patients. Explore the features that facilitate care management and enhance the user experience!</p>
-                                    <p>Spring Boot is an excellent choice for building a clinic management platform due to its rapid development capabilities, robust architecture, and built-in security features, while Thymeleaf enhances the user experience with its natural templating and seamless integration with Spring MVC, allowing for dynamic, interactive web interfaces. Together, they provide a powerful and efficient solution for managing clinic operations.</p>
-                                    <div class="button-group mt--20">
-                                        <a href="https://github.com/Mamitiana2004/eval3" class="rn-btn">
-                                            <span>VIEW CODE</span>
-                                            <i data-feather="chevron-right"></i>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <!-- End of .text-content -->
-                            </div>
-                        </div>
-                        <!-- End of .row Body-->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal Portfolio area -->
-        <!-- Modal Portfolio Body area Start -->
-        <div class="modal fade" id="projet1" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i data-feather="x"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row align-items-center">
-
-                            <div class="col-lg-6">
-                                <div class="portfolio-popup-thumbnail">
-                                    <div class="image">
-                                        <img class="w-100" src="assets/images/portfolio/portfolio.png" alt="slide">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="text-content">
-                                    <h3>
-                                        <span>Featured - Ressource</span> Java resources to make development easier.
-                                    </h3>
-                                    <p class="mb--30">This project aims to facilitate the navigation and development of your java projects. There you will find a collection of generalized codes, designed to simplify the process and speed up development. Whether you are a student, a career change, or simply curious, these resources will provide you with the tools you need to progress with confidence. </p>
-                                    <p>Explore and start your adventure in Java today!</p>
-                                    <div class="button-group mt--20">
-                                        <a href="https://github.com/Mamitiana2004/StartSpace" class="rn-btn">
-                                            <span>VIEW CODE</span>
-                                            <i data-feather="chevron-right"></i>
-                                        </a>
-                                    </div>
-
-                                </div>
-                                <!-- End of .text-content -->
-                            </div>
-                        </div>
-                        <!-- End of .row Body-->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal Portfolio area -->
-        <!-- Modal Portfolio Body area Start -->
-        <div class="modal fade" id="projet3" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i data-feather="x"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row align-items-center">
-
-                            <div class="col-lg-6">
-                                <div class="portfolio-popup-thumbnail">
-                                    <div class="image">
-                                        <img class="w-100" src="assets/images/portfolio/aftrip.png" alt="slide">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="text-content">
-                                    <h3>
-                                        <span>Featured - Website -Front</span> Frontend of the aftrip platform.
-                                    </h3>
-                                    <p class="mb--30">I developed the frontend of the Aftrip tourism platform, focusing on creating an engaging and user-friendly interface that enhances the overall travel experience. Utilizing modern web technologies, I designed intuitive navigation and visually appealing layouts to help users easily explore travel destinations, book tours, and access essential information. My goal was to ensure a seamless interaction between users and the platform, making it easy for travelers to plan and enjoy their adventures.</p>
-                                    <div class="button-group mt--20">
-                                        <button style="cursor: default;" class="rn-btn">
-                                            <span>CODE UNAVAILABLE</span>
-                                        </button>
-                                    </div>
-
-                                </div>
-                                <!-- End of .text-content -->
-                            </div>
-                        </div>
-                        <!-- End of .row Body-->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal Portfolio area -->
-        <!-- Modal Portfolio Body area Start -->
-        <div class="modal fade" id="projet4" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i data-feather="x"></i></span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row align-items-center">
-
-                            <div class="col-lg-6">
-                                <div class="portfolio-popup-thumbnail">
-                                    <div class="image">
-                                        <img class="w-100" src="assets/images/portfolio/trex.jpg" alt="slide">
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-lg-6">
-                                <div class="text-content">
-                                    <h3>
-                                        <span>Featured - Application desktop</span> T-rex runner.
-                                    </h3>
-                                    <p class="mb--30">A simple yet engaging 2D endless runner game built with Java Swing. Inspired by the classic "Dino Game," this project showcases my skills in Java programming, UI design, and game mechanics implementation. The T-Rex dodges obstacles in an endless desert, testing reflexes and delivering a fun, interactive experience.</p>
-                                    <a href="https://github.com/Mamitiana2004/t_rex_runner" class="button-group mt--20">
-                                        <button style="text-transform: uppercase;" class="rn-btn">
-                                            <span>View</span>
-                                        </button>
-                                    </a>
-
-                                </div>
-                                <!-- End of .text-content -->
-                            </div>
-                        </div>
-                        <!-- End of .row Body-->
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- End Modal Portfolio area -->
-        <!-- Modal Blog Body area Start -->
-        <div class="modal fade" id="personal" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-news" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i data-feather="x"></i></span>
-                        </button>
-                    </div>
-
-                    <!-- End of .modal-header -->
-
-                    <div class="modal-body">
-                        <img src="assets/images/blog/blog.jpg" alt="news modal" class="img-fluid modal-feat-img">
-                        <div class="news-details">
-                            <span class="date">26 Sept, 2024</span>
-                            <h2 class="title">My Journey in Web Development: From Beginner to Fullstack Freelancer.</h2>
-                            <p>
-                                Welcome to my blog! My name is Mamitiana Faneva, full-stack web developer and freelancer. 
-                                For over a year, I have been exploring the world of web development with passion. 
-                                I created this portfolio to share my journey, my skills, as well as the projects that shaped my experience. 
-                                Through this article, I will tell you how I went from beginner to professional, discovering exciting technologies and working on varied projects.
-                            </p>
-                            <h4>My first steps.</h4>
-                            <p>
-                                My adventure began at the Gallo Junior private high school, where I had a first glimpse of the potential of computer science. 
-                                After high school, I continued my studies at IT university, where I developed my theoretical and practical skills. 
-                                However, it was during my first personal projects that I really dove into the world of web development.
-                            </p>
-                            <h4>The First Technical Skills.</h4>
-                            <p>
-                                Very quickly, I discovered front-end development with technologies like HTML, CSS and JavaScript. 
-                                The React framework was a real favorite, and allowed me to build dynamic and responsive user interfaces.
-                            </p>
-                            <p>
-                                On the back-end side, my interest was in Spring Boot, with which I created robust APIs. 
-                                I also experimented with generating PDF files in more complex projects, which gave me a deeper understanding of data manipulation in Java.
-                            </p>
-                            <h4>From Developer to Freelance</h4>
-                            <p>
-                                Avec le temps, j'ai acquis suffisamment de compétences pour me lancer en tant que freelance. 
-                                Travailler pour divers clients m'a permis d’enrichir mon expérience dans des domaines variés comme la création de portefeuilles financiers, d’applications React, et d’outils Spring Boot. 
-                                Chaque projet m'a permis de renforcer ma capacité à gérer des projets de bout en bout, en alliant rigueur et créativité.
-                            </p>
-                            <h4>Conclusion</h4>
-                            <p>
-                                Today, I continue to learn and adapt to new trends in web development. 
-                                My goal is to always offer creative and effective solutions to my clients. Through this blog, 
-                                I hope to be able to inspire other developers or enthusiasts to embark on this adventure. 
-                                If you have any questions or would like to collaborate, please do not hesitate to contact me.
-                            </p>
-                        </div>
-
-                        
-                    </div>
-                    <!-- End of .modal-body -->
-                </div>
-            </div>
-        </div>
-        <!-- End Modal Blog area -->
-        <!-- Modal Blog Body area Start -->
-        <div class="modal fade" id="information" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-news" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i data-feather="x"></i></span>
-                        </button>
-                    </div>
-
-                    <!-- End of .modal-header -->
-
-                    <div class="modal-body">
-                        <img src="assets/images/blog/blog-02.jpg" alt="news modal" class="img-fluid modal-feat-img">
-                        <div class="news-details">
-                            <span class="date">26 Sept, 2024</span>
-                            <h2 class="title">Web Development Trends in 2024: What You Need to Know.</h2>
-                            <p>
-                                Web development is constantly evolving, with new technologies, trends and practices redefining the way sites and applications are created every year. 
-                                In 2024, several innovations and methodologies are shaping the web development landscape. 
-                                In this article, we'll explore this year's biggest trends and how they're influencing how developers build digital experiences.
-                            </p>
-                            <h4>The Rise of the Fullstack Frameworks.</h4>
-                            <p>
-                                Fullstack frameworks continue to gain popularity due to their ability to handle both front-end and back-end development. 
-                                Next.js and Nuxt.js have become essential tools, simplifying server-side rendering and enhancing application performance. 
-                                In 2024, these frameworks offer more built-in features, reducing development complexity and improving overall efficiency.
-                            </p>
-                            <h4>The Integration of Artificial Intelligence (AI).</h4>
-                            <p>
-                                AI is having a profound impact on how web applications are built. 
-                                Tools like ChatGPT and Midjourney enable the creation of virtual assistants, improve user experiences with personalized recommendations, and optimize content management. 
-                                In 2024, integrating AI is becoming more accessible to developers through simplified APIs, allowing even smaller projects to benefit from advanced AI features.
-                            </p>
-                            <h4>Accessibility and UX at the Forefront</h4>
-                            <p>
-                                The emphasis on web accessibility is stronger than ever in 2024. 
-                                Developers must adopt web accessibility best practices (WCAG) to ensure their applications are usable by a wide range of people, including those with disabilities. 
-                                At the same time, UX/UI trends focus on creating clean, intuitive, and fast-loading interfaces that provide seamless user experiences.
-                            </p>
-                            <h4>Performance and Optimization</h4>
-                            <p>
-                                Performance remains a crucial topic in 2024. 
-                                Tools like Web Vitals allow developers to measure and improve the quality of user experiences. 
-                                Additionally, the use of tools such as Webpack and Vite continues to optimize site loading speeds through techniques like lazy loading and on-the-fly compilation, making web applications faster and more efficient.
-                            </p>
-                            <h4>Conclusion</h4>
-                            <p>
-                                Web development in 2024 is more exciting than ever, with a host of new trends pushing the boundaries of technology. 
-                                Whether it's AI, Web3, accessibility, or PWAs, developers have a range of tools and practices that enhance both the performance of websites and the user experience.
-                                Stay ahead of these trends and consider incorporating them into your projects to remain competitive and offer cutting-edge solutions.
-                            </p>
-                        </div>
-
-                        
-                    </div>
-                    <!-- End of .modal-body -->
-                </div>
-            </div>
-        </div>
-        <!-- End Modal Blog area -->
-        <!-- Modal Blog Body area Start -->
-        <div class="modal fade" id="coding-java" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered modal-news" role="document">
-                <div class="modal-content">
-
-                    <div class="modal-header">
-                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><i data-feather="x"></i></span>
-                        </button>
-                    </div>
-
-                    <!-- End of .modal-header -->
-
-                    <div class="modal-body">
-                        <img src="assets/images/blog/blog-03.jpg" alt="news modal" class="img-fluid modal-feat-img">
-                        <div class="news-details">
-                            <span class="date">26 Sept, 2024</span>
-                            <h2 class="title">5 Essential Tips to Become a More Effective Java Developer.</h2>
-                            <p>
-                                Java is one of the most used programming languages ​​in the development world, whether for web applications, embedded systems, or business solutions. 
-                                However, to master Java, it is important to adopt certain best practices and use the right tools. 
-                                In this article, we'll walk you through 5 essential tips to become a more effective and productive Java developer.
-                            </p>
-                            <h4>Mastering the Fundamentals of Java.</h4>
-                            <p>
-                                Before diving into complex frameworks like Spring or Hibernate, it is essential to have a good command of the basics of Java. 
-                                This includes managing collections, understanding interfaces, abstract classes, and exception handling. 
-                                Having a solid understanding of the basics will allow you to better understand advanced technologies.
-                            </p>
-                            <h4>Use a Powerful IDE.</h4>
-                            <p>
-                                An integrated development environment (IDE) like IntelliJ IDEA, Eclipse, or NetBeans is essential to save time and code more efficiently. 
-                                These tools offer refactoring features, Maven/Gradle project management, and debuggers that make development easier. 
-                                Also use plugins that adapt to your needs, such as those for Git or integration with databases.
-                            </p>
-                            <h4>Follow the SOLID Principles</h4>
-                            <p>
-                                The SOLID principles are guidelines that help you write clean, modular, and maintainable code. 
-                                These principles include single responsibility, extension rather than modification, and separation of interfaces. 
-                                Adopting these practices will allow you to create well-structured Java applications that are easy to evolve.
-                            </p>
-                            <h4>Track Java Updates</h4>
-                            <p>
-                                Java evolves quickly with new versions released every six months. 
-                                It is essential to keep up with the latest features and improvements. 
-                                For example, Java 17 (LTS) introduced features like sealed classes and performance improvements. 
-                                Stay up to date by reading blogs, following tutorials, or attending conferences so you don't miss out on innovations.
-                            </p>
-                            <h4>Contribute to Open Source Projects</h4>
-                            <p>
-                                Contributing to open source projects is a great way to practice, learn, and connect with other developers. 
-                                This not only allows you to improve your technical skills, but also to familiarize yourself with collaborative development practices and version management on platforms like GitHub or GitLab.</p>
-                            <h4>Conclusion</h4>
-                            <p>
-                                Java is a powerful language, and by following these tips, you can not only improve the quality of your code, but also become a more productive and competent Java developer. 
-                                Whether you're a beginner or an experienced developer, the learning never stops. 
-                                Continue to explore new features and adopt best practices to stay at the forefront of Java development
-                            </p>
-                        </div>
-
-                        
-                    </div>
-                    <!-- End of .modal-body -->
-                </div>
-            </div>
-        </div>
-        <!-- End Modal Blog area -->
-
-        
-        <!-- Back to  top Start -->
-        <div class="backto-top">
-            <div>
-                <i data-feather="arrow-up"></i>
-            </div>
-        </div>
-        <!-- Back to top end -->
-
-    </main>
-
-    <!-- Start Footer Area -->
-    <div class="rn-footer-area rn-section-gap section-separator">
+    <!-- Skills Section -->
+    <section id="skills" class="skills-section section-padding">
         <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="footer-area text-center">
+            <div class="section-header">
+                <span class="section-subtitle">My Expertise</span>
+                <h2 class="section-title">Technical <span class="gradient-text">Skills</span></h2>
+            </div>
 
-                        <div class="logo">
-                            <a href="index.html">
-                                <img src="assets/images/logo.png" alt="logo">
+            <!-- Skills Tabs -->
+            <div class="skills-tabs">
+                <button class="tab-btn active" data-tab="languages">Languages</button>
+                <button class="tab-btn" data-tab="frameworks">Frameworks</button>
+                <button class="tab-btn" data-tab="tools">Tools</button>
+                <button class="tab-btn" data-tab="soft-skills">Soft Skills</button>
+            </div>
+
+            <!-- Languages Tab -->
+            <div class="tab-content active" id="languages">
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon">JS</div>
+                        <h4>JavaScript</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="90">
+                                <span class="skill-percentage">90%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">SQL</div>
+                        <h4>SQL</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="85">
+                                <span class="skill-percentage">85%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">JAVA</div>
+                        <h4>Java</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="75">
+                                <span class="skill-percentage">75%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">C#</div>
+                        <h4>C Sharp</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="70">
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">PHP</div>
+                        <h4>PHP</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="70">
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Frameworks Tab -->
+            <div class="tab-content" id="frameworks">
+                <div class="frameworks-grid">
+                    <div class="framework-category">
+                        <h3>Frontend</h3>
+                        <div class="framework-tags">
+                            <span class="tag">React</span>
+                            <span class="tag">Next.js</span>
+                            <span class="tag">Angular</span>
+                            <span class="tag">Vue.js</span>
+                            <span class="tag">Ionic</span>
+                            <span class="tag">Flutter</span>
+                            <span class="tag">Electron.js</span>
+                        </div>
+                    </div>
+                    <div class="framework-category">
+                        <h3>Backend</h3>
+                        <div class="framework-tags">
+                            <span class="tag">Spring Boot</span>
+                            <span class="tag">Laravel</span>
+                            <span class="tag">Node.js</span>
+                            <span class="tag">.NET</span>
+                            <span class="tag">CodeIgniter</span>
+                        </div>
+                    </div>
+                    <div class="framework-category">
+                        <h3>Databases</h3>
+                        <div class="framework-tags">
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">MySQL</span>
+                            <span class="tag">SQLite</span>
+                            <span class="tag">MongoDB</span>
+                            <span class="tag">H2 Database</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tools Tab -->
+            <div class="tab-content" id="tools">
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="skill-icon"><i data-feather="github"></i></div>
+                        <h4>GitHub</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="90">
+                                <span class="skill-percentage">90%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i data-feather="box"></i></div>
+                        <h4>Postman</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="90">
+                                <span class="skill-percentage">90%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i data-feather="package"></i></div>
+                        <h4>Docker</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="70">
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon"><i data-feather="figma"></i></div>
+                        <h4>Figma</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="65">
+                                <span class="skill-percentage">65%</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="skill-icon">XD</div>
+                        <h4>Adobe XD</h4>
+                        <div class="skill-bar">
+                            <div class="skill-progress" data-progress="70">
+                                <span class="skill-percentage">70%</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Soft Skills Tab -->
+            <div class="tab-content" id="soft-skills">
+                <div class="soft-skills-grid">
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon">
+                            <i data-feather="zap"></i>
+                        </div>
+                        <h3>Autonomous</h3>
+                        <p>Ability to adapt and make decisions</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon">
+                            <i data-feather="trending-up"></i>
+                        </div>
+                        <h3>Open to New Things</h3>
+                        <p>Like to learn new things to enrich experience and knowledge</p>
+                    </div>
+                    <div class="soft-skill-card">
+                        <div class="soft-skill-icon">
+                            <i data-feather="lightbulb"></i>
+                        </div>
+                        <h3>Creative</h3>
+                        <p>Finds interesting ideas for new features</p>
+                    </div>
+                </div>
+
+                <!-- Language Skills -->
+                <div class="language-skills">
+                    <h3 class="language-title">Language Skills</h3>
+                    <div class="language-bars">
+                        <div class="language-item">
+                            <div class="language-header">
+                                <span>French</span>
+                                <span>100%</span>
+                            </div>
+                            <div class="language-bar">
+                                <div class="language-progress" style="width: 100%"></div>
+                            </div>
+                            <p>Can carry on a conversation and express himself without hesitation</p>
+                        </div>
+                        <div class="language-item">
+                            <div class="language-header">
+                                <span>English</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="language-bar">
+                                <div class="language-progress" style="width: 70%"></div>
+                            </div>
+                            <p>Can understand and write but not express spontaneously</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio Section -->
+    <section id="portfolio" class="portfolio-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">My Work</span>
+                <h2 class="section-title">Featured <span class="gradient-text">Projects</span></h2>
+            </div>
+            <div class="portfolio-grid">
+                <!-- Project 1 -->
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <img src="assets/images/portfolio/portfolio.png" alt="Java Resources">
+                        <div class="portfolio-overlay">
+                            <a href="https://github.com/Mamitiana2004/StartSpace" target="_blank" class="portfolio-link">
+                                <i data-feather="github"></i>
                             </a>
                         </div>
                     </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Resource</span>
+                        <h3>Java Resources</h3>
+                        <p>Java resources to make development easier. A collection of generalized codes, designed to simplify the process and speed up development.</p>
+                    </div>
+                </div>
+
+                <!-- Project 2 -->
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <img src="assets/images/portfolio/clinique.png" alt="Clinic Management">
+                        <div class="portfolio-overlay">
+                            <a href="https://github.com/Mamitiana2004/eval3" target="_blank" class="portfolio-link">
+                                <i data-feather="github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Website</span>
+                        <h3>Clinic Management Platform</h3>
+                        <p>Platform with Spring Boot & Thymeleaf for patient tracking, appointment management, and resource organization.</p>
+                    </div>
+                </div>
+
+                <!-- Project 3 -->
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <img src="assets/images/portfolio/aftrip.png" alt="Aftrip Platform">
+                        <div class="portfolio-overlay">
+                            <div class="portfolio-link disabled">
+                                <i data-feather="lock"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Website - Front</span>
+                        <h3>Aftrip Platform</h3>
+                        <p>Frontend of the Aftrip tourism platform with modern web technologies and intuitive navigation.</p>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="portfolio-card">
+                    <div class="portfolio-image">
+                        <img src="assets/images/portfolio/trex.jpg" alt="T-Rex Runner">
+                        <div class="portfolio-overlay">
+                            <a href="https://github.com/Mamitiana2004/t_rex_runner" target="_blank" class="portfolio-link">
+                                <i data-feather="github"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="portfolio-content">
+                        <span class="portfolio-category">Desktop App</span>
+                        <h3>T-Rex Runner</h3>
+                        <p>A simple yet engaging 2D endless runner game built with Java Swing, inspired by the classic 'Dino Game'.</p>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- End Footer Area -->
-    <!-- JS ============================================ -->
-    <script src="assets/js/vendor/jquery.js"></script>
-    <script src="assets/js/vendor/modernizer.min.js"></script>
-    <script src="assets/js/vendor/feather.min.js"></script>
-    <script src="assets/js/vendor/slick.min.js"></script>
-    <script src="assets/js/vendor/bootstrap.js"></script>
-    <script src="assets/js/vendor/text-type.js"></script>
-    <script src="assets/js/vendor/wow.js"></script>
-    <script src="assets/js/vendor/aos.js"></script>
-    <script src="assets/js/vendor/particles.js"></script>
-    <script src="assets/js/vendor/jquery-one-page-nav.js"></script>
-    <!-- main JS -->
-    <script src="assets/js/main.js"></script>
-    <script src="assets/js/locales/en.js"></script>
-    <script src="assets/js/locales/fr.js"></script>
-    <script src="assets/js/changeLangue.js"></script>
-    <script type="text/javascript"  src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Latest Articles</span>
+                <h2 class="section-title">From The <span class="gradient-text">Blog</span></h2>
+            </div>
+            <div class="blog-grid">
+                <!-- Blog Post 1 -->
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="assets/images/blog/blog.jpg" alt="My Journey">
+                        <span class="blog-category">Personal</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span><i data-feather="calendar"></i> 26 Sept, 2024</span>
+                            <span><i data-feather="clock"></i> 5 min read</span>
+                        </div>
+                        <h3>My Journey in Web Development</h3>
+                        <p>From Beginner to Fullstack Freelancer. Discover how I transformed my passion into a professional career...</p>
+                        <a href="#" class="read-more">Read More <i data-feather="arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog Post 2 -->
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="assets/images/blog/blog-02.jpg" alt="Web Trends 2024">
+                        <span class="blog-category">Coding</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span><i data-feather="calendar"></i> 26 Sept, 2024</span>
+                            <span><i data-feather="clock"></i> 10 min read</span>
+                        </div>
+                        <h3>Web Development Trends in 2024</h3>
+                        <p>Explore the latest innovations and methodologies shaping the web development landscape in 2024...</p>
+                        <a href="#" class="read-more">Read More <i data-feather="arrow-right"></i></a>
+                    </div>
+                </div>
+
+                <!-- Blog Post 3 -->
+                <div class="blog-card">
+                    <div class="blog-image">
+                        <img src="assets/images/blog/blog-03.jpg" alt="Java Tips">
+                        <span class="blog-category">Coding</span>
+                    </div>
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span><i data-feather="calendar"></i> 26 Sept, 2024</span>
+                            <span><i data-feather="clock"></i> 5 min read</span>
+                        </div>
+                        <h3>5 Essential Tips for Java Developers</h3>
+                        <p>Master Java development with these essential tips and best practices that will make you more effective...</p>
+                        <a href="#" class="read-more">Read More <i data-feather="arrow-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact-section section-padding">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-subtitle">Get In Touch</span>
+                <h2 class="section-title">Contact <span class="gradient-text">Me</span></h2>
+            </div>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <div class="contact-image">
+                        <img src="assets/images/contact/contact1.png" alt="Contact">
+                    </div>
+                    <div class="contact-cards">
+                        <div class="contact-card">
+                            <i data-feather="phone"></i>
+                            <div>
+                                <h4>Phone</h4>
+                                <p>+261 34 11 092 23</p>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <i data-feather="mail"></i>
+                            <div>
+                                <h4>Email</h4>
+                                <p>mamitianafaneva2004@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-card">
+                            <i data-feather="map-pin"></i>
+                            <div>
+                                <h4>Location</h4>
+                                <p>Iavoloha, Antananarivo<br>Madagascar</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="contact-form-container">
+                    <form id="contact-form" class="contact-form">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" placeholder="Subject" required>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Your Message" rows="6" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <span>Send Message</span>
+                            <i data-feather="send"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <p>&copy; 2024 Mamitiana Faneva. All rights reserved.</p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/mamitiana.andria.56" target="_blank"><i data-feather="facebook"></i></a>
+                    <a href="https://github.com/Mamitiana2004/" target="_blank"><i data-feather="github"></i></a>
+                    <a href="https://www.linkedin.com/in/faneva-mamitiana-andriaharimanana/" target="_blank"><i data-feather="linkedin"></i></a>
+                    <a href="https://www.instagram.com/mamitiana042/" target="_blank"><i data-feather="instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+    <script src="assets/js/new-animations.js"></script>
     <script>
-        (function() {
-            emailjs.init("stx4pVofchydMFDhJ"); 
-        })();
+        // Initialize Feather Icons
+        feather.replace();
     </script>
-    <script src="assets/js/send-email.js"></script>
 </body>
 
 </html>
