@@ -167,6 +167,8 @@ function initAll() {
     initTerminal();
     initSkillModal();
     initSectionNavigation();
+    initKonamiCode();
+    initEasterEggs();
 }
 
 // Store Three.js materials for theme updates
@@ -915,9 +917,13 @@ function initTerminal() {
   theme [color]    - Change theme (green, blue, purple, orange, pink)
   clear            - Clear terminal
   whoami           - Display current user
-  date             - Display current date and time
-  matrix           - Easter egg 😉
-  exit             - Close terminal`;
+  date             - Display current date
+  time             - Display time with greeting
+  quote            - Random developer quote
+  status           - System status
+
+<span class="terminal-success">Hidden commands (try to discover them!):</span>
+  Type 'secret' for a hint... 🔍`;
         },
 
         about: () => {
@@ -1013,6 +1019,132 @@ Available themes: ${validThemes.join(', ')}`;
   Knock, knock, Neo.
 
   🐇 🕳️`;
+        },
+
+        hack: () => {
+            const hacks = [
+                'Accessing mainframe...',
+                'Bypassing firewall...',
+                'Decrypting password hash...',
+                'Injecting payload...',
+                'Establishing backdoor...',
+                'Access granted!'
+            ];
+            setTimeout(() => {
+                hacks.forEach((hack, i) => {
+                    setTimeout(() => {
+                        addLine(`<span class="terminal-success">[${i + 1}/6]</span> ${hack}`);
+                    }, i * 500);
+                });
+            }, 100);
+            return `<span class="terminal-success">Initiating hack sequence...</span>`;
+        },
+
+        sudo: (args) => {
+            const cmd = args.join(' ');
+            return `<span class="terminal-error">[sudo]</span> Nice try! You're not root 😏
+But I appreciate the confidence.`;
+        },
+
+        coffee: () => {
+            return `<span class="terminal-success">Brewing coffee...</span>
+
+      ( (
+       ) )
+    ........
+    |      |]
+    \\      /
+     \`----'
+
+  ☕ Coffee is ready! Take a break.`;
+        },
+
+        starwars: () => {
+            return `<span class="terminal-success">A long time ago in a galaxy far, far away...</span>
+
+  "Do or do not. There is no try." - Yoda
+
+  "The Force will be with you. Always." - Obi-Wan
+
+  May the Force be with you, young developer! 🌟`;
+        },
+
+        status: () => {
+            const uptime = Math.floor(performance.now() / 1000);
+            const hours = Math.floor(uptime / 3600);
+            const minutes = Math.floor((uptime % 3600) / 60);
+            const seconds = uptime % 60;
+
+            return `<span class="terminal-success">SYSTEM STATUS:</span>
+
+  Uptime:       ${hours}h ${minutes}m ${seconds}s
+  CPU Usage:    ${Math.floor(Math.random() * 30 + 10)}%
+  Memory:       ${Math.floor(Math.random() * 2048 + 1024)}MB / 8192MB
+  Processes:    ${Math.floor(Math.random() * 50 + 150)}
+  Network:      CONNECTED
+  Firewall:     ACTIVE
+  Mood:         EXCELLENT 😎`;
+        },
+
+        decrypt: () => {
+            const encrypted = '4d616d697469616e612046616e657661';
+            return `<span class="terminal-success">Decrypting message...</span>
+
+  Encrypted: ${encrypted}
+  Algorithm: AES-256
+  Key found: ****************
+
+  Decrypted message: "Mamitiana Faneva"
+
+  🔓 Decryption successful!`;
+        },
+
+        konami: () => {
+            return `<span class="terminal-success">🎮 KONAMI CODE ACTIVATED! 🎮</span>
+
+  You've unlocked the legendary cheat code!
+
+  ↑ ↑ ↓ ↓ ← → ← → B A
+
+  +30 Lives
+  +999 Skills Points
+  Infinite Creativity Unlocked
+
+  You're now in GOD MODE! 💪`;
+        },
+
+        time: () => {
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting = '';
+
+            if (hour >= 5 && hour < 12) greeting = 'Good morning! ☀️';
+            else if (hour >= 12 && hour < 18) greeting = 'Good afternoon! 🌤️';
+            else if (hour >= 18 && hour < 22) greeting = 'Good evening! 🌆';
+            else greeting = 'Working late? Get some rest! 🌙';
+
+            return `${greeting}\n\nCurrent time: ${now.toLocaleTimeString()}`;
+        },
+
+        quote: () => {
+            const quotes = [
+                '"Any fool can write code that a computer can understand. Good programmers write code that humans can understand." - Martin Fowler',
+                '"First, solve the problem. Then, write the code." - John Johnson',
+                '"Code is like humor. When you have to explain it, it\'s bad." - Cory House',
+                '"Simplicity is the soul of efficiency." - Austin Freeman',
+                '"Make it work, make it right, make it fast." - Kent Beck'
+            ];
+            const quote = quotes[Math.floor(Math.random() * quotes.length)];
+            return `<span class="terminal-success">Random Developer Quote:</span>\n\n${quote}`;
+        },
+
+        secret: () => {
+            return `<span class="terminal-success">🎉 You found a secret command! 🎉</span>
+
+  There are more secrets hidden in this terminal...
+  Try different commands and see what you discover!
+
+  Hint: Try classic cheat codes or programmer terms 😉`;
         },
 
         exit: () => {
@@ -1114,6 +1246,85 @@ Available themes: ${validThemes.join(', ')}`;
             terminal.classList.add('hidden');
         }
     });
+}
+
+// ============ KONAMI CODE ============
+function initKonamiCode() {
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'b', 'a'];
+    let konamiIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+        const key = e.key.toLowerCase();
+
+        if (key === konamiCode[konamiIndex] || e.code === konamiCode[konamiIndex]) {
+            konamiIndex++;
+
+            if (konamiIndex === konamiCode.length) {
+                // Konami code activated!
+                activateKonamiMode();
+                konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    });
+}
+
+function activateKonamiMode() {
+    // Show notification
+    const notification = document.createElement('div');
+    notification.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px 60px;
+            border-radius: 20px;
+            font-size: 32px;
+            font-weight: 700;
+            text-align: center;
+            z-index: 20000;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            animation: konamiPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        ">
+            🎮 KONAMI CODE ACTIVATED! 🎮<br>
+            <span style="font-size: 18px; opacity: 0.9; display: block; margin-top: 20px;">
+                GOD MODE ENABLED
+            </span>
+        </div>
+    `;
+
+    document.body.appendChild(notification);
+
+    // Add animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes konamiPop {
+            0% { transform: translate(-50%, -50%) scale(0) rotate(-180deg); opacity: 0; }
+            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
+        }
+    `;
+    document.head.appendChild(style);
+
+    // Add rainbow effect to background
+    const rainbowInterval = setInterval(() => {
+        const hue = Math.random() * 360;
+        document.documentElement.style.setProperty('--primary-color', `hsl(${hue}, 70%, 60%)`);
+        document.documentElement.style.setProperty('--glow-color', `hsl(${hue}, 70%, 60%)`);
+    }, 200);
+
+    // Remove notification and stop rainbow after 3 seconds
+    setTimeout(() => {
+        notification.remove();
+        clearInterval(rainbowInterval);
+
+        // Restore theme
+        const savedTheme = localStorage.getItem('portfolio-theme') || 'green';
+        updateParticleColor(savedTheme);
+    }, 3000);
 }
 
 // ============ SKILL MODAL ============
@@ -1244,6 +1455,387 @@ function initSectionNavigation() {
             }
         });
     });
+}
+
+// ============ ADDITIONAL EASTER EGGS ============
+function initEasterEggs() {
+    // Easter Egg 1: Mouse Shake - Glitch Effect
+    initMouseShake();
+
+    // Easter Egg 2: Secret Word Typing - "neo" triggers Matrix effect
+    initSecretWord();
+
+    // Easter Egg 3: Double-click header logo for warp speed
+    initLogoDoubleClick();
+
+    // Easter Egg 4: Click all 4 corners in order
+    initCornerClicks();
+}
+
+// Mouse Shake Detection - Rapid mouse movement triggers glitch
+function initMouseShake() {
+    let mouseVelocity = [];
+    let lastX = 0, lastY = 0;
+    let shakeActivated = false;
+
+    document.addEventListener('mousemove', (e) => {
+        if (shakeActivated) return;
+
+        const velocityX = Math.abs(e.clientX - lastX);
+        const velocityY = Math.abs(e.clientY - lastY);
+        const velocity = velocityX + velocityY;
+
+        mouseVelocity.push(velocity);
+        if (mouseVelocity.length > 10) mouseVelocity.shift();
+
+        const avgVelocity = mouseVelocity.reduce((a, b) => a + b, 0) / mouseVelocity.length;
+
+        // Shake detected!
+        if (avgVelocity > 50) {
+            triggerGlitchEffect();
+            shakeActivated = true;
+            setTimeout(() => shakeActivated = false, 5000);
+        }
+
+        lastX = e.clientX;
+        lastY = e.clientY;
+    });
+}
+
+function triggerGlitchEffect() {
+    const body = document.body;
+    body.style.animation = 'glitchShake 0.5s ease';
+
+    // Add glitch animation if it doesn't exist
+    if (!document.getElementById('glitch-animation')) {
+        const style = document.createElement('style');
+        style.id = 'glitch-animation';
+        style.textContent = `
+            @keyframes glitchShake {
+                0%, 100% { transform: translate(0); filter: hue-rotate(0deg); }
+                10% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
+                20% { transform: translate(5px, -5px); filter: hue-rotate(180deg); }
+                30% { transform: translate(-5px, -5px); filter: hue-rotate(270deg); }
+                40% { transform: translate(5px, 5px); filter: hue-rotate(360deg); }
+                50% { transform: translate(-5px, 5px); filter: hue-rotate(90deg); }
+                60% { transform: translate(5px, -5px); filter: hue-rotate(180deg); }
+                70% { transform: translate(-5px, -5px); filter: hue-rotate(270deg); }
+                80% { transform: translate(5px, 5px); filter: hue-rotate(0deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    setTimeout(() => {
+        body.style.animation = '';
+    }, 500);
+
+    showEasterEggNotification('🔮 GLITCH DETECTED!', 'Reality is unstable...');
+}
+
+// Secret Word Detection - Type "neo" anywhere
+function initSecretWord() {
+    let typedChars = [];
+    const secretWord = 'neo';
+    let activated = false;
+
+    document.addEventListener('keydown', (e) => {
+        if (activated) return;
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        typedChars.push(e.key.toLowerCase());
+        if (typedChars.length > secretWord.length) typedChars.shift();
+
+        if (typedChars.join('') === secretWord) {
+            triggerMatrixRain();
+            activated = true;
+            setTimeout(() => activated = false, 10000);
+        }
+    });
+}
+
+function triggerMatrixRain() {
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '9999';
+    canvas.style.pointerEvents = 'none';
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const chars = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const fontSize = 14;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    showEasterEggNotification('🎭 WAKE UP, NEO...', 'The Matrix has you...');
+
+    const interval = setInterval(() => {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = '#0F0';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = chars[Math.floor(Math.random() * chars.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+    }, 33);
+
+    setTimeout(() => {
+        clearInterval(interval);
+        canvas.remove();
+    }, 5000);
+}
+
+// Double-click logo for warp speed
+function initLogoDoubleClick() {
+    const heroTitle = document.querySelector('.hero-title');
+    if (!heroTitle) return;
+
+    heroTitle.style.cursor = 'pointer';
+    heroTitle.title = 'Double-click me...';
+
+    heroTitle.addEventListener('dblclick', () => {
+        triggerWarpSpeed();
+    });
+}
+
+function triggerWarpSpeed() {
+    const scene = window.scene;
+    if (!scene) return;
+
+    showEasterEggNotification('🚀 ENGAGING WARP DRIVE!', 'Prepare for light speed...');
+
+    // Accelerate background particles
+    const originalSpeed = 0.05;
+    let warpSpeed = originalSpeed;
+    const warpInterval = setInterval(() => {
+        warpSpeed += 0.5;
+        // Update Three.js scene speed if possible
+        if (window.dataParticles) {
+            window.dataParticles.forEach(p => {
+                p.position.y -= warpSpeed;
+            });
+        }
+    }, 50);
+
+    // Add warp lines effect
+    const canvas = document.createElement('canvas');
+    canvas.style.position = 'fixed';
+    canvas.style.top = '0';
+    canvas.style.left = '0';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.style.zIndex = '1';
+    canvas.style.pointerEvents = 'none';
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.getElementById('canvas-container')?.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const lines = [];
+
+    for (let i = 0; i < 100; i++) {
+        lines.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            length: Math.random() * 200 + 100,
+            speed: Math.random() * 20 + 10
+        });
+    }
+
+    const warpAnimation = setInterval(() => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+        ctx.lineWidth = 2;
+
+        lines.forEach(line => {
+            ctx.beginPath();
+            ctx.moveTo(line.x, line.y);
+            ctx.lineTo(line.x, line.y + line.length);
+            ctx.stroke();
+
+            line.y += line.speed;
+            line.speed += 0.5;
+
+            if (line.y > canvas.height) {
+                line.y = -line.length;
+                line.x = Math.random() * canvas.width;
+                line.speed = Math.random() * 20 + 10;
+            }
+        });
+    }, 16);
+
+    setTimeout(() => {
+        clearInterval(warpInterval);
+        clearInterval(warpAnimation);
+        canvas.remove();
+    }, 3000);
+}
+
+// Click all 4 corners in order
+function initCornerClicks() {
+    const cornerSequence = ['top-left', 'top-right', 'bottom-right', 'bottom-left'];
+    let currentStep = 0;
+    let lastClickTime = 0;
+    const timeLimit = 5000; // 5 seconds to complete
+
+    document.addEventListener('click', (e) => {
+        const now = Date.now();
+        if (now - lastClickTime > timeLimit) {
+            currentStep = 0;
+        }
+
+        const x = e.clientX;
+        const y = e.clientY;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+        const margin = 100; // Corner detection margin
+
+        let clickedCorner = null;
+
+        if (x < margin && y < margin) clickedCorner = 'top-left';
+        else if (x > w - margin && y < margin) clickedCorner = 'top-right';
+        else if (x > w - margin && y > h - margin) clickedCorner = 'bottom-right';
+        else if (x < margin && y > h - margin) clickedCorner = 'bottom-left';
+
+        if (clickedCorner === cornerSequence[currentStep]) {
+            currentStep++;
+            lastClickTime = now;
+
+            // Visual feedback
+            createCornerPing(x, y);
+
+            if (currentStep === cornerSequence.length) {
+                unlockSecretMessage();
+                currentStep = 0;
+            }
+        }
+    });
+}
+
+function createCornerPing(x, y) {
+    const ping = document.createElement('div');
+    ping.style.position = 'fixed';
+    ping.style.left = x + 'px';
+    ping.style.top = y + 'px';
+    ping.style.width = '20px';
+    ping.style.height = '20px';
+    ping.style.background = 'var(--primary-color)';
+    ping.style.borderRadius = '50%';
+    ping.style.transform = 'translate(-50%, -50%)';
+    ping.style.pointerEvents = 'none';
+    ping.style.zIndex = '99999';
+    ping.style.animation = 'pingExpand 0.6s ease-out';
+
+    if (!document.getElementById('ping-animation')) {
+        const style = document.createElement('style');
+        style.id = 'ping-animation';
+        style.textContent = `
+            @keyframes pingExpand {
+                0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+                100% { transform: translate(-50%, -50%) scale(3); opacity: 0; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    document.body.appendChild(ping);
+    setTimeout(() => ping.remove(), 600);
+}
+
+function unlockSecretMessage() {
+    const messages = [
+        '🔓 You found the secret path!',
+        '🎯 Precision is key in coding',
+        '🧩 Puzzle master detected!',
+        '🌟 You\'re thinking like a developer',
+        '🔐 Access to hidden knowledge granted'
+    ];
+
+    const randomMessage = messages[Math.floor(Math.random() * messages.length)];
+    showEasterEggNotification('✨ SECRET UNLOCKED!', randomMessage);
+
+    // Trigger special effect
+    document.body.style.animation = 'pulse 0.5s ease';
+    setTimeout(() => {
+        document.body.style.animation = '';
+    }, 500);
+
+    if (!document.getElementById('pulse-animation')) {
+        const style = document.createElement('style');
+        style.id = 'pulse-animation';
+        style.textContent = `
+            @keyframes pulse {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.02); filter: brightness(1.2); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+}
+
+// Unified notification system for easter eggs
+function showEasterEggNotification(title, message) {
+    const notification = document.createElement('div');
+    notification.innerHTML = `
+        <div style="
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 40, 0.95));
+            border: 2px solid var(--primary-color);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            z-index: 99999;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), 0 0 20px var(--glow-color);
+            animation: slideInRight 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 350px;
+        ">
+            <div style="font-size: 20px; margin-bottom: 8px;">${title}</div>
+            <div style="font-size: 14px; opacity: 0.85; color: var(--primary-color);">${message}</div>
+        </div>
+    `;
+
+    if (!document.getElementById('slide-animation')) {
+        const style = document.createElement('style');
+        style.id = 'slide-animation';
+        style.textContent = `
+            @keyframes slideInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(100px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.animation = 'slideInRight 0.5s ease reverse';
+        setTimeout(() => notification.remove(), 500);
+    }, 3000);
 }
 
 console.log('✨ Futuristic Portfolio initialized!');
