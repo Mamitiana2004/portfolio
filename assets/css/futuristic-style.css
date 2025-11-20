@@ -1519,39 +1519,6 @@ body {
         inset 0 0 20px rgba(255, 255, 255, 0.1);
 }
 
-.modal-content::before {
-    content: '';
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg,
-        transparent 30%,
-        var(--primary-color) 50%,
-        transparent 70%
-    );
-    opacity: 0;
-    z-index: -1;
-    animation: shineEffect 2s ease-in-out 0.5s;
-    pointer-events: none;
-}
-
-.modal-content::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 300%;
-    height: 300%;
-    background: radial-gradient(circle, var(--glow-color) 0%, transparent 70%);
-    transform: translate(-50%, -50%);
-    opacity: 0;
-    animation: glowPulse 1s ease-out;
-    pointer-events: none;
-    z-index: -2;
-}
-
 @keyframes epicCardReveal {
     0% {
         opacity: 0;
@@ -1573,34 +1540,6 @@ body {
         opacity: 1;
         transform: scale(1) rotateY(0deg) rotateX(0deg) translateZ(0px);
         filter: brightness(1);
-    }
-}
-
-@keyframes shineEffect {
-    0% {
-        opacity: 0;
-        transform: translateX(-100%) rotate(45deg);
-    }
-    50% {
-        opacity: 1;
-    }
-    100% {
-        opacity: 0;
-        transform: translateX(200%) rotate(45deg);
-    }
-}
-
-@keyframes glowPulse {
-    0% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(0);
-    }
-    50% {
-        opacity: 0.5;
-    }
-    100% {
-        opacity: 0;
-        transform: translate(-50%, -50%) scale(1);
     }
 }
 

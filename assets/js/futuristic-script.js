@@ -51,96 +51,111 @@ function init3DBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.position.setZ(30);
 
-    // Technology icons data
+    // Technology icons data with logos
     const techIcons = [
-        { symbol: 'JS', color: '#F7DF1E' },
-        { symbol: 'TS', color: '#3178C6' },
-        { symbol: 'Py', color: '#3776AB' },
-        { symbol: 'Java', color: '#007396' },
-        { symbol: 'C#', color: '#239120' },
-        { symbol: 'React', color: '#61DAFB' },
-        { symbol: 'Vue', color: '#4FC08D' },
-        { symbol: 'Node', color: '#339933' },
-        { symbol: 'SQL', color: '#4479A1' },
-        { symbol: 'Git', color: '#F05032' },
-        { symbol: 'Docker', color: '#2496ED' },
-        { symbol: 'AWS', color: '#FF9900' },
-        { symbol: 'Next', color: '#000000' },
-        { symbol: 'CSS', color: '#1572B6' },
-        { symbol: 'HTML', color: '#E34F26' }
+        { symbol: 'JS', logo: 'JS' },
+        { symbol: 'TS', logo: 'TS' },
+        { symbol: 'Py', logo: '🐍' },
+        { symbol: 'Java', logo: '☕' },
+        { symbol: 'C#', logo: 'C#' },
+        { symbol: 'React', logo: '⚛' },
+        { symbol: 'Vue', logo: 'V' },
+        { symbol: 'Node', logo: 'N' },
+        { symbol: 'SQL', logo: 'SQL' },
+        { symbol: 'Git', logo: 'Git' },
+        { symbol: 'Docker', logo: '🐳' },
+        { symbol: 'AWS', logo: 'AWS' },
+        { symbol: 'Next', logo: 'N▲' },
+        { symbol: 'CSS', logo: 'CSS' },
+        { symbol: 'HTML', logo: 'HTML' }
     ];
 
-    // Create texture sprites for tech icons
-    const particleSprites = [];
-
-    function createTextTexture(text, color) {
+    // Create texture for cube faces with logo
+    function createLogoTexture(logo) {
         const canvas = document.createElement('canvas');
-        canvas.width = 128;
-        canvas.height = 128;
+        canvas.width = 256;
+        canvas.height = 256;
         const ctx = canvas.getContext('2d');
 
-        // Background glow
-        const gradient = ctx.createRadialGradient(64, 64, 20, 64, 64, 64);
-        gradient.addColorStop(0, color + '40');
-        gradient.addColorStop(1, 'transparent');
-        ctx.fillStyle = gradient;
-        ctx.fillRect(0, 0, 128, 128);
+        // Clear background (transparent)
+        ctx.clearRect(0, 0, 256, 256);
 
-        // Text
-        ctx.fillStyle = color;
-        ctx.font = 'bold 40px Arial';
+        // Draw logo
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 80px Arial, sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        ctx.fillText(text, 64, 64);
-
-        // Border glow
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 2;
-        ctx.strokeText(text, 64, 64);
+        ctx.fillText(logo, 128, 128);
 
         return new THREE.CanvasTexture(canvas);
     }
 
-    // Create particle sprites
-    const particlesCount = 50;
-    for (let i = 0; i < particlesCount; i++) {
+    // Create tech cubes
+    const techCubes = [];
+    const cubesCount = 30;
+    const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
+
+    for (let i = 0; i < cubesCount; i++) {
         const tech = techIcons[Math.floor(Math.random() * techIcons.length)];
-        const texture = createTextTexture(tech.symbol, tech.color);
+        const logoTexture = createLogoTexture(tech.logo);
 
-        const spriteMaterial = new THREE.SpriteMaterial({
-            map: texture,
-            transparent: true,
-            opacity: 0.7,
-            blending: THREE.AdditiveBlending
+        // Create materials array for the cube (one texture on all faces)
+        const materials = [];
+        for (let j = 0; j < 6; j++) {
+            materials.push(new THREE.MeshBasicMaterial({
+                map: logoTexture,
+                transparent: true,
+                opacity: 0.8,
+                side: THREE.DoubleSide
+            }));
+        }
+
+        const cube = new THREE.Mesh(cubeGeometry, materials);
+
+        // Create wireframe edges with theme color
+        const edges = new THREE.EdgesGeometry(cubeGeometry);
+        const lineMaterial = new THREE.LineBasicMaterial({
+            color: window.currentThemeColor || 0x50c878,
+            linewidth: 2
         });
+        const wireframe = new THREE.LineSegments(edges, lineMaterial);
+        cube.add(wireframe);
 
-        const sprite = new THREE.Sprite(spriteMaterial);
-        sprite.position.set(
+        // Position
+        cube.position.set(
             (Math.random() - 0.5) * 100,
             (Math.random() - 0.5) * 100,
             (Math.random() - 0.5) * 100
         );
 
-        // Random scale between 2 and 4
-        const scale = 2 + Math.random() * 2;
-        sprite.scale.set(scale, scale, 1);
+        // Random rotation
+        cube.rotation.set(
+            Math.random() * Math.PI,
+            Math.random() * Math.PI,
+            Math.random() * Math.PI
+        );
 
-        // Store initial position and velocity for animation
-        sprite.userData = {
+        // Store animation data
+        cube.userData = {
             velocity: {
-                x: (Math.random() - 0.5) * 0.02,
-                y: (Math.random() - 0.5) * 0.02,
-                z: (Math.random() - 0.5) * 0.02
+                x: (Math.random() - 0.5) * 0.015,
+                y: (Math.random() - 0.5) * 0.015,
+                z: (Math.random() - 0.5) * 0.015
             },
-            rotationSpeed: (Math.random() - 0.5) * 0.01
+            rotationSpeed: {
+                x: (Math.random() - 0.5) * 0.01,
+                y: (Math.random() - 0.5) * 0.01,
+                z: (Math.random() - 0.5) * 0.01
+            },
+            wireframe: wireframe
         };
 
-        scene.add(sprite);
-        particleSprites.push(sprite);
+        scene.add(cube);
+        techCubes.push(cube);
     }
 
-    // Store sprites for theme updates
-    window.threejsMaterials.particles = particleSprites;
+    // Store cubes for theme updates
+    window.threejsMaterials.techCubes = techCubes;
 
     // Create geometric shapes
     const shapes = [];
@@ -192,20 +207,22 @@ function init3DBackground() {
     function animate() {
         requestAnimationFrame(animate);
 
-        // Animate tech icon sprites
-        particleSprites.forEach(sprite => {
+        // Animate tech cubes
+        techCubes.forEach(cube => {
             // Gentle floating motion
-            sprite.position.x += sprite.userData.velocity.x;
-            sprite.position.y += sprite.userData.velocity.y;
-            sprite.position.z += sprite.userData.velocity.z;
+            cube.position.x += cube.userData.velocity.x;
+            cube.position.y += cube.userData.velocity.y;
+            cube.position.z += cube.userData.velocity.z;
 
             // Bounce back when reaching boundaries
-            if (Math.abs(sprite.position.x) > 50) sprite.userData.velocity.x *= -1;
-            if (Math.abs(sprite.position.y) > 50) sprite.userData.velocity.y *= -1;
-            if (Math.abs(sprite.position.z) > 50) sprite.userData.velocity.z *= -1;
+            if (Math.abs(cube.position.x) > 50) cube.userData.velocity.x *= -1;
+            if (Math.abs(cube.position.y) > 50) cube.userData.velocity.y *= -1;
+            if (Math.abs(cube.position.z) > 50) cube.userData.velocity.z *= -1;
 
-            // Gentle rotation
-            sprite.material.rotation += sprite.userData.rotationSpeed;
+            // Continuous rotation
+            cube.rotation.x += cube.userData.rotationSpeed.x;
+            cube.rotation.y += cube.userData.rotationSpeed.y;
+            cube.rotation.z += cube.userData.rotationSpeed.z;
         });
 
         // Rotate shapes
@@ -768,7 +785,16 @@ function updateParticleColor(theme) {
     // Store the color for when the scene is created
     window.currentThemeColor = color;
 
-    // Tech icon sprites keep their own colors, only update shapes
+    // Update cube wireframes with theme color
+    if (window.threejsMaterials.techCubes) {
+        window.threejsMaterials.techCubes.forEach(cube => {
+            if (cube.userData.wireframe) {
+                cube.userData.wireframe.material.color.setHex(color);
+            }
+        });
+    }
+
+    // Update geometric shapes
     if (window.threejsMaterials.shapes.length > 0) {
         window.threejsMaterials.shapes.forEach(material => {
             material.color.setHex(color);
