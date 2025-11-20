@@ -21,7 +21,12 @@ function initAll() {
     init3DSkillsEffects();
     init3DProjectEffects();
     initContactForm();
+    initThemeSelector();
+    initDigitalClock();
 }
+
+// Store Three.js materials for theme updates
+window.threejsMaterials = { particles: null, shapes: [] };
 
 // ============ 3D BACKGROUND WITH THREE.JS ============
 function init3DBackground() {
@@ -59,7 +64,7 @@ function init3DBackground() {
 
     const particlesMaterial = new THREE.PointsMaterial({
         size: 0.1,
-        color: 0x50c878,
+        color: window.currentThemeColor || 0x50c878,
         transparent: true,
         opacity: 0.6,
         blending: THREE.AdditiveBlending
@@ -67,6 +72,9 @@ function init3DBackground() {
 
     const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
     scene.add(particlesMesh);
+
+    // Store material for theme updates
+    window.threejsMaterials.particles = particlesMaterial;
 
     // Create geometric shapes
     const shapes = [];
@@ -79,7 +87,7 @@ function init3DBackground() {
     for (let i = 0; i < 3; i++) {
         const geometry = geometries[i];
         const material = new THREE.MeshStandardMaterial({
-            color: 0x50c878,
+            color: window.currentThemeColor || 0x50c878,
             wireframe: true,
             transparent: true,
             opacity: 0.15
@@ -92,6 +100,9 @@ function init3DBackground() {
 
         shapes.push(mesh);
         scene.add(mesh);
+
+        // Store material for theme updates
+        window.threejsMaterials.shapes.push(material);
     }
 
     // Lighting
@@ -547,5 +558,126 @@ function initMouseTrail() {
 
 // Uncomment to enable mouse trail
 // initMouseTrail();
+
+// ============ THEME SELECTOR ============
+function initThemeSelector() {
+    const themeBtn = document.getElementById('theme-btn');
+    const themeSidebar = document.getElementById('theme-sidebar');
+    const closeSidebar = document.getElementById('close-sidebar');
+    const themeOptions = document.querySelectorAll('.theme-option');
+
+    if (!themeBtn || !themeSidebar) return;
+
+    // Load saved theme from localStorage
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'green';
+    document.documentElement.setAttribute('data-theme', savedTheme);
+
+    // Set active theme option
+    themeOptions.forEach(option => {
+        if (option.getAttribute('data-theme') === savedTheme) {
+            option.classList.add('active');
+        }
+    });
+
+    // Update Three.js particle color based on theme
+    updateParticleColor(savedTheme);
+
+    // Open sidebar
+    themeBtn.addEventListener('click', () => {
+        themeSidebar.classList.add('active');
+    });
+
+    // Close sidebar
+    closeSidebar.addEventListener('click', () => {
+        themeSidebar.classList.remove('active');
+    });
+
+    // Close sidebar on outside click
+    document.addEventListener('click', (e) => {
+        if (!themeSidebar.contains(e.target) && !themeBtn.contains(e.target)) {
+            themeSidebar.classList.remove('active');
+        }
+    });
+
+    // Theme option selection
+    themeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const theme = option.getAttribute('data-theme');
+
+            // Update active state
+            themeOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+
+            // Apply theme
+            document.documentElement.setAttribute('data-theme', theme);
+
+            // Save to localStorage
+            localStorage.setItem('portfolio-theme', theme);
+
+            // Update Three.js particle color
+            updateParticleColor(theme);
+
+            // Close sidebar after selection
+            setTimeout(() => {
+                themeSidebar.classList.remove('active');
+            }, 300);
+        });
+    });
+}
+
+// Update Three.js particle color based on theme
+function updateParticleColor(theme) {
+    const themeColors = {
+        green: 0x50c878,
+        blue: 0x00d4ff,
+        purple: 0x9d4edd,
+        orange: 0xff6b35,
+        pink: 0xff006e
+    };
+
+    const color = themeColors[theme] || themeColors.green;
+
+    // Store the color for when the scene is created
+    window.currentThemeColor = color;
+
+    // Update existing materials if Three.js is already initialized
+    if (window.threejsMaterials.particles) {
+        window.threejsMaterials.particles.color.setHex(color);
+    }
+
+    if (window.threejsMaterials.shapes.length > 0) {
+        window.threejsMaterials.shapes.forEach(material => {
+            material.color.setHex(color);
+        });
+    }
+}
+
+// ============ DIGITAL CLOCK ============
+function initDigitalClock() {
+    const clockTime = document.getElementById('clock-time');
+    const clockDate = document.getElementById('clock-date');
+
+    if (!clockTime || !clockDate) return;
+
+    function updateClock() {
+        const now = new Date();
+
+        // Format time (HH:MM:SS)
+        const hours = String(now.getHours()).padStart(2, '0');
+        const minutes = String(now.getMinutes()).padStart(2, '0');
+        const seconds = String(now.getSeconds()).padStart(2, '0');
+        clockTime.textContent = `${hours}:${minutes}:${seconds}`;
+
+        // Format date (Day, Month DD, YYYY)
+        const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+        clockDate.textContent = now.toLocaleDateString('en-US', options);
+    }
+
+    // Update immediately
+    updateClock();
+
+    // Update every second
+    setInterval(updateClock, 1000);
+}
 
 console.log('✨ Futuristic Portfolio initialized!');

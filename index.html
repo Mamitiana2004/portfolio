@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="green">
 
 <head>
     <meta charset="utf-8">
@@ -47,6 +47,57 @@
         <div class="loader-content">
             <div class="loader-bar"></div>
         </div>
+    </div>
+
+    <!-- Theme Selector Button -->
+    <button id="theme-btn" class="theme-btn" aria-label="Theme Selector">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+    </button>
+
+    <!-- Theme Sidebar -->
+    <div id="theme-sidebar" class="theme-sidebar">
+        <div class="sidebar-header">
+            <h3>Choose Theme</h3>
+            <button id="close-sidebar" class="close-sidebar">&times;</button>
+        </div>
+        <div class="theme-options">
+            <button class="theme-option active" data-theme="green">
+                <div class="theme-preview" style="background: linear-gradient(135deg, #50c878 0%, #3da35d 100%)"></div>
+                <span>Green</span>
+            </button>
+            <button class="theme-option" data-theme="blue">
+                <div class="theme-preview" style="background: linear-gradient(135deg, #00d4ff 0%, #0099cc 100%)"></div>
+                <span>Blue</span>
+            </button>
+            <button class="theme-option" data-theme="purple">
+                <div class="theme-preview" style="background: linear-gradient(135deg, #9d4edd 0%, #7b2cbf 100%)"></div>
+                <span>Purple</span>
+            </button>
+            <button class="theme-option" data-theme="orange">
+                <div class="theme-preview" style="background: linear-gradient(135deg, #ff6b35 0%, #f7931e 100%)"></div>
+                <span>Orange</span>
+            </button>
+            <button class="theme-option" data-theme="pink">
+                <div class="theme-preview" style="background: linear-gradient(135deg, #ff006e 0%, #fb5607 100%)"></div>
+                <span>Pink</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Digital Clock -->
+    <div id="digital-clock" class="digital-clock">
+        <span id="clock-time"></span>
+        <span id="clock-date"></span>
     </div>
 
     <!-- Navigation -->
