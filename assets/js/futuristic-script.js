@@ -126,20 +126,7 @@ function initLoaderParticles() {
 }
 
 function animateLoader() {
-    const loaderFill = document.getElementById('loader-fill');
-    const loaderPercentage = document.getElementById('loader-percentage');
-    const loaderStatus = document.getElementById('loader-status');
     const loader = document.getElementById('loader');
-
-    const statuses = [
-        'Initializing warp drive...',
-        'Calculating trajectory...',
-        'Engaging thrusters...',
-        'Accelerating...',
-        'Reaching light speed...',
-        'Final approach...',
-        'Arrival imminent...'
-    ];
 
     let progress = 0;
     const duration = 3000; // 3 seconds
@@ -157,7 +144,7 @@ function animateLoader() {
             setTimeout(() => {
                 loader.classList.add('hidden');
                 initAll();
-            }, 300);
+            }, 500);
         }
 
         // Accelerate particles based on progress (1x to 5x speed)
@@ -165,17 +152,6 @@ function animateLoader() {
         if (window.loaderSpeedControl) {
             window.loaderSpeedControl.setSpeed(speedMultiplier);
         }
-
-        // Update UI
-        loaderFill.style.width = progress + '%';
-        loaderPercentage.textContent = Math.floor(progress) + '%';
-
-        // Update status text
-        const statusIndex = Math.min(
-            Math.floor((progress / 100) * statuses.length),
-            statuses.length - 1
-        );
-        loaderStatus.textContent = statuses[statusIndex];
     }, interval);
 }
 
