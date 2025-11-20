@@ -5,12 +5,139 @@
 
 // ============ LOADER ============
 window.addEventListener('load', () => {
-    const loader = document.getElementById('loader');
-    setTimeout(() => {
-        loader.classList.add('hidden');
-        initAll();
-    }, 2000);
+    initLoaderParticles();
+    animateLoader();
 });
+
+function initLoaderParticles() {
+    const canvas = document.getElementById('loader-particles');
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles = [];
+    const particleCount = 150;
+
+    // Create particles
+    for (let i = 0; i < particleCount; i++) {
+        particles.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            size: Math.random() * 3 + 1,
+            speedX: (Math.random() - 0.5) * 2,
+            speedY: (Math.random() - 0.5) * 2,
+            opacity: Math.random() * 0.5 + 0.3
+        });
+    }
+
+    function animate() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        particles.forEach(particle => {
+            // Draw particle
+            ctx.fillStyle = `rgba(80, 200, 120, ${particle.opacity})`;
+            ctx.shadowBlur = 10;
+            ctx.shadowColor = 'rgba(80, 200, 120, 0.5)';
+            ctx.beginPath();
+            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Update position
+            particle.x += particle.speedX;
+            particle.y += particle.speedY;
+
+            // Wrap around edges
+            if (particle.x < 0) particle.x = canvas.width;
+            if (particle.x > canvas.width) particle.x = 0;
+            if (particle.y < 0) particle.y = canvas.height;
+            if (particle.y > canvas.height) particle.y = 0;
+
+            // Connect particles
+            particles.forEach(other => {
+                const dx = particle.x - other.x;
+                const dy = particle.y - other.y;
+                const distance = Math.sqrt(dx * dx + dy * dy);
+
+                if (distance < 100) {
+                    ctx.strokeStyle = `rgba(80, 200, 120, ${0.2 * (1 - distance / 100)})`;
+                    ctx.lineWidth = 1;
+                    ctx.beginPath();
+                    ctx.moveTo(particle.x, particle.y);
+                    ctx.lineTo(other.x, other.y);
+                    ctx.stroke();
+                }
+            });
+        });
+
+        requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    // Resize handler
+    window.addEventListener('resize', () => {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    });
+}
+
+function animateLoader() {
+    const loaderFill = document.getElementById('loader-fill');
+    const loaderPercentage = document.getElementById('loader-percentage');
+    const loaderStatus = document.getElementById('loader-status');
+    const loader = document.getElementById('loader');
+    const accessScreen = document.getElementById('access-screen');
+
+    const statuses = [
+        'Loading modules...',
+        'Initializing components...',
+        'Connecting to server...',
+        'Loading assets...',
+        'Preparing interface...',
+        'Almost ready...',
+        'Finalizing...'
+    ];
+
+    let progress = 0;
+    const duration = 3000; // 3 seconds
+    const interval = 30; // Update every 30ms
+    const increment = (100 * interval) / duration;
+
+    const progressInterval = setInterval(() => {
+        progress += increment;
+
+        if (progress >= 100) {
+            progress = 100;
+            clearInterval(progressInterval);
+
+            // Show access granted screen
+            setTimeout(() => {
+                loader.classList.add('hidden');
+                accessScreen.classList.remove('hidden');
+
+                // Hide access screen and show site
+                setTimeout(() => {
+                    accessScreen.classList.add('hidden');
+                    initAll();
+                }, 1500);
+            }, 500);
+        }
+
+        // Update UI
+        loaderFill.style.width = progress + '%';
+        loaderPercentage.textContent = Math.floor(progress) + '%';
+
+        // Update status text
+        const statusIndex = Math.min(
+            Math.floor((progress / 100) * statuses.length),
+            statuses.length - 1
+        );
+        loaderStatus.textContent = statuses[statusIndex];
+    }, interval);
+}
 
 // ============ INITIALIZATION ============
 function initAll() {

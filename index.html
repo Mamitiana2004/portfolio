@@ -44,9 +44,34 @@
 
     <!-- Loader -->
     <div id="loader" class="loader">
+        <canvas id="loader-particles"></canvas>
         <div class="loader-content">
-            <div class="loader-bar"></div>
+            <div class="loader-terminal">
+                <div class="loader-text">INITIALIZING SYSTEM...</div>
+                <div class="loader-progress-container">
+                    <div class="loader-progress-bar">
+                        <div class="loader-progress-fill" id="loader-fill"></div>
+                    </div>
+                    <div class="loader-percentage" id="loader-percentage">0%</div>
+                </div>
+                <div class="loader-status" id="loader-status">Loading modules...</div>
+            </div>
         </div>
+    </div>
+
+    <!-- Access Granted Screen -->
+    <div id="access-screen" class="access-screen hidden">
+        <div class="access-content">
+            <div class="access-icon">✓</div>
+            <div class="access-text">ACCESS GRANTED</div>
+            <div class="access-subtext">Welcome to the system</div>
+        </div>
+    </div>
+
+    <!-- Cyber Background -->
+    <div class="cyber-background">
+        <div class="cyber-grid"></div>
+        <div class="cyber-lines"></div>
     </div>
 
     <!-- Settings Button -->
