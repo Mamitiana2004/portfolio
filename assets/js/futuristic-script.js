@@ -1620,14 +1620,8 @@ function initEasterEggs() {
     // Easter Egg 2: Secret Word Typing - "neo" triggers Matrix effect
     initSecretWord();
 
-    // Easter Egg 3: Double-click header logo for warp speed
-    initLogoDoubleClick();
-
-    // Easter Egg 4: Click all 4 corners in order
-    initCornerClicks();
-
-    // Initialize 10 additional easter eggs (5-14)
-    initAdditional10EasterEggs();
+    // Initialize all easter eggs
+    initAllEasterEggs();
 }
 
 // Mouse Shake Detection - Rapid mouse movement triggers glitch
@@ -2596,18 +2590,577 @@ function unlockMasterSecret() {
     }, 2000);
 }
 
-// Initialize all 10 new easter eggs
-function initAdditional10EasterEggs() {
-    initDeveloperMode();         // Easter Egg 5
-    initTripleClick();           // Easter Egg 6
-    initGravityEasterEgg();      // Easter Egg 7
-    initSpeedScrollDetection();  // Easter Egg 8
-    initPayRespects();           // Easter Egg 9
-    initRotationDetection();     // Easter Egg 10
-    initLongPress();             // Easter Egg 11
-    initDiscoMode();             // Easter Egg 12
-    initTetrisPattern();         // Easter Egg 13
-    initCornerHover();           // Easter Egg 14
+// ============ NEW DIRECTION PATTERN EASTER EGGS ============
+
+// Easter Egg: Street Fighter Hadouken (↓↘→ + P)
+function initStreetFighterPattern() {
+    const hadoukenPattern = ['ArrowDown', 'ArrowDown', 'ArrowRight', 'p'];
+    let patternIndex = 0;
+    let lastKeyTime = 0;
+
+    document.addEventListener('keydown', (e) => {
+        const now = Date.now();
+
+        // Reset if too much time between keys (>1 second)
+        if (now - lastKeyTime > 1000) {
+            patternIndex = 0;
+        }
+
+        if (e.key === hadoukenPattern[patternIndex] || e.code === hadoukenPattern[patternIndex]) {
+            patternIndex++;
+            lastKeyTime = now;
+
+            if (patternIndex === hadoukenPattern.length) {
+                triggerHadouken();
+                patternIndex = 0;
+            }
+        } else if (hadoukenPattern.includes(e.key) || hadoukenPattern.includes(e.code)) {
+            patternIndex = 0;
+        }
+    });
+}
+
+function triggerHadouken() {
+    showEasterEggNotification('🔥 HADOUKEN!', 'Street Fighter combo activated!');
+
+    // Create energy ball
+    const energyBall = document.createElement('div');
+    energyBall.textContent = '⚡';
+    energyBall.style.cssText = `
+        position: fixed;
+        left: -50px;
+        top: 50%;
+        font-size: 80px;
+        transform: translateY(-50%);
+        pointer-events: none;
+        z-index: 99999;
+        filter: drop-shadow(0 0 30px var(--primary-color));
+    `;
+
+    document.body.appendChild(energyBall);
+
+    energyBall.animate([
+        { left: '-50px', transform: 'translateY(-50%) rotate(0deg) scale(0.5)' },
+        { left: '50%', transform: 'translateY(-50%) rotate(360deg) scale(1.5)' },
+        { left: '110%', transform: 'translateY(-50%) rotate(720deg) scale(0.5)' }
+    ], {
+        duration: 1500,
+        easing: 'ease-in'
+    });
+
+    setTimeout(() => energyBall.remove(), 1500);
+}
+
+// Easter Egg: Mortal Kombat Fatality (↓↓→ + K)
+function initMortalKombatPattern() {
+    const fatalityPattern = ['ArrowDown', 'ArrowDown', 'ArrowRight', 'k'];
+    let patternIndex = 0;
+    let lastKeyTime = 0;
+
+    document.addEventListener('keydown', (e) => {
+        const now = Date.now();
+
+        if (now - lastKeyTime > 1000) {
+            patternIndex = 0;
+        }
+
+        if (e.key === fatalityPattern[patternIndex] || e.code === fatalityPattern[patternIndex]) {
+            patternIndex++;
+            lastKeyTime = now;
+
+            if (patternIndex === fatalityPattern.length) {
+                triggerFatality();
+                patternIndex = 0;
+            }
+        } else if (fatalityPattern.includes(e.key) || fatalityPattern.includes(e.code)) {
+            patternIndex = 0;
+        }
+    });
+}
+
+function triggerFatality() {
+    showEasterEggNotification('💀 FATALITY!', 'Mortal Kombat combo!');
+
+    // Screen flash red
+    const flash = document.createElement('div');
+    flash.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: red;
+        opacity: 0;
+        pointer-events: none;
+        z-index: 99998;
+    `;
+
+    document.body.appendChild(flash);
+
+    flash.animate([
+        { opacity: 0 },
+        { opacity: 0.7 },
+        { opacity: 0 }
+    ], {
+        duration: 500,
+        iterations: 3
+    });
+
+    // Add "FATALITY" text
+    const text = document.createElement('div');
+    text.textContent = 'FATALITY';
+    text.style.cssText = `
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        font-size: 120px;
+        font-weight: 900;
+        color: red;
+        text-shadow: 0 0 40px red, 0 0 80px red;
+        pointer-events: none;
+        z-index: 99999;
+        letter-spacing: 10px;
+    `;
+
+    document.body.appendChild(text);
+
+    text.animate([
+        { transform: 'translate(-50%, -50%) scale(0)', opacity: 0 },
+        { transform: 'translate(-50%, -50%) scale(1.5)', opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 0 }
+    ], {
+        duration: 2000,
+        easing: 'ease-out'
+    });
+
+    setTimeout(() => {
+        flash.remove();
+        text.remove();
+    }, 2000);
+}
+
+// Easter Egg: Left-Right Pattern (←←→→)
+function initLeftRightPattern() {
+    const pattern = ['ArrowLeft', 'ArrowLeft', 'ArrowRight', 'ArrowRight'];
+    let patternIndex = 0;
+    let lastKeyTime = 0;
+
+    document.addEventListener('keydown', (e) => {
+        const now = Date.now();
+
+        if (now - lastKeyTime > 1000) {
+            patternIndex = 0;
+        }
+
+        if (e.code === pattern[patternIndex]) {
+            patternIndex++;
+            lastKeyTime = now;
+
+            if (patternIndex === pattern.length) {
+                triggerDanceMode();
+                patternIndex = 0;
+            }
+        } else if (pattern.includes(e.code)) {
+            patternIndex = 0;
+        }
+    });
+}
+
+function triggerDanceMode() {
+    showEasterEggNotification('💃 DANCE MODE!', 'Left right left right!');
+
+    // Make elements dance
+    const elements = document.querySelectorAll('.skill-tag, .service-card, h1, h2');
+
+    elements.forEach((el, index) => {
+        setTimeout(() => {
+            el.style.animation = 'dance 0.5s ease';
+
+            if (!document.getElementById('dance-animation')) {
+                const style = document.createElement('style');
+                style.id = 'dance-animation';
+                style.textContent = `
+                    @keyframes dance {
+                        0%, 100% { transform: translateX(0) rotate(0deg); }
+                        25% { transform: translateX(-15px) rotate(-5deg); }
+                        75% { transform: translateX(15px) rotate(5deg); }
+                    }
+                `;
+                document.head.appendChild(style);
+            }
+
+            setTimeout(() => {
+                el.style.animation = '';
+            }, 500);
+        }, index * 50);
+    });
+}
+
+// Easter Egg: Circle Pattern (↑→↓←↑→↓←)
+function initCirclePattern() {
+    const circlePattern = ['ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft',
+                          'ArrowUp', 'ArrowRight', 'ArrowDown', 'ArrowLeft'];
+    let patternIndex = 0;
+    let lastKeyTime = 0;
+
+    document.addEventListener('keydown', (e) => {
+        const now = Date.now();
+
+        if (now - lastKeyTime > 800) {
+            patternIndex = 0;
+        }
+
+        if (e.code === circlePattern[patternIndex]) {
+            patternIndex++;
+            lastKeyTime = now;
+
+            if (patternIndex === circlePattern.length) {
+                triggerVortex();
+                patternIndex = 0;
+            }
+        } else if (circlePattern.includes(e.code)) {
+            patternIndex = 0;
+        }
+    });
+}
+
+function triggerVortex() {
+    showEasterEggNotification('🌀 VORTEX!', 'Circle pattern unlocked!');
+
+    // Create spinning vortex
+    document.body.style.animation = 'vortexSpin 2s ease-in-out';
+
+    if (!document.getElementById('vortex-animation')) {
+        const style = document.createElement('style');
+        style.id = 'vortex-animation';
+        style.textContent = `
+            @keyframes vortexSpin {
+                0% { transform: scale(1) rotate(0deg); filter: hue-rotate(0deg); }
+                50% { transform: scale(0.95) rotate(180deg); filter: hue-rotate(180deg); }
+                100% { transform: scale(1) rotate(360deg); filter: hue-rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    setTimeout(() => {
+        document.body.style.animation = '';
+    }, 2000);
+}
+
+// ============ NEW SECRET WORD EASTER EGGS ============
+
+// Easter Egg: Type "hack"
+function initHackMode() {
+    let typedChars = [];
+    const secretWord = 'hack';
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        typedChars.push(e.key.toLowerCase());
+        if (typedChars.length > secretWord.length) typedChars.shift();
+
+        if (typedChars.join('') === secretWord) {
+            activateHackMode();
+            typedChars = [];
+        }
+    });
+}
+
+function activateHackMode() {
+    showEasterEggNotification('💻 HACK MODE!', 'Access granted...');
+
+    // Create falling binary
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9999;
+    `;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const binary = '01';
+    const fontSize = 20;
+    const columns = canvas.width / fontSize;
+    const drops = Array(Math.floor(columns)).fill(1);
+
+    let frameCount = 0;
+    const animate = () => {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = 'var(--primary-color)';
+        ctx.font = fontSize + 'px monospace';
+
+        for (let i = 0; i < drops.length; i++) {
+            const text = binary[Math.floor(Math.random() * binary.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+
+        frameCount++;
+        if (frameCount < 180) {
+            requestAnimationFrame(animate);
+        } else {
+            canvas.remove();
+        }
+    };
+
+    animate();
+}
+
+// Easter Egg: Type "matrix"
+function initMatrixWord() {
+    let typedChars = [];
+    const secretWord = 'matrix';
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        typedChars.push(e.key.toLowerCase());
+        if (typedChars.length > secretWord.length) typedChars.shift();
+
+        if (typedChars.join('') === secretWord) {
+            activateMatrixMode();
+            typedChars = [];
+        }
+    });
+}
+
+function activateMatrixMode() {
+    showEasterEggNotification('🔴 RED PILL TAKEN', 'Welcome to the real world...');
+
+    // Green tint overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(circle, transparent 40%, rgba(0, 255, 0, 0.2) 100%);
+        pointer-events: none;
+        z-index: 9997;
+        animation: matrixPulse 2s ease-in-out;
+    `;
+
+    if (!document.getElementById('matrix-pulse-animation')) {
+        const style = document.createElement('style');
+        style.id = 'matrix-pulse-animation';
+        style.textContent = `
+            @keyframes matrixPulse {
+                0%, 100% { opacity: 0; }
+                50% { opacity: 1; }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    document.body.appendChild(overlay);
+
+    setTimeout(() => overlay.remove(), 2000);
+}
+
+// Easter Egg: Type "god"
+function initGodWord() {
+    let typedChars = [];
+    const secretWord = 'god';
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        typedChars.push(e.key.toLowerCase());
+        if (typedChars.length > secretWord.length) typedChars.shift();
+
+        if (typedChars.join('') === secretWord) {
+            activateGodWord();
+            typedChars = [];
+        }
+    });
+}
+
+function activateGodWord() {
+    showEasterEggNotification('👁️ OMNISCIENCE', 'You see all...');
+
+    // X-ray vision effect
+    document.body.style.animation = 'xray 3s ease-in-out';
+
+    if (!document.getElementById('xray-animation')) {
+        const style = document.createElement('style');
+        style.id = 'xray-animation';
+        style.textContent = `
+            @keyframes xray {
+                0%, 100% { filter: invert(0) contrast(1); }
+                50% { filter: invert(1) contrast(2); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    setTimeout(() => {
+        document.body.style.animation = '';
+    }, 3000);
+}
+
+// Easter Egg: Type "ninja"
+function initNinjaMode() {
+    let typedChars = [];
+    const secretWord = 'ninja';
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        typedChars.push(e.key.toLowerCase());
+        if (typedChars.length > secretWord.length) typedChars.shift();
+
+        if (typedChars.join('') === secretWord) {
+            activateNinjaMode();
+            typedChars = [];
+        }
+    });
+}
+
+function activateNinjaMode() {
+    showEasterEggNotification('🥷 NINJA MODE!', 'Silent but deadly...');
+
+    // Create smoke effect
+    for (let i = 0; i < 15; i++) {
+        setTimeout(() => {
+            const smoke = document.createElement('div');
+            smoke.textContent = '💨';
+            smoke.style.cssText = `
+                position: fixed;
+                left: ${Math.random() * window.innerWidth}px;
+                top: ${Math.random() * window.innerHeight}px;
+                font-size: ${Math.random() * 60 + 40}px;
+                pointer-events: none;
+                z-index: 99999;
+                opacity: 0.8;
+            `;
+
+            document.body.appendChild(smoke);
+
+            smoke.animate([
+                { opacity: 0.8, transform: 'scale(0.5) rotate(0deg)' },
+                { opacity: 0, transform: 'scale(2) rotate(360deg)' }
+            ], {
+                duration: 2000,
+                easing: 'ease-out'
+            });
+
+            setTimeout(() => smoke.remove(), 2000);
+        }, i * 100);
+    }
+}
+
+// Easter Egg: Type "portal"
+function initPortalWord() {
+    let typedChars = [];
+    const secretWord = 'portal';
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        typedChars.push(e.key.toLowerCase());
+        if (typedChars.length > secretWord.length) typedChars.shift();
+
+        if (typedChars.join('') === secretWord) {
+            activatePortal();
+            typedChars = [];
+        }
+    });
+}
+
+function activatePortal() {
+    showEasterEggNotification('🌀 PORTAL OPENED!', 'Entering another dimension...');
+
+    // Create portal effect
+    const portal = document.createElement('div');
+    portal.style.cssText = `
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        width: 300px;
+        height: 300px;
+        border-radius: 50%;
+        background: conic-gradient(
+            from 0deg,
+            var(--primary-color),
+            transparent,
+            var(--primary-color)
+        );
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 99999;
+        animation: portalSpin 1s linear infinite;
+        box-shadow: 0 0 100px var(--glow-color), inset 0 0 100px var(--glow-color);
+    `;
+
+    if (!document.getElementById('portal-animation')) {
+        const style = document.createElement('style');
+        style.id = 'portal-animation';
+        style.textContent = `
+            @keyframes portalSpin {
+                from { transform: translate(-50%, -50%) rotate(0deg) scale(1); }
+                to { transform: translate(-50%, -50%) rotate(360deg) scale(1); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    document.body.appendChild(portal);
+
+    // Zoom in effect
+    setTimeout(() => {
+        portal.animate([
+            { transform: 'translate(-50%, -50%) scale(1)' },
+            { transform: 'translate(-50%, -50%) scale(10)' }
+        ], {
+            duration: 500,
+            easing: 'ease-in'
+        });
+    }, 1500);
+
+    setTimeout(() => portal.remove(), 2000);
+}
+
+// Initialize all easter eggs
+function initAllEasterEggs() {
+    // Direction pattern easter eggs
+    initTetrisPattern();         // ↓←→↓←→
+    initStreetFighterPattern();  // ↓↘→ + P (Hadouken)
+    initMortalKombatPattern();   // ↓↓→ + K (Fatality)
+    initLeftRightPattern();      // ←←→→
+    initCirclePattern();         // ↑→↓←↑→↓←
+
+    // Secret word easter eggs
+    initGravityEasterEgg();      // "gravity"
+    initDiscoMode();             // "disco"
+    initHackMode();              // "hack"
+    initMatrixWord();            // "matrix"
+    initGodWord();               // "god"
+    initNinjaMode();             // "ninja"
+    initPortalWord();            // "portal"
+
+    // Other interaction easter eggs
+    initDeveloperMode();         // Shift+Alt+D
+    initSpeedScrollDetection();  // Fast scroll
+    initPayRespects();           // F key
+    initRotationDetection();     // Window rotation
 }
 
 console.log('✨ Futuristic Portfolio initialized!');
