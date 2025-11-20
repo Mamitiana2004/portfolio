@@ -17,60 +17,80 @@ function initLoaderParticles() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    const particles = [];
-    const particleCount = 150;
+    // Matrix-style falling code
+    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
+    const charArray = chars.split('');
 
-    // Create particles
-    for (let i = 0; i < particleCount; i++) {
-        particles.push({
+    const columns = Math.floor(canvas.width / 20);
+    const drops = [];
+
+    for (let i = 0; i < columns; i++) {
+        drops[i] = Math.random() * canvas.height / 20;
+    }
+
+    // Scanning circles
+    const circles = [];
+    for (let i = 0; i < 5; i++) {
+        circles.push({
             x: Math.random() * canvas.width,
             y: Math.random() * canvas.height,
-            size: Math.random() * 3 + 1,
-            speedX: (Math.random() - 0.5) * 2,
-            speedY: (Math.random() - 0.5) * 2,
-            opacity: Math.random() * 0.5 + 0.3
+            radius: 0,
+            maxRadius: 100 + Math.random() * 100,
+            speed: 1 + Math.random() * 2
         });
     }
 
+    // Glitch lines
+    const glitchLines = [];
+
     function animate() {
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        // Fade background
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        particles.forEach(particle => {
-            // Draw particle
-            ctx.fillStyle = `rgba(80, 200, 120, ${particle.opacity})`;
-            ctx.shadowBlur = 10;
-            ctx.shadowColor = 'rgba(80, 200, 120, 0.5)';
+        // Draw matrix code
+        ctx.fillStyle = 'rgba(80, 200, 120, 0.8)';
+        ctx.font = '15px monospace';
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = 'rgba(80, 200, 120, 0.8)';
+
+        for (let i = 0; i < drops.length; i++) {
+            const char = charArray[Math.floor(Math.random() * charArray.length)];
+            const x = i * 20;
+            const y = drops[i] * 20;
+
+            ctx.fillText(char, x, y);
+
+            if (y > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            drops[i]++;
+        }
+
+        // Draw scanning circles
+        circles.forEach(circle => {
+            ctx.strokeStyle = `rgba(80, 200, 120, ${1 - circle.radius / circle.maxRadius})`;
+            ctx.lineWidth = 2;
             ctx.beginPath();
-            ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
-            ctx.fill();
+            ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
+            ctx.stroke();
 
-            // Update position
-            particle.x += particle.speedX;
-            particle.y += particle.speedY;
+            circle.radius += circle.speed;
 
-            // Wrap around edges
-            if (particle.x < 0) particle.x = canvas.width;
-            if (particle.x > canvas.width) particle.x = 0;
-            if (particle.y < 0) particle.y = canvas.height;
-            if (particle.y > canvas.height) particle.y = 0;
-
-            // Connect particles
-            particles.forEach(other => {
-                const dx = particle.x - other.x;
-                const dy = particle.y - other.y;
-                const distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < 100) {
-                    ctx.strokeStyle = `rgba(80, 200, 120, ${0.2 * (1 - distance / 100)})`;
-                    ctx.lineWidth = 1;
-                    ctx.beginPath();
-                    ctx.moveTo(particle.x, particle.y);
-                    ctx.lineTo(other.x, other.y);
-                    ctx.stroke();
-                }
-            });
+            if (circle.radius > circle.maxRadius) {
+                circle.radius = 0;
+                circle.x = Math.random() * canvas.width;
+                circle.y = Math.random() * canvas.height;
+            }
         });
+
+        // Random glitch effect
+        if (Math.random() > 0.95) {
+            const glitchY = Math.random() * canvas.height;
+            const glitchHeight = 2 + Math.random() * 10;
+            ctx.fillStyle = 'rgba(80, 200, 120, 0.3)';
+            ctx.fillRect(0, glitchY, canvas.width, glitchHeight);
+        }
 
         requestAnimationFrame(animate);
     }
@@ -161,6 +181,8 @@ function init3DBackground() {
     if (!canvas) return;
 
     const scene = new THREE.Scene();
+    scene.fog = new THREE.FogExp2(0x000000, 0.015);
+
     const camera = new THREE.PerspectiveCamera(
         75,
         window.innerWidth / window.innerHeight,
@@ -176,150 +198,96 @@ function init3DBackground() {
 
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.position.setZ(30);
+    camera.position.set(0, 20, 50);
+    camera.rotation.x = -0.3;
 
-    // Technology icons data with logos
-    const techIcons = [
-        { symbol: 'JS', logo: 'JS' },
-        { symbol: 'TS', logo: 'TS' },
-        { symbol: 'Py', logo: '🐍' },
-        { symbol: 'Java', logo: '☕' },
-        { symbol: 'C#', logo: 'C#' },
-        { symbol: 'React', logo: '⚛' },
-        { symbol: 'Vue', logo: 'V' },
-        { symbol: 'Node', logo: 'N' },
-        { symbol: 'SQL', logo: 'SQL' },
-        { symbol: 'Git', logo: 'Git' },
-        { symbol: 'Docker', logo: '🐳' },
-        { symbol: 'AWS', logo: 'AWS' },
-        { symbol: 'Next', logo: 'N▲' },
-        { symbol: 'CSS', logo: 'CSS' },
-        { symbol: 'HTML', logo: 'HTML' }
-    ];
+    // Create infinite 3D grid (Tron style)
+    const gridHelper = new THREE.GridHelper(200, 50, window.currentThemeColor || 0x50c878, window.currentThemeColor || 0x50c878);
+    gridHelper.material.opacity = 0.3;
+    gridHelper.material.transparent = true;
+    gridHelper.position.y = -10;
+    scene.add(gridHelper);
 
-    // Create texture for cube faces with logo
-    function createLogoTexture(logo) {
-        const canvas = document.createElement('canvas');
-        canvas.width = 256;
-        canvas.height = 256;
-        const ctx = canvas.getContext('2d');
+    // Create data stream particles
+    const dataParticles = [];
+    const particlesCount = 200;
 
-        // Clear background (transparent)
-        ctx.clearRect(0, 0, 256, 256);
-
-        // Draw logo
-        ctx.fillStyle = '#ffffff';
-        ctx.font = 'bold 80px Arial, sans-serif';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText(logo, 128, 128);
-
-        return new THREE.CanvasTexture(canvas);
-    }
-
-    // Create tech cubes
-    const techCubes = [];
-    const cubesCount = 30;
-    const cubeGeometry = new THREE.BoxGeometry(2, 2, 2);
-
-    for (let i = 0; i < cubesCount; i++) {
-        const tech = techIcons[Math.floor(Math.random() * techIcons.length)];
-        const logoTexture = createLogoTexture(tech.logo);
-
-        // Create materials array for the cube (one texture on all faces)
-        const materials = [];
-        for (let j = 0; j < 6; j++) {
-            materials.push(new THREE.MeshBasicMaterial({
-                map: logoTexture,
-                transparent: true,
-                opacity: 0.8,
-                side: THREE.DoubleSide
-            }));
-        }
-
-        const cube = new THREE.Mesh(cubeGeometry, materials);
-
-        // Create wireframe edges with theme color
-        const edges = new THREE.EdgesGeometry(cubeGeometry);
-        const lineMaterial = new THREE.LineBasicMaterial({
+    for (let i = 0; i < particlesCount; i++) {
+        const geometry = new THREE.SphereGeometry(0.1, 8, 8);
+        const material = new THREE.MeshBasicMaterial({
             color: window.currentThemeColor || 0x50c878,
-            linewidth: 2
+            transparent: true,
+            opacity: 0.8
         });
-        const wireframe = new THREE.LineSegments(edges, lineMaterial);
-        cube.add(wireframe);
+        const particle = new THREE.Mesh(geometry, material);
 
-        // Position
-        cube.position.set(
+        // Random position
+        particle.position.set(
             (Math.random() - 0.5) * 100,
-            (Math.random() - 0.5) * 100,
-            (Math.random() - 0.5) * 100
+            Math.random() * 60 - 30,
+            -Math.random() * 100 - 50
         );
 
-        // Random rotation
-        cube.rotation.set(
-            Math.random() * Math.PI,
-            Math.random() * Math.PI,
-            Math.random() * Math.PI
-        );
-
-        // Store animation data
-        cube.userData = {
-            velocity: {
-                x: (Math.random() - 0.5) * 0.015,
-                y: (Math.random() - 0.5) * 0.015,
-                z: (Math.random() - 0.5) * 0.015
-            },
-            rotationSpeed: {
-                x: (Math.random() - 0.5) * 0.01,
-                y: (Math.random() - 0.5) * 0.01,
-                z: (Math.random() - 0.5) * 0.01
-            },
-            wireframe: wireframe
+        // Store velocity
+        particle.userData = {
+            velocity: 0.3 + Math.random() * 0.5,
+            trail: []
         };
 
-        scene.add(cube);
-        techCubes.push(cube);
+        scene.add(particle);
+        dataParticles.push(particle);
     }
 
-    // Store cubes for theme updates
-    window.threejsMaterials.techCubes = techCubes;
-
-    // Create geometric shapes
-    const shapes = [];
-    const geometries = [
-        new THREE.BoxGeometry(1, 1, 1),
-        new THREE.TetrahedronGeometry(1, 0),
-        new THREE.OctahedronGeometry(1, 0)
-    ];
-
-    for (let i = 0; i < 3; i++) {
-        const geometry = geometries[i];
-        const material = new THREE.MeshStandardMaterial({
+    // Create pulsing rings
+    const rings = [];
+    for (let i = 0; i < 5; i++) {
+        const geometry = new THREE.RingGeometry(10 + i * 10, 10.5 + i * 10, 32);
+        const material = new THREE.MeshBasicMaterial({
             color: window.currentThemeColor || 0x50c878,
-            wireframe: true,
             transparent: true,
-            opacity: 0.15
+            opacity: 0.2,
+            side: THREE.DoubleSide
         });
-
-        const mesh = new THREE.Mesh(geometry, material);
-        mesh.position.x = (Math.random() - 0.5) * 30;
-        mesh.position.y = (Math.random() - 0.5) * 30;
-        mesh.position.z = (Math.random() - 0.5) * 30;
-
-        shapes.push(mesh);
-        scene.add(mesh);
-
-        // Store material for theme updates
-        window.threejsMaterials.shapes.push(material);
+        const ring = new THREE.Mesh(geometry, material);
+        ring.rotation.x = Math.PI / 2;
+        ring.position.y = -10;
+        ring.userData = { baseOpacity: 0.2, pulseOffset: i * 0.5 };
+        scene.add(ring);
+        rings.push(ring);
     }
 
-    // Lighting
-    const pointLight = new THREE.PointLight(0xffffff, 1);
-    pointLight.position.set(20, 20, 20);
-    scene.add(pointLight);
+    // Create data lines (connection paths)
+    const dataLines = [];
+    for (let i = 0; i < 20; i++) {
+        const points = [];
+        const segments = 20;
+        const startX = (Math.random() - 0.5) * 80;
+        const startZ = -Math.random() * 80 - 20;
 
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-    scene.add(ambientLight);
+        for (let j = 0; j <= segments; j++) {
+            points.push(new THREE.Vector3(
+                startX + Math.sin(j * 0.5) * 5,
+                Math.sin(j * 0.3) * 3,
+                startZ + j * 3
+            ));
+        }
+
+        const geometry = new THREE.BufferGeometry().setFromPoints(points);
+        const material = new THREE.LineBasicMaterial({
+            color: window.currentThemeColor || 0x50c878,
+            transparent: true,
+            opacity: 0.3
+        });
+        const line = new THREE.Line(geometry, material);
+        scene.add(line);
+        dataLines.push({ line, points, offset: Math.random() * Math.PI * 2 });
+    }
+
+    // Store for theme updates
+    window.threejsMaterials.grid = gridHelper;
+    window.threejsMaterials.dataParticles = dataParticles;
+    window.threejsMaterials.rings = rings;
+    window.threejsMaterials.dataLines = dataLines;
 
     // Mouse movement
     let mouseX = 0;
@@ -331,37 +299,53 @@ function init3DBackground() {
     });
 
     // Animation loop
+    let time = 0;
     function animate() {
         requestAnimationFrame(animate);
+        time += 0.01;
 
-        // Animate tech cubes
-        techCubes.forEach(cube => {
-            // Gentle floating motion
-            cube.position.x += cube.userData.velocity.x;
-            cube.position.y += cube.userData.velocity.y;
-            cube.position.z += cube.userData.velocity.z;
+        // Animate grid movement
+        gridHelper.position.z += 0.5;
+        if (gridHelper.position.z > 4) {
+            gridHelper.position.z = 0;
+        }
 
-            // Bounce back when reaching boundaries
-            if (Math.abs(cube.position.x) > 50) cube.userData.velocity.x *= -1;
-            if (Math.abs(cube.position.y) > 50) cube.userData.velocity.y *= -1;
-            if (Math.abs(cube.position.z) > 50) cube.userData.velocity.z *= -1;
+        // Animate data particles
+        dataParticles.forEach(particle => {
+            particle.position.z += particle.userData.velocity;
 
-            // Continuous rotation
-            cube.rotation.x += cube.userData.rotationSpeed.x;
-            cube.rotation.y += cube.userData.rotationSpeed.y;
-            cube.rotation.z += cube.userData.rotationSpeed.z;
+            // Reset particle when it goes too far
+            if (particle.position.z > 50) {
+                particle.position.z = -100;
+                particle.position.x = (Math.random() - 0.5) * 100;
+                particle.position.y = Math.random() * 60 - 30;
+            }
+
+            // Pulse effect
+            particle.scale.setScalar(1 + Math.sin(time * 3 + particle.position.x) * 0.5);
         });
 
-        // Rotate shapes
-        shapes.forEach((shape, index) => {
-            shape.rotation.x += 0.005 * (index + 1);
-            shape.rotation.y += 0.005 * (index + 1);
+        // Pulse rings
+        rings.forEach((ring, index) => {
+            const pulse = Math.sin(time * 2 + ring.userData.pulseOffset) * 0.5 + 0.5;
+            ring.material.opacity = ring.userData.baseOpacity + pulse * 0.3;
+            ring.scale.setScalar(1 + pulse * 0.1);
         });
 
-        // Camera follows mouse gently
-        camera.position.x += (mouseX * 2 - camera.position.x) * 0.03;
-        camera.position.y += (mouseY * 2 - camera.position.y) * 0.03;
-        camera.lookAt(scene.position);
+        // Animate data lines
+        dataLines.forEach(lineData => {
+            const positions = lineData.line.geometry.attributes.position;
+            for (let i = 0; i < lineData.points.length; i++) {
+                const point = lineData.points[i];
+                const wave = Math.sin(time * 2 + lineData.offset + i * 0.2);
+                positions.setY(i, point.y + wave * 0.5);
+            }
+            positions.needsUpdate = true;
+        });
+
+        // Subtle camera movement
+        camera.position.x += (mouseX * 5 - camera.position.x) * 0.02;
+        camera.position.y = 20 + mouseY * 3;
 
         renderer.render(scene, camera);
     }
@@ -912,19 +896,29 @@ function updateParticleColor(theme) {
     // Store the color for when the scene is created
     window.currentThemeColor = color;
 
-    // Update cube wireframes with theme color
-    if (window.threejsMaterials.techCubes) {
-        window.threejsMaterials.techCubes.forEach(cube => {
-            if (cube.userData.wireframe) {
-                cube.userData.wireframe.material.color.setHex(color);
-            }
+    // Update grid
+    if (window.threejsMaterials.grid) {
+        window.threejsMaterials.grid.material.color.setHex(color);
+    }
+
+    // Update data particles
+    if (window.threejsMaterials.dataParticles) {
+        window.threejsMaterials.dataParticles.forEach(particle => {
+            particle.material.color.setHex(color);
         });
     }
 
-    // Update geometric shapes
-    if (window.threejsMaterials.shapes.length > 0) {
-        window.threejsMaterials.shapes.forEach(material => {
-            material.color.setHex(color);
+    // Update rings
+    if (window.threejsMaterials.rings) {
+        window.threejsMaterials.rings.forEach(ring => {
+            ring.material.color.setHex(color);
+        });
+    }
+
+    // Update data lines
+    if (window.threejsMaterials.dataLines) {
+        window.threejsMaterials.dataLines.forEach(lineData => {
+            lineData.line.material.color.setHex(color);
         });
     }
 }

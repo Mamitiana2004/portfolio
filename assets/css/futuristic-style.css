@@ -244,24 +244,26 @@ body {
 
 .cyber-grid {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
     background-image:
         linear-gradient(var(--primary-color) 1px, transparent 1px),
         linear-gradient(90deg, var(--primary-color) 1px, transparent 1px);
-    background-size: 50px 50px;
-    opacity: 0.05;
-    animation: gridScroll 20s linear infinite;
+    background-size: 40px 40px;
+    opacity: 0.04;
+    animation: gridScrollPerspective 40s linear infinite;
+    transform: perspective(800px) rotateX(65deg) scale(1.2);
+    transform-origin: center center;
 }
 
-@keyframes gridScroll {
+@keyframes gridScrollPerspective {
     0% {
-        transform: translateY(0);
+        transform: perspective(800px) rotateX(65deg) scale(1.2) translateY(0);
     }
     100% {
-        transform: translateY(50px);
+        transform: perspective(800px) rotateX(65deg) scale(1.2) translateY(40px);
     }
 }
 
@@ -277,24 +279,28 @@ body {
 .cyber-lines::after {
     content: '';
     position: absolute;
-    height: 1px;
+    height: 2px;
     width: 100%;
     background: linear-gradient(90deg,
         transparent 0%,
-        var(--primary-color) 50%,
+        var(--primary-color) 30%,
+        var(--glow-color) 50%,
+        var(--primary-color) 70%,
         transparent 100%);
-    opacity: 0.3;
-    animation: lineMove 8s ease-in-out infinite;
+    opacity: 0;
+    animation: lineMove 6s ease-in-out infinite;
+    box-shadow: 0 0 20px var(--glow-color), 0 0 40px var(--glow-color);
 }
 
 .cyber-lines::before {
-    top: 20%;
+    top: 15%;
     animation-delay: 0s;
 }
 
 .cyber-lines::after {
-    bottom: 30%;
-    animation-delay: 4s;
+    bottom: 25%;
+    animation-delay: 3s;
+    height: 1px;
 }
 
 @keyframes lineMove {
@@ -302,12 +308,11 @@ body {
         transform: translateX(-100%);
         opacity: 0;
     }
-    50% {
-        opacity: 0.3;
+    20%, 80% {
+        opacity: 0.6;
     }
-    100% {
-        transform: translateX(100%);
-        opacity: 0;
+    50% {
+        opacity: 1;
     }
 }
 
