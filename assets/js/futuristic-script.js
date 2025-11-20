@@ -51,30 +51,96 @@ function init3DBackground() {
     renderer.setSize(window.innerWidth, window.innerHeight);
     camera.position.setZ(30);
 
-    // Create particles
-    const particlesGeometry = new THREE.BufferGeometry();
-    const particlesCount = 800;
-    const posArray = new Float32Array(particlesCount * 3);
+    // Technology icons data
+    const techIcons = [
+        { symbol: 'JS', color: '#F7DF1E' },
+        { symbol: 'TS', color: '#3178C6' },
+        { symbol: 'Py', color: '#3776AB' },
+        { symbol: 'Java', color: '#007396' },
+        { symbol: 'C#', color: '#239120' },
+        { symbol: 'React', color: '#61DAFB' },
+        { symbol: 'Vue', color: '#4FC08D' },
+        { symbol: 'Node', color: '#339933' },
+        { symbol: 'SQL', color: '#4479A1' },
+        { symbol: 'Git', color: '#F05032' },
+        { symbol: 'Docker', color: '#2496ED' },
+        { symbol: 'AWS', color: '#FF9900' },
+        { symbol: 'Next', color: '#000000' },
+        { symbol: 'CSS', color: '#1572B6' },
+        { symbol: 'HTML', color: '#E34F26' }
+    ];
 
-    for (let i = 0; i < particlesCount * 3; i++) {
-        posArray[i] = (Math.random() - 0.5) * 100;
+    // Create texture sprites for tech icons
+    const particleSprites = [];
+
+    function createTextTexture(text, color) {
+        const canvas = document.createElement('canvas');
+        canvas.width = 128;
+        canvas.height = 128;
+        const ctx = canvas.getContext('2d');
+
+        // Background glow
+        const gradient = ctx.createRadialGradient(64, 64, 20, 64, 64, 64);
+        gradient.addColorStop(0, color + '40');
+        gradient.addColorStop(1, 'transparent');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, 128, 128);
+
+        // Text
+        ctx.fillStyle = color;
+        ctx.font = 'bold 40px Arial';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillText(text, 64, 64);
+
+        // Border glow
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.strokeText(text, 64, 64);
+
+        return new THREE.CanvasTexture(canvas);
     }
 
-    particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+    // Create particle sprites
+    const particlesCount = 50;
+    for (let i = 0; i < particlesCount; i++) {
+        const tech = techIcons[Math.floor(Math.random() * techIcons.length)];
+        const texture = createTextTexture(tech.symbol, tech.color);
 
-    const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.3,
-        color: window.currentThemeColor || 0x50c878,
-        transparent: true,
-        opacity: 0.6,
-        blending: THREE.AdditiveBlending
-    });
+        const spriteMaterial = new THREE.SpriteMaterial({
+            map: texture,
+            transparent: true,
+            opacity: 0.7,
+            blending: THREE.AdditiveBlending
+        });
 
-    const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-    scene.add(particlesMesh);
+        const sprite = new THREE.Sprite(spriteMaterial);
+        sprite.position.set(
+            (Math.random() - 0.5) * 100,
+            (Math.random() - 0.5) * 100,
+            (Math.random() - 0.5) * 100
+        );
 
-    // Store material for theme updates
-    window.threejsMaterials.particles = particlesMaterial;
+        // Random scale between 2 and 4
+        const scale = 2 + Math.random() * 2;
+        sprite.scale.set(scale, scale, 1);
+
+        // Store initial position and velocity for animation
+        sprite.userData = {
+            velocity: {
+                x: (Math.random() - 0.5) * 0.02,
+                y: (Math.random() - 0.5) * 0.02,
+                z: (Math.random() - 0.5) * 0.02
+            },
+            rotationSpeed: (Math.random() - 0.5) * 0.01
+        };
+
+        scene.add(sprite);
+        particleSprites.push(sprite);
+    }
+
+    // Store sprites for theme updates
+    window.threejsMaterials.particles = particleSprites;
 
     // Create geometric shapes
     const shapes = [];
@@ -126,9 +192,21 @@ function init3DBackground() {
     function animate() {
         requestAnimationFrame(animate);
 
-        // Rotate particles slowly
-        particlesMesh.rotation.y += 0.0005;
-        particlesMesh.rotation.x += 0.0003;
+        // Animate tech icon sprites
+        particleSprites.forEach(sprite => {
+            // Gentle floating motion
+            sprite.position.x += sprite.userData.velocity.x;
+            sprite.position.y += sprite.userData.velocity.y;
+            sprite.position.z += sprite.userData.velocity.z;
+
+            // Bounce back when reaching boundaries
+            if (Math.abs(sprite.position.x) > 50) sprite.userData.velocity.x *= -1;
+            if (Math.abs(sprite.position.y) > 50) sprite.userData.velocity.y *= -1;
+            if (Math.abs(sprite.position.z) > 50) sprite.userData.velocity.z *= -1;
+
+            // Gentle rotation
+            sprite.material.rotation += sprite.userData.rotationSpeed;
+        });
 
         // Rotate shapes
         shapes.forEach((shape, index) => {
@@ -690,11 +768,7 @@ function updateParticleColor(theme) {
     // Store the color for when the scene is created
     window.currentThemeColor = color;
 
-    // Update existing materials if Three.js is already initialized
-    if (window.threejsMaterials.particles) {
-        window.threejsMaterials.particles.color.setHex(color);
-    }
-
+    // Tech icon sprites keep their own colors, only update shapes
     if (window.threejsMaterials.shapes.length > 0) {
         window.threejsMaterials.shapes.forEach(material => {
             material.color.setHex(color);
