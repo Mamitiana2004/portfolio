@@ -17,85 +17,106 @@ function initLoaderParticles() {
     canvas.width = window.innerWidth;
     canvas.height = window.innerHeight;
 
-    // Matrix-style falling code
-    const chars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-    const charArray = chars.split('');
+    // Get saved theme color
+    const savedTheme = localStorage.getItem('portfolio-theme') || 'green';
+    const themeColors = {
+        green: { r: 80, g: 200, b: 120 },
+        blue: { r: 0, g: 212, b: 255 },
+        purple: { r: 157, g: 78, b: 237 },
+        orange: { r: 255, g: 107, b: 53 },
+        pink: { r: 255, g: 0, b: 110 }
+    };
+    const themeColor = themeColors[savedTheme] || themeColors.green;
 
-    const columns = Math.floor(canvas.width / 20);
-    const drops = [];
+    // Space travel particles
+    const particles = [];
+    const particleCount = 300;
+    const centerX = canvas.width / 2;
+    const centerY = canvas.height / 2;
 
-    for (let i = 0; i < columns; i++) {
-        drops[i] = Math.random() * canvas.height / 20;
-    }
-
-    // Scanning circles
-    const circles = [];
-    for (let i = 0; i < 5; i++) {
-        circles.push({
-            x: Math.random() * canvas.width,
-            y: Math.random() * canvas.height,
-            radius: 0,
-            maxRadius: 100 + Math.random() * 100,
-            speed: 1 + Math.random() * 2
+    for (let i = 0; i < particleCount; i++) {
+        const angle = Math.random() * Math.PI * 2;
+        const distance = Math.random() * 500;
+        particles.push({
+            x: centerX + Math.cos(angle) * distance,
+            y: centerY + Math.sin(angle) * distance,
+            z: Math.random() * 1000,
+            speed: 0
         });
     }
 
-    // Glitch lines
-    const glitchLines = [];
+    // Speed multiplier for acceleration effect
+    let speedMultiplier = 1;
 
     function animate() {
-        // Fade background
-        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        // Clear with fade
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.2)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        // Draw matrix code
-        ctx.fillStyle = 'rgba(80, 200, 120, 0.8)';
-        ctx.font = '15px monospace';
-        ctx.shadowBlur = 10;
-        ctx.shadowColor = 'rgba(80, 200, 120, 0.8)';
+        particles.forEach(particle => {
+            // Calculate position from center
+            const dx = particle.x - centerX;
+            const dy = particle.y - centerY;
+            const distance = Math.sqrt(dx * dx + dy * dy);
 
-        for (let i = 0; i < drops.length; i++) {
-            const char = charArray[Math.floor(Math.random() * charArray.length)];
-            const x = i * 20;
-            const y = drops[i] * 20;
+            // Move particle away from center (space travel)
+            particle.z -= particle.speed * speedMultiplier;
 
-            ctx.fillText(char, x, y);
+            // Update speed based on z position
+            particle.speed = 5 + (1000 - particle.z) / 50;
 
-            if (y > canvas.height && Math.random() > 0.975) {
-                drops[i] = 0;
+            // Calculate screen position (perspective)
+            const scale = 1000 / (1000 + particle.z);
+            const screenX = centerX + dx * scale;
+            const screenY = centerY + dy * scale;
+
+            // Calculate size and opacity based on z
+            const size = (1 - particle.z / 1000) * 3;
+            const opacity = Math.max(0, 1 - particle.z / 1000);
+
+            // Draw particle
+            if (opacity > 0 && size > 0) {
+                ctx.fillStyle = `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${opacity})`;
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${opacity})`;
+                ctx.beginPath();
+                ctx.arc(screenX, screenY, size, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Draw trail
+                const trailLength = Math.min(50, particle.speed * speedMultiplier * 2);
+                ctx.strokeStyle = `rgba(${themeColor.r}, ${themeColor.g}, ${themeColor.b}, ${opacity * 0.5})`;
+                ctx.lineWidth = size / 2;
+                ctx.beginPath();
+                ctx.moveTo(screenX, screenY);
+                const angle = Math.atan2(dy, dx);
+                ctx.lineTo(
+                    screenX - Math.cos(angle) * trailLength * scale,
+                    screenY - Math.sin(angle) * trailLength * scale
+                );
+                ctx.stroke();
             }
-            drops[i]++;
-        }
 
-        // Draw scanning circles
-        circles.forEach(circle => {
-            ctx.strokeStyle = `rgba(80, 200, 120, ${1 - circle.radius / circle.maxRadius})`;
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            ctx.arc(circle.x, circle.y, circle.radius, 0, Math.PI * 2);
-            ctx.stroke();
-
-            circle.radius += circle.speed;
-
-            if (circle.radius > circle.maxRadius) {
-                circle.radius = 0;
-                circle.x = Math.random() * canvas.width;
-                circle.y = Math.random() * canvas.height;
+            // Reset particle when too close
+            if (particle.z < -100) {
+                const newAngle = Math.random() * Math.PI * 2;
+                const newDistance = Math.random() * 500;
+                particle.x = centerX + Math.cos(newAngle) * newDistance;
+                particle.y = centerY + Math.sin(newAngle) * newDistance;
+                particle.z = 1000;
+                particle.speed = 0;
             }
         });
-
-        // Random glitch effect
-        if (Math.random() > 0.95) {
-            const glitchY = Math.random() * canvas.height;
-            const glitchHeight = 2 + Math.random() * 10;
-            ctx.fillStyle = 'rgba(80, 200, 120, 0.3)';
-            ctx.fillRect(0, glitchY, canvas.width, glitchHeight);
-        }
 
         requestAnimationFrame(animate);
     }
 
     animate();
+
+    // Export speed control
+    window.loaderSpeedControl = {
+        setSpeed: (multiplier) => { speedMultiplier = multiplier; }
+    };
 
     // Resize handler
     window.addEventListener('resize', () => {
@@ -109,16 +130,15 @@ function animateLoader() {
     const loaderPercentage = document.getElementById('loader-percentage');
     const loaderStatus = document.getElementById('loader-status');
     const loader = document.getElementById('loader');
-    const accessScreen = document.getElementById('access-screen');
 
     const statuses = [
-        'Loading modules...',
-        'Initializing components...',
-        'Connecting to server...',
-        'Loading assets...',
-        'Preparing interface...',
-        'Almost ready...',
-        'Finalizing...'
+        'Initializing warp drive...',
+        'Calculating trajectory...',
+        'Engaging thrusters...',
+        'Accelerating...',
+        'Reaching light speed...',
+        'Final approach...',
+        'Arrival imminent...'
     ];
 
     let progress = 0;
@@ -133,17 +153,17 @@ function animateLoader() {
             progress = 100;
             clearInterval(progressInterval);
 
-            // Show access granted screen
+            // Go directly to site
             setTimeout(() => {
                 loader.classList.add('hidden');
-                accessScreen.classList.remove('hidden');
+                initAll();
+            }, 300);
+        }
 
-                // Hide access screen and show site
-                setTimeout(() => {
-                    accessScreen.classList.add('hidden');
-                    initAll();
-                }, 1500);
-            }, 500);
+        // Accelerate particles based on progress (1x to 5x speed)
+        const speedMultiplier = 1 + (progress / 100) * 4;
+        if (window.loaderSpeedControl) {
+            window.loaderSpeedControl.setSpeed(speedMultiplier);
         }
 
         // Update UI
@@ -238,56 +258,9 @@ function init3DBackground() {
         dataParticles.push(particle);
     }
 
-    // Create pulsing rings
-    const rings = [];
-    for (let i = 0; i < 5; i++) {
-        const geometry = new THREE.RingGeometry(10 + i * 10, 10.5 + i * 10, 32);
-        const material = new THREE.MeshBasicMaterial({
-            color: window.currentThemeColor || 0x50c878,
-            transparent: true,
-            opacity: 0.2,
-            side: THREE.DoubleSide
-        });
-        const ring = new THREE.Mesh(geometry, material);
-        ring.rotation.x = Math.PI / 2;
-        ring.position.y = -10;
-        ring.userData = { baseOpacity: 0.2, pulseOffset: i * 0.5 };
-        scene.add(ring);
-        rings.push(ring);
-    }
-
-    // Create data lines (connection paths)
-    const dataLines = [];
-    for (let i = 0; i < 20; i++) {
-        const points = [];
-        const segments = 20;
-        const startX = (Math.random() - 0.5) * 80;
-        const startZ = -Math.random() * 80 - 20;
-
-        for (let j = 0; j <= segments; j++) {
-            points.push(new THREE.Vector3(
-                startX + Math.sin(j * 0.5) * 5,
-                Math.sin(j * 0.3) * 3,
-                startZ + j * 3
-            ));
-        }
-
-        const geometry = new THREE.BufferGeometry().setFromPoints(points);
-        const material = new THREE.LineBasicMaterial({
-            color: window.currentThemeColor || 0x50c878,
-            transparent: true,
-            opacity: 0.3
-        });
-        const line = new THREE.Line(geometry, material);
-        scene.add(line);
-        dataLines.push({ line, points, offset: Math.random() * Math.PI * 2 });
-    }
-
     // Store for theme updates
     window.threejsMaterials.grid = gridHelper;
     window.threejsMaterials.dataParticles = dataParticles;
-    window.threejsMaterials.rings = rings;
-    window.threejsMaterials.dataLines = dataLines;
 
     // Mouse movement
     let mouseX = 0;
@@ -310,7 +283,7 @@ function init3DBackground() {
             gridHelper.position.z = 0;
         }
 
-        // Animate data particles
+        // Animate data particles (space travel effect)
         dataParticles.forEach(particle => {
             particle.position.z += particle.userData.velocity;
 
@@ -321,26 +294,8 @@ function init3DBackground() {
                 particle.position.y = Math.random() * 60 - 30;
             }
 
-            // Pulse effect
-            particle.scale.setScalar(1 + Math.sin(time * 3 + particle.position.x) * 0.5);
-        });
-
-        // Pulse rings
-        rings.forEach((ring, index) => {
-            const pulse = Math.sin(time * 2 + ring.userData.pulseOffset) * 0.5 + 0.5;
-            ring.material.opacity = ring.userData.baseOpacity + pulse * 0.3;
-            ring.scale.setScalar(1 + pulse * 0.1);
-        });
-
-        // Animate data lines
-        dataLines.forEach(lineData => {
-            const positions = lineData.line.geometry.attributes.position;
-            for (let i = 0; i < lineData.points.length; i++) {
-                const point = lineData.points[i];
-                const wave = Math.sin(time * 2 + lineData.offset + i * 0.2);
-                positions.setY(i, point.y + wave * 0.5);
-            }
-            positions.needsUpdate = true;
+            // Subtle pulse effect
+            particle.scale.setScalar(1 + Math.sin(time * 3 + particle.position.x) * 0.3);
         });
 
         // Subtle camera movement
@@ -905,20 +860,6 @@ function updateParticleColor(theme) {
     if (window.threejsMaterials.dataParticles) {
         window.threejsMaterials.dataParticles.forEach(particle => {
             particle.material.color.setHex(color);
-        });
-    }
-
-    // Update rings
-    if (window.threejsMaterials.rings) {
-        window.threejsMaterials.rings.forEach(ring => {
-            ring.material.color.setHex(color);
-        });
-    }
-
-    // Update data lines
-    if (window.threejsMaterials.dataLines) {
-        window.threejsMaterials.dataLines.forEach(lineData => {
-            lineData.line.material.color.setHex(color);
         });
     }
 }
