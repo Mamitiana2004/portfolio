@@ -164,6 +164,7 @@ function initAll() {
     initContactForm();
     initSettings();
     initDigitalClock();
+    initTerminal();
     initSkillModal();
     initSectionNavigation();
 }
@@ -844,6 +845,7 @@ function updateParticleColor(theme) {
 function initDigitalClock() {
     const clockTime = document.getElementById('clock-time');
     const clockDate = document.getElementById('clock-date');
+    const digitalClock = document.querySelector('.digital-clock');
 
     if (!clockTime || !clockDate) return;
 
@@ -866,6 +868,252 @@ function initDigitalClock() {
 
     // Update every second
     setInterval(updateClock, 1000);
+
+    // Click on clock to open terminal
+    if (digitalClock) {
+        digitalClock.style.cursor = 'pointer';
+        digitalClock.addEventListener('click', () => {
+            openTerminal();
+        });
+    }
+}
+
+// ============ TERMINAL ============
+function openTerminal() {
+    const terminal = document.getElementById('terminal-overlay');
+    const terminalInput = document.getElementById('terminal-input');
+
+    if (terminal) {
+        terminal.classList.remove('hidden');
+        setTimeout(() => {
+            terminalInput.focus();
+        }, 100);
+    }
+}
+
+function initTerminal() {
+    const terminal = document.getElementById('terminal-overlay');
+    const terminalBody = document.getElementById('terminal-body');
+    const terminalInput = document.getElementById('terminal-input');
+    const terminalClose = document.getElementById('terminal-close');
+
+    if (!terminal) return;
+
+    // Command history
+    const commandHistory = [];
+    let historyIndex = -1;
+
+    // Commands
+    const commands = {
+        help: () => {
+            return `<span class="terminal-success">Available commands:</span>
+  help             - Show this help message
+  about            - Information about me
+  skills           - List my technical skills
+  projects         - View my projects
+  contact          - Get my contact information
+  theme [color]    - Change theme (green, blue, purple, orange, pink)
+  clear            - Clear terminal
+  whoami           - Display current user
+  date             - Display current date and time
+  matrix           - Easter egg 😉
+  exit             - Close terminal`;
+        },
+
+        about: () => {
+            return `<span class="terminal-success">About Mamitiana Faneva</span>
+
+  Fullstack Developer passionate about creating innovative web applications.
+  Specializing in modern JavaScript frameworks and backend technologies.
+
+  Focus: Building scalable and performant solutions
+  Experience: React, Node.js, Spring Boot, Docker, and more
+
+  "Code is poetry written in logic"`;
+        },
+
+        skills: () => {
+            return `<span class="terminal-success">Technical Skills:</span>
+
+  Frontend:  JavaScript, TypeScript, React, Next.js, Vue.js
+  Backend:   Node.js, Express, Spring Boot, Java
+  Database:  PostgreSQL, MongoDB
+  DevOps:    Docker, Git, CI/CD
+
+  Languages: Français (Native), English (Fluent), Malagasy (Native)`;
+        },
+
+        projects: () => {
+            return `<span class="terminal-success">Featured Projects:</span>
+
+  1. NodaJPA - TypeScript ORM for Node.js
+     → https://github.com/Mamitiana2004/NodaJPA
+
+  2. Clinic Management Platform - Spring Boot application
+     → https://github.com/Mamitiana2004/eval3
+
+  3. PDF Management System - React + Python full-stack
+     → https://github.com/Mamitiana2004/gestion_pdf_front
+
+  4. T-Rex Runner Game - Java Swing game
+     → https://github.com/Mamitiana2004/t_rex_runner`;
+        },
+
+        contact: () => {
+            return `<span class="terminal-success">Contact Information:</span>
+
+  Email:    mamitianafaneva2004@gmail.com
+  Phone:    +261 34 11 092 23
+  GitHub:   github.com/Mamitiana2004
+  LinkedIn: linkedin.com/in/faneva-mamitiana-andriaharimanana
+
+  Feel free to reach out for collaborations or opportunities!`;
+        },
+
+        theme: (args) => {
+            const validThemes = ['green', 'blue', 'purple', 'orange', 'pink'];
+            const theme = args[0]?.toLowerCase();
+
+            if (!theme) {
+                return `<span class="terminal-error">Error:</span> Please specify a theme color.
+Available themes: ${validThemes.join(', ')}`;
+            }
+
+            if (!validThemes.includes(theme)) {
+                return `<span class="terminal-error">Error:</span> Invalid theme '${theme}'.
+Available themes: ${validThemes.join(', ')}`;
+            }
+
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('portfolio-theme', theme);
+            updateParticleColor(theme);
+
+            return `<span class="terminal-success">Theme changed to ${theme}!</span>`;
+        },
+
+        clear: () => {
+            terminalBody.innerHTML = '';
+            return null;
+        },
+
+        whoami: () => {
+            return `guest`;
+        },
+
+        date: () => {
+            return new Date().toString();
+        },
+
+        matrix: () => {
+            return `<span class="terminal-success">Wake up, Neo...</span>
+
+  The Matrix has you...
+  Follow the white rabbit.
+
+  Knock, knock, Neo.
+
+  🐇 🕳️`;
+        },
+
+        exit: () => {
+            terminal.classList.add('hidden');
+            return null;
+        }
+    };
+
+    // Add command to terminal
+    function addLine(content, isCommand = false) {
+        const line = document.createElement('div');
+        line.className = 'terminal-line';
+
+        if (isCommand) {
+            line.innerHTML = `<span class="terminal-prompt">guest@portfolio:~$</span> <span class="terminal-text">${content}</span>`;
+        } else if (content) {
+            line.innerHTML = `<span class="terminal-text">${content}</span>`;
+        }
+
+        terminalBody.appendChild(line);
+        terminalBody.scrollTop = terminalBody.scrollHeight;
+    }
+
+    // Process command
+    function processCommand(input) {
+        const trimmed = input.trim();
+        if (!trimmed) return;
+
+        // Add to history
+        commandHistory.push(trimmed);
+        historyIndex = commandHistory.length;
+
+        // Display command
+        addLine(trimmed, true);
+
+        // Parse command
+        const parts = trimmed.split(' ');
+        const cmd = parts[0].toLowerCase();
+        const args = parts.slice(1);
+
+        // Execute command
+        if (commands[cmd]) {
+            const output = commands[cmd](args);
+            if (output !== null) {
+                addLine(output);
+            }
+        } else {
+            addLine(`<span class="terminal-error">Command not found:</span> ${cmd}. Type 'help' for available commands.`);
+        }
+    }
+
+    // Handle input
+    terminalInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            const input = terminalInput.value;
+            processCommand(input);
+            terminalInput.value = '';
+        } else if (e.key === 'ArrowUp') {
+            e.preventDefault();
+            if (historyIndex > 0) {
+                historyIndex--;
+                terminalInput.value = commandHistory[historyIndex];
+            }
+        } else if (e.key === 'ArrowDown') {
+            e.preventDefault();
+            if (historyIndex < commandHistory.length - 1) {
+                historyIndex++;
+                terminalInput.value = commandHistory[historyIndex];
+            } else {
+                historyIndex = commandHistory.length;
+                terminalInput.value = '';
+            }
+        } else if (e.key === 'Tab') {
+            e.preventDefault();
+            const input = terminalInput.value.toLowerCase();
+            const matches = Object.keys(commands).filter(cmd => cmd.startsWith(input));
+            if (matches.length === 1) {
+                terminalInput.value = matches[0];
+            }
+        }
+    });
+
+    // Close terminal
+    terminalClose.addEventListener('click', () => {
+        terminal.classList.add('hidden');
+    });
+
+    // Close on escape
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !terminal.classList.contains('hidden')) {
+            terminal.classList.add('hidden');
+        }
+    });
+
+    // Click outside to close
+    terminal.addEventListener('click', (e) => {
+        if (e.target === terminal) {
+            terminal.classList.add('hidden');
+        }
+    });
 }
 
 // ============ SKILL MODAL ============

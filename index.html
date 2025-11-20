@@ -53,6 +53,25 @@
         <div class="cyber-lines"></div>
     </div>
 
+    <!-- Terminal Overlay -->
+    <div id="terminal-overlay" class="terminal-overlay hidden">
+        <div class="terminal-window">
+            <div class="terminal-header">
+                <div class="terminal-title">SYSTEM TERMINAL v2.0</div>
+                <button class="terminal-close" id="terminal-close">✕</button>
+            </div>
+            <div class="terminal-body" id="terminal-body">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">guest@portfolio:~$</span> <span class="terminal-text">Welcome to the system. Type 'help' for available commands.</span>
+                </div>
+            </div>
+            <div class="terminal-input-line">
+                <span class="terminal-prompt">guest@portfolio:~$</span>
+                <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" spellcheck="false">
+            </div>
+        </div>
+    </div>
+
     <!-- Settings Button -->
     <button id="theme-btn" class="theme-btn" aria-label="Settings">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
