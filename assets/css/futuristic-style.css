@@ -95,69 +95,8 @@ body {
     to { width: 100%; }
 }
 
-/* ============ NAVIGATION ============ */
-.nav {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    padding: 40px 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 1000;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-}
-
-.nav-logo a {
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--text-primary);
-    text-decoration: none;
-    letter-spacing: -0.5px;
-    transition: var(--transition);
-}
-
-.nav-logo a:hover {
-    color: var(--primary-color);
-    text-shadow: 0 0 20px var(--glow-color);
-}
-
-.nav-links {
-    display: flex;
-    gap: 50px;
-}
-
-.nav-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    text-decoration: none;
-    color: var(--text-secondary);
-    font-size: 14px;
-    font-weight: 500;
-    transition: var(--transition);
-    position: relative;
-}
-
-.nav-num {
-    font-size: 12px;
-    color: var(--text-secondary);
-    transition: var(--transition);
-}
-
-.nav-link.active,
-.nav-link:hover {
-    color: var(--text-primary);
-}
-
-.nav-link.active .nav-num,
-.nav-link:hover .nav-num {
-    color: var(--primary-color);
-    text-shadow: 0 0 10px var(--glow-color);
-}
+/* ============ NAVIGATION (Removed) ============ */
+/* Navigation has been removed from the design */
 
 /* ============ MAIN CONTAINER ============ */
 #main-container {
@@ -450,55 +389,185 @@ body {
     color: var(--text-secondary);
 }
 
-/* ============ FUTURISTIC SKILLS TAGS ============ */
-.skills-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
+/* ============ FUTURISTIC SKILLS WITH ICONS ============ */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
 }
 
-.skill-tag {
-    padding: 8px 16px;
-    border: 1px solid var(--border-color);
-    font-size: 13px;
-    color: var(--text-secondary);
+.skill-item {
+    position: relative;
+    padding: 20px;
+    border: 2px solid var(--border-color);
+    background: var(--bg-color);
+    cursor: pointer;
+    transition: var(--transition);
+    transform-style: preserve-3d;
+    perspective: 1000px;
+}
+
+.skill-item:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: 0 15px 40px var(--glow-color);
+}
+
+.skill-icon {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+}
+
+.skill-item:hover .skill-icon {
+    transform: translateZ(20px) rotateY(360deg);
+}
+
+.skill-icon svg {
+    width: 100%;
+    height: 100%;
+    transition: var(--transition);
+}
+
+.skill-icon .lang-flag {
+    font-size: 48px;
+}
+
+.skill-info {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.skill-name {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text-primary);
+    transition: var(--transition);
+}
+
+.skill-item:hover .skill-name {
+    color: var(--primary-color);
+}
+
+.skill-bar {
+    position: relative;
+    width: 100%;
+    height: 6px;
+    background: var(--border-color);
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.skill-progress {
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 3px;
+    transition: width 1.5s ease-out;
+    box-shadow: 0 0 10px var(--glow-color);
+}
+
+.skill-percent {
+    position: absolute;
+    right: 0;
+    top: -20px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+/* ============ SERVICES SECTION ============ */
+.services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 30px;
+}
+
+.service-item {
+    padding: 40px 30px;
+    border: 2px solid var(--border-color);
+    background: var(--bg-color);
     transition: var(--transition);
     position: relative;
-    cursor: pointer;
-    background: var(--bg-color);
+    overflow: hidden;
     transform-style: preserve-3d;
 }
 
-.skill-tag::before {
+.service-item::before {
     content: '';
     position: absolute;
     top: 0;
-    left: 0;
+    left: -100%;
     width: 100%;
     height: 100%;
-    background: var(--primary-color);
-    opacity: 0;
+    background: linear-gradient(90deg, transparent, var(--glow-color), transparent);
     transition: var(--transition);
-    z-index: -1;
+    z-index: 0;
 }
 
-.skill-tag:hover {
+.service-item:hover::before {
+    left: 100%;
+    transition: left 0.8s ease;
+}
+
+.service-item:hover {
     border-color: var(--primary-color);
-    color: white;
-    transform: translateY(-5px) scale(1.05) rotateX(5deg);
-    box-shadow: 0 10px 30px var(--glow-color), 0 0 40px var(--glow-color);
+    transform: translateY(-10px) rotateX(5deg);
+    box-shadow: 0 20px 60px var(--glow-color);
 }
 
-.skill-tag:hover::before {
-    opacity: 1;
+.service-icon {
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+    transition: var(--transition);
 }
 
-.skill-tag:nth-child(odd):hover {
-    transform: translateY(-5px) scale(1.05) rotateX(5deg) rotateZ(2deg);
+.service-item:hover .service-icon {
+    transform: translateZ(20px) scale(1.2);
 }
 
-.skill-tag:nth-child(even):hover {
-    transform: translateY(-5px) scale(1.05) rotateX(5deg) rotateZ(-2deg);
+.service-icon svg {
+    width: 100%;
+    height: 100%;
+    stroke: var(--text-primary);
+    transition: var(--transition);
+}
+
+.service-item:hover .service-icon svg {
+    stroke: var(--primary-color);
+    filter: drop-shadow(0 0 15px var(--glow-color));
+}
+
+.service-item h3 {
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 15px;
+    position: relative;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.service-item:hover h3 {
+    color: var(--primary-color);
+}
+
+.service-item p {
+    font-size: 15px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    position: relative;
+    z-index: 1;
 }
 
 /* ============ FUTURISTIC WORK SECTION ============ */
@@ -924,6 +993,32 @@ body {
 }
 
 /* ============ THEME SYSTEM ============ */
+/* Light Mode (Default) */
+[data-mode="light"] {
+    --text-primary: #0a0a0a;
+    --text-secondary: #666666;
+    --bg-color: #ffffff;
+    --border-color: #e0e0e0;
+}
+
+/* Dark Mode */
+[data-mode="dark"] {
+    --text-primary: #f5f5f5;
+    --text-secondary: #b0b0b0;
+    --bg-color: #0a0a0a;
+    --border-color: #2a2a2a;
+}
+
+[data-mode="dark"] .nav {
+    background: rgba(10, 10, 10, 0.8);
+    border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
+[data-mode="dark"] .digital-clock,
+[data-mode="dark"] .theme-btn {
+    background: rgba(10, 10, 10, 0.8);
+}
+
 /* Theme: Green (Default) */
 [data-theme="green"] {
     --primary-color: #50c878;
@@ -1093,6 +1188,164 @@ body {
     font-size: 16px;
     font-weight: 500;
     color: var(--text-primary);
+}
+
+/* ============ SIDEBAR SECTIONS ============ */
+.sidebar-section {
+    margin-bottom: 35px;
+    padding-bottom: 35px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.sidebar-section:last-child {
+    border-bottom: none;
+}
+
+.sidebar-section h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 20px;
+}
+
+/* Mode Options */
+.mode-options {
+    display: flex;
+    gap: 10px;
+}
+
+.mode-option {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 15px 10px;
+    background: transparent;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+}
+
+.mode-option:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.mode-option.active {
+    border-color: var(--primary-color);
+    background: rgba(80, 200, 120, 0.05);
+}
+
+.mode-option svg {
+    color: var(--text-secondary);
+    transition: var(--transition);
+}
+
+.mode-option.active svg {
+    color: var(--primary-color);
+}
+
+.mode-option span {
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Language Options */
+.language-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.language-option {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px 15px;
+    background: transparent;
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: var(--transition);
+    font-family: inherit;
+    text-align: left;
+}
+
+.language-option:hover {
+    border-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.language-option.active {
+    border-color: var(--primary-color);
+    background: rgba(80, 200, 120, 0.05);
+}
+
+.language-option .flag {
+    font-size: 24px;
+}
+
+.language-option span:not(.flag) {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+/* Toggle Options */
+.toggle-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.toggle-option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.toggle-option input[type="checkbox"] {
+    display: none;
+}
+
+.toggle-label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+}
+
+.toggle-switch {
+    position: relative;
+    width: 50px;
+    height: 26px;
+    background: var(--border-color);
+    border-radius: 13px;
+    transition: var(--transition);
+}
+
+.toggle-switch::after {
+    content: '';
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 20px;
+    height: 20px;
+    background: var(--bg-color);
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.toggle-option input[type="checkbox"]:checked + .toggle-label + .toggle-switch {
+    background: var(--primary-color);
+}
+
+.toggle-option input[type="checkbox"]:checked + .toggle-label + .toggle-switch::after {
+    left: 27px;
 }
 
 /* ============ DIGITAL CLOCK ============ */

@@ -17,11 +17,9 @@ function initAll() {
     init3DBackground();
     initParallax();
     initScrollAnimations();
-    initNavigation();
-    init3DSkillsEffects();
-    init3DProjectEffects();
+    initSkillsProgressBars();
     initContactForm();
-    initThemeSelector();
+    initSettings();
     initDigitalClock();
 }
 
@@ -206,97 +204,8 @@ function initScrollAnimations() {
     });
 }
 
-// ============ NAVIGATION ============
-function initNavigation() {
-    const navLinks = document.querySelectorAll('.nav-link');
-    const mainContainer = document.getElementById('main-container');
-
-    navLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = link.getAttribute('href').slice(1);
-            const targetSection = document.getElementById(targetId);
-
-            if (targetSection) {
-                mainContainer.scrollTo({
-                    top: targetSection.offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-
-    // CTA buttons
-    document.querySelectorAll('.btn-primary[href^="#"], .btn-secondary[href^="#"]').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            const targetId = button.getAttribute('href').slice(1);
-            const targetSection = document.getElementById(targetId);
-
-            if (targetSection) {
-                mainContainer.scrollTo({
-                    top: targetSection.offsetTop,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
-
-// ============ 3D SKILLS EFFECTS ============
-function init3DSkillsEffects() {
-    const skillTags = document.querySelectorAll('.skill-tag');
-
-    skillTags.forEach(tag => {
-        tag.addEventListener('mouseenter', (e) => {
-            // Add 3D rotation on hover
-            const rect = tag.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = (y - centerY) / 5;
-            const rotateY = -(x - centerX) / 5;
-
-            gsap.to(tag, {
-                rotateX: rotateX,
-                rotateY: rotateY,
-                duration: 0.3,
-                ease: 'power2.out'
-            });
-        });
-
-        tag.addEventListener('mousemove', (e) => {
-            const rect = tag.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = (y - centerY) / 5;
-            const rotateY = -(x - centerX) / 5;
-
-            gsap.to(tag, {
-                rotateX: rotateX,
-                rotateY: rotateY,
-                duration: 0.1,
-                ease: 'power2.out'
-            });
-        });
-
-        tag.addEventListener('mouseleave', () => {
-            gsap.to(tag, {
-                rotateX: 0,
-                rotateY: 0,
-                duration: 0.5,
-                ease: 'power2.out'
-            });
-        });
-    });
-}
+// ============ NAVIGATION (Removed) ============
+// Navigation has been removed from the design
 
 // ============ 3D PROJECT EFFECTS ============
 function init3DProjectEffects() {
@@ -559,25 +468,115 @@ function initMouseTrail() {
 // Uncomment to enable mouse trail
 // initMouseTrail();
 
-// ============ THEME SELECTOR ============
-function initThemeSelector() {
+// ============ SKILLS PROGRESS BARS ============
+function initSkillsProgressBars() {
+    const skillItems = document.querySelectorAll('.skill-item');
+
+    const observerOptions = {
+        threshold: 0.5,
+        rootMargin: '0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const skillItem = entry.target;
+                const level = skillItem.getAttribute('data-level');
+                const progressBar = skillItem.querySelector('.skill-progress');
+                const percentText = skillItem.querySelector('.skill-percent');
+
+                if (progressBar && level) {
+                    // Animate progress bar
+                    setTimeout(() => {
+                        progressBar.style.width = level + '%';
+                        if (percentText) {
+                            animateNumber(percentText, 0, parseInt(level), 1500);
+                        }
+                    }, 200);
+                }
+
+                // Unobserve after animation
+                observer.unobserve(skillItem);
+            }
+        });
+    }, observerOptions);
+
+    skillItems.forEach(item => observer.observe(item));
+}
+
+// Animate number from start to end
+function animateNumber(element, start, end, duration) {
+    const startTime = performance.now();
+    const range = end - start;
+
+    function update(currentTime) {
+        const elapsed = currentTime - startTime;
+        const progress = Math.min(elapsed / duration, 1);
+        const easeProgress = progress < 0.5
+            ? 2 * progress * progress
+            : 1 - Math.pow(-2 * progress + 2, 2) / 2;
+        const current = Math.floor(start + range * easeProgress);
+        element.textContent = current + '%';
+
+        if (progress < 1) {
+            requestAnimationFrame(update);
+        }
+    }
+
+    requestAnimationFrame(update);
+}
+
+// ============ SETTINGS PANEL ============
+function initSettings() {
     const themeBtn = document.getElementById('theme-btn');
     const themeSidebar = document.getElementById('theme-sidebar');
     const closeSidebar = document.getElementById('close-sidebar');
+
+    // Mode options
+    const modeOptions = document.querySelectorAll('.mode-option');
+    // Theme color options
     const themeOptions = document.querySelectorAll('.theme-option');
+    // Language options
+    const languageOptions = document.querySelectorAll('.language-option');
+    // Effect toggles
+    const parallaxToggle = document.getElementById('parallax-toggle');
+    const particlesToggle = document.getElementById('particles-toggle');
 
     if (!themeBtn || !themeSidebar) return;
 
-    // Load saved theme from localStorage
+    // Load saved settings from localStorage
+    const savedMode = localStorage.getItem('portfolio-mode') || 'light';
     const savedTheme = localStorage.getItem('portfolio-theme') || 'green';
-    document.documentElement.setAttribute('data-theme', savedTheme);
+    const savedLang = localStorage.getItem('portfolio-lang') || 'en';
+    const savedParallax = localStorage.getItem('portfolio-parallax') !== 'false';
+    const savedParticles = localStorage.getItem('portfolio-particles') !== 'false';
 
-    // Set active theme option
+    // Apply saved settings
+    document.documentElement.setAttribute('data-mode', savedMode);
+    document.documentElement.setAttribute('data-theme', savedTheme);
+    document.documentElement.setAttribute('data-lang', savedLang);
+
+    // Set active states
+    modeOptions.forEach(option => {
+        if (option.getAttribute('data-mode') === savedMode) {
+            option.classList.add('active');
+        }
+    });
+
     themeOptions.forEach(option => {
         if (option.getAttribute('data-theme') === savedTheme) {
             option.classList.add('active');
         }
     });
+
+    languageOptions.forEach(option => {
+        if (option.getAttribute('data-lang') === savedLang) {
+            option.classList.add('active');
+        }
+    });
+
+    if (parallaxToggle) parallaxToggle.checked = savedParallax;
+    if (particlesToggle) particlesToggle.checked = savedParticles;
 
     // Update Three.js particle color based on theme
     updateParticleColor(savedTheme);
@@ -599,30 +598,79 @@ function initThemeSelector() {
         }
     });
 
-    // Theme option selection
+    // Mode selection
+    modeOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const mode = option.getAttribute('data-mode');
+            modeOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            document.documentElement.setAttribute('data-mode', mode);
+            localStorage.setItem('portfolio-mode', mode);
+        });
+    });
+
+    // Theme color selection
     themeOptions.forEach(option => {
         option.addEventListener('click', () => {
             const theme = option.getAttribute('data-theme');
-
-            // Update active state
             themeOptions.forEach(opt => opt.classList.remove('active'));
             option.classList.add('active');
-
-            // Apply theme
             document.documentElement.setAttribute('data-theme', theme);
-
-            // Save to localStorage
             localStorage.setItem('portfolio-theme', theme);
-
-            // Update Three.js particle color
             updateParticleColor(theme);
-
-            // Close sidebar after selection
-            setTimeout(() => {
-                themeSidebar.classList.remove('active');
-            }, 300);
         });
     });
+
+    // Language selection
+    languageOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const lang = option.getAttribute('data-lang');
+            languageOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+            document.documentElement.setAttribute('data-lang', lang);
+            localStorage.setItem('portfolio-lang', lang);
+        });
+    });
+
+    // Parallax toggle
+    if (parallaxToggle) {
+        parallaxToggle.addEventListener('change', (e) => {
+            const enabled = e.target.checked;
+            localStorage.setItem('portfolio-parallax', enabled);
+            toggleParallax(enabled);
+        });
+    }
+
+    // Particles toggle
+    if (particlesToggle) {
+        particlesToggle.addEventListener('change', (e) => {
+            const enabled = e.target.checked;
+            localStorage.setItem('portfolio-particles', enabled);
+            toggleParticles(enabled);
+        });
+    }
+
+    // Toggle parallax effect
+    function toggleParallax(enabled) {
+        const parallaxElements = document.querySelectorAll('.parallax-element');
+        if (enabled) {
+            parallaxElements.forEach(el => {
+                el.style.transform = '';
+            });
+        } else {
+            parallaxElements.forEach(el => {
+                el.style.transform = 'translateY(0) !important';
+            });
+        }
+    }
+
+    // Toggle particles
+    function toggleParticles(enabled) {
+        const canvas = document.getElementById('bg-canvas');
+        if (canvas) {
+            canvas.style.opacity = enabled ? '0.4' : '0';
+        }
+    }
 }
 
 // Update Three.js particle color based on theme
