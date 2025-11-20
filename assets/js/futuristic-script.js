@@ -1271,60 +1271,215 @@ function initKonamiCode() {
 }
 
 function activateKonamiMode() {
-    // Show notification
+    // Mark god mode as active
+    window.godModeActive = true;
+
+    // Epic notification with power-up effect
     const notification = document.createElement('div');
     notification.innerHTML = `
-        <div style="
+        <div id="god-mode-notification" style="
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #ff0080 0%, #ff8c00 50%, #40e0d0 100%);
             color: white;
-            padding: 40px 60px;
-            border-radius: 20px;
-            font-size: 32px;
-            font-weight: 700;
+            padding: 50px 80px;
+            border-radius: 30px;
+            font-size: 42px;
+            font-weight: 900;
             text-align: center;
             z-index: 20000;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-            animation: konamiPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            box-shadow: 0 30px 80px rgba(255, 0, 128, 0.6), 0 0 100px rgba(255, 140, 0, 0.4);
+            animation: godModeEntry 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
         ">
-            🎮 KONAMI CODE ACTIVATED! 🎮<br>
-            <span style="font-size: 18px; opacity: 0.9; display: block; margin-top: 20px;">
-                GOD MODE ENABLED
+            ⚡ GOD MODE ACTIVATED ⚡<br>
+            <span style="font-size: 20px; opacity: 0.95; display: block; margin-top: 20px; font-weight: 600; letter-spacing: 3px;">
+                ∞ UNLIMITED POWER ∞
             </span>
+            <div style="font-size: 14px; margin-top: 15px; opacity: 0.8; font-weight: 500;">
+                Press SPACE for explosions • Click for effects
+            </div>
         </div>
     `;
 
     document.body.appendChild(notification);
 
-    // Add animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes konamiPop {
-            0% { transform: translate(-50%, -50%) scale(0) rotate(-180deg); opacity: 0; }
-            100% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 1; }
-        }
-    `;
-    document.head.appendChild(style);
+    // Add animations
+    if (!document.getElementById('god-mode-animations')) {
+        const style = document.createElement('style');
+        style.id = 'god-mode-animations';
+        style.textContent = `
+            @keyframes godModeEntry {
+                0% {
+                    transform: translate(-50%, -50%) scale(0) rotate(-360deg);
+                    opacity: 0;
+                    filter: blur(20px);
+                }
+                50% {
+                    transform: translate(-50%, -50%) scale(1.3) rotate(0deg);
+                    filter: blur(0px);
+                }
+                100% {
+                    transform: translate(-50%, -50%) scale(1) rotate(0deg);
+                    opacity: 1;
+                    filter: blur(0px);
+                }
+            }
+        `;
+        document.head.appendChild(style);
+    }
 
-    // Add rainbow effect to background
+    // Add rainbow effect
     const rainbowInterval = setInterval(() => {
         const hue = Math.random() * 360;
         document.documentElement.style.setProperty('--primary-color', `hsl(${hue}, 70%, 60%)`);
         document.documentElement.style.setProperty('--glow-color', `hsl(${hue}, 70%, 60%)`);
-    }, 200);
+    }, 150);
 
-    // Remove notification and stop rainbow after 3 seconds
+    // God mode powers
+    enableGodModePowers();
+
+    // Remove notification after 4 seconds but keep powers
     setTimeout(() => {
-        notification.remove();
-        clearInterval(rainbowInterval);
+        const notif = document.getElementById('god-mode-notification');
+        if (notif) {
+            notif.style.animation = 'godModeEntry 0.5s ease reverse';
+            setTimeout(() => notif.remove(), 500);
+        }
+    }, 4000);
 
-        // Restore theme
+    // Stop rainbow and restore theme after 10 seconds
+    setTimeout(() => {
+        clearInterval(rainbowInterval);
         const savedTheme = localStorage.getItem('portfolio-theme') || 'green';
         updateParticleColor(savedTheme);
-    }, 3000);
+        window.godModeActive = false;
+    }, 10000);
+}
+
+function enableGodModePowers() {
+    // Power 1: SPACE key creates explosions
+    const spaceHandler = (e) => {
+        if (e.code === 'Space' && window.godModeActive && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            e.preventDefault();
+            createExplosion(window.innerWidth / 2, window.innerHeight / 2);
+        }
+    };
+
+    // Power 2: Click anywhere creates ripples
+    const clickHandler = (e) => {
+        if (window.godModeActive) {
+            createGodModeRipple(e.clientX, e.clientY);
+        }
+    };
+
+    // Power 3: Mouse trail
+    const mouseMoveHandler = (e) => {
+        if (window.godModeActive) {
+            createGodModeTrail(e.clientX, e.clientY);
+        }
+    };
+
+    document.addEventListener('keydown', spaceHandler);
+    document.addEventListener('click', clickHandler);
+    document.addEventListener('mousemove', mouseMoveHandler);
+
+    // Remove listeners after 10 seconds
+    setTimeout(() => {
+        document.removeEventListener('keydown', spaceHandler);
+        document.removeEventListener('click', clickHandler);
+        document.removeEventListener('mousemove', mouseMoveHandler);
+    }, 10000);
+}
+
+function createExplosion(x, y) {
+    for (let i = 0; i < 20; i++) {
+        const particle = document.createElement('div');
+        const angle = (Math.PI * 2 * i) / 20;
+        const velocity = 200 + Math.random() * 100;
+
+        particle.style.position = 'fixed';
+        particle.style.left = x + 'px';
+        particle.style.top = y + 'px';
+        particle.style.width = '10px';
+        particle.style.height = '10px';
+        particle.style.background = `hsl(${Math.random() * 360}, 100%, 60%)`;
+        particle.style.borderRadius = '50%';
+        particle.style.pointerEvents = 'none';
+        particle.style.zIndex = '99999';
+        particle.style.boxShadow = '0 0 10px currentColor';
+
+        document.body.appendChild(particle);
+
+        const moveX = Math.cos(angle) * velocity;
+        const moveY = Math.sin(angle) * velocity;
+
+        particle.animate([
+            { transform: 'translate(0, 0) scale(1)', opacity: 1 },
+            { transform: `translate(${moveX}px, ${moveY}px) scale(0)`, opacity: 0 }
+        ], {
+            duration: 1000,
+            easing: 'cubic-bezier(0, 0.5, 0.5, 1)'
+        });
+
+        setTimeout(() => particle.remove(), 1000);
+    }
+}
+
+function createGodModeRipple(x, y) {
+    const ripple = document.createElement('div');
+    ripple.style.position = 'fixed';
+    ripple.style.left = x + 'px';
+    ripple.style.top = y + 'px';
+    ripple.style.width = '10px';
+    ripple.style.height = '10px';
+    ripple.style.border = '3px solid var(--primary-color)';
+    ripple.style.borderRadius = '50%';
+    ripple.style.transform = 'translate(-50%, -50%)';
+    ripple.style.pointerEvents = 'none';
+    ripple.style.zIndex = '99998';
+
+    document.body.appendChild(ripple);
+
+    ripple.animate([
+        { transform: 'translate(-50%, -50%) scale(0)', opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(15)', opacity: 0 }
+    ], {
+        duration: 800,
+        easing: 'ease-out'
+    });
+
+    setTimeout(() => ripple.remove(), 800);
+}
+
+function createGodModeTrail(x, y) {
+    if (Math.random() > 0.7) return; // Only 30% chance
+
+    const trail = document.createElement('div');
+    trail.style.position = 'fixed';
+    trail.style.left = x + 'px';
+    trail.style.top = y + 'px';
+    trail.style.width = '8px';
+    trail.style.height = '8px';
+    trail.style.background = 'var(--primary-color)';
+    trail.style.borderRadius = '50%';
+    trail.style.transform = 'translate(-50%, -50%)';
+    trail.style.pointerEvents = 'none';
+    trail.style.zIndex = '99997';
+    trail.style.boxShadow = '0 0 10px var(--glow-color)';
+
+    document.body.appendChild(trail);
+
+    trail.animate([
+        { opacity: 0.8, transform: 'translate(-50%, -50%) scale(1)' },
+        { opacity: 0, transform: 'translate(-50%, -50%) scale(0)' }
+    ], {
+        duration: 500
+    });
+
+    setTimeout(() => trail.remove(), 500);
 }
 
 // ============ SKILL MODAL ============
@@ -1470,6 +1625,9 @@ function initEasterEggs() {
 
     // Easter Egg 4: Click all 4 corners in order
     initCornerClicks();
+
+    // Initialize 10 additional easter eggs (5-14)
+    initAdditional10EasterEggs();
 }
 
 // Mouse Shake Detection - Rapid mouse movement triggers glitch
@@ -1529,8 +1687,6 @@ function triggerGlitchEffect() {
     setTimeout(() => {
         body.style.animation = '';
     }, 500);
-
-    showEasterEggNotification('🔮 GLITCH DETECTED!', 'Reality is unstable...');
 }
 
 // Secret Word Detection - Type "neo" anywhere
@@ -1836,6 +1992,622 @@ function showEasterEggNotification(title, message) {
         notification.style.animation = 'slideInRight 0.5s ease reverse';
         setTimeout(() => notification.remove(), 500);
     }, 3000);
+}
+
+// ============ 10 ADDITIONAL EASTER EGGS ============
+
+// Easter Egg 5: Hold Shift + Alt + D for Developer Mode
+function initDeveloperMode() {
+    let shiftPressed = false;
+    let altPressed = false;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Shift') shiftPressed = true;
+        if (e.key === 'Alt') altPressed = true;
+
+        if (shiftPressed && altPressed && e.key.toLowerCase() === 'd') {
+            triggerDeveloperMode();
+        }
+    });
+
+    document.addEventListener('keyup', (e) => {
+        if (e.key === 'Shift') shiftPressed = false;
+        if (e.key === 'Alt') altPressed = false;
+    });
+}
+
+function triggerDeveloperMode() {
+    showEasterEggNotification('👨‍💻 DEVELOPER MODE', 'All secrets revealed!');
+
+    // Show hidden stats overlay
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
+        position: fixed;
+        top: 80px;
+        right: 20px;
+        background: rgba(0, 0, 0, 0.9);
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        padding: 20px;
+        border-radius: 10px;
+        font-family: 'Courier New', monospace;
+        font-size: 12px;
+        z-index: 99999;
+        max-width: 300px;
+    `;
+
+    const stats = `
+        <div style="margin-bottom: 10px; font-size: 14px; font-weight: bold;">🔧 SYSTEM STATS</div>
+        <div>📊 Easter Eggs Found: ${window.easterEggsFound || 0}/15</div>
+        <div>⏱️ Session Time: ${Math.floor(Date.now() / 60000)} min</div>
+        <div>🖱️ Mouse Speed: ${Math.floor(Math.random() * 100)}%</div>
+        <div>🎨 Theme: ${localStorage.getItem('portfolio-theme') || 'green'}</div>
+        <div>🌐 Browser: ${navigator.userAgent.split(' ').pop()}</div>
+        <div style="margin-top: 10px; font-size: 10px; opacity: 0.7;">Press ESC to close</div>
+    `;
+
+    overlay.innerHTML = stats;
+    document.body.appendChild(overlay);
+
+    const closeHandler = (e) => {
+        if (e.key === 'Escape') {
+            overlay.remove();
+            document.removeEventListener('keydown', closeHandler);
+        }
+    };
+    document.addEventListener('keydown', closeHandler);
+
+    setTimeout(() => {
+        overlay.remove();
+        document.removeEventListener('keydown', closeHandler);
+    }, 10000);
+}
+
+// Easter Egg 6: Triple-click anywhere for confetti
+function initTripleClick() {
+    let clickCount = 0;
+    let clickTimer = null;
+
+    document.addEventListener('click', (e) => {
+        clickCount++;
+
+        if (clickTimer) clearTimeout(clickTimer);
+
+        clickTimer = setTimeout(() => {
+            if (clickCount === 3) {
+                launchConfetti(e.clientX, e.clientY);
+            }
+            clickCount = 0;
+        }, 400);
+    });
+}
+
+function launchConfetti(x, y) {
+    const colors = ['#ff0080', '#00d4ff', '#9d4eed', '#ff6b35', '#50c878'];
+
+    for (let i = 0; i < 50; i++) {
+        const confetti = document.createElement('div');
+        const size = Math.random() * 10 + 5;
+
+        confetti.style.cssText = `
+            position: fixed;
+            left: ${x}px;
+            top: ${y}px;
+            width: ${size}px;
+            height: ${size}px;
+            background: ${colors[Math.floor(Math.random() * colors.length)]};
+            pointer-events: none;
+            z-index: 99999;
+        `;
+
+        document.body.appendChild(confetti);
+
+        const angle = Math.random() * Math.PI * 2;
+        const velocity = Math.random() * 300 + 100;
+        const rotation = Math.random() * 720 - 360;
+
+        confetti.animate([
+            {
+                transform: `translate(0, 0) rotate(0deg)`,
+                opacity: 1
+            },
+            {
+                transform: `translate(${Math.cos(angle) * velocity}px, ${Math.sin(angle) * velocity + 500}px) rotate(${rotation}deg)`,
+                opacity: 0
+            }
+        ], {
+            duration: 2000,
+            easing: 'cubic-bezier(0, 0.5, 0.5, 1)'
+        });
+
+        setTimeout(() => confetti.remove(), 2000);
+    }
+}
+
+// Easter Egg 7: Type "gravity" to enable gravity on elements
+function initGravityEasterEgg() {
+    let typedChars = [];
+    const secretWord = 'gravity';
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        typedChars.push(e.key.toLowerCase());
+        if (typedChars.length > secretWord.length) typedChars.shift();
+
+        if (typedChars.join('') === secretWord) {
+            activateGravity();
+            typedChars = [];
+        }
+    });
+}
+
+function activateGravity() {
+    showEasterEggNotification('🌍 GRAVITY ENABLED', 'Physics activated!');
+
+    const elements = document.querySelectorAll('.skill-tag, .project-card, .service-card');
+
+    elements.forEach((el, index) => {
+        setTimeout(() => {
+            const rect = el.getBoundingClientRect();
+            const clone = el.cloneNode(true);
+
+            clone.style.position = 'fixed';
+            clone.style.left = rect.left + 'px';
+            clone.style.top = rect.top + 'px';
+            clone.style.width = rect.width + 'px';
+            clone.style.zIndex = '99999';
+
+            document.body.appendChild(clone);
+
+            const fallDistance = window.innerHeight - rect.top;
+            const duration = Math.sqrt(fallDistance) * 30;
+
+            clone.animate([
+                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                { transform: `translateY(${fallDistance}px) rotate(${Math.random() * 360}deg)`, opacity: 0.5 }
+            ], {
+                duration: duration,
+                easing: 'cubic-bezier(0.5, 0, 1, 1)'
+            });
+
+            setTimeout(() => clone.remove(), duration);
+        }, index * 100);
+    });
+}
+
+// Easter Egg 8: Scroll super fast to trigger speed lines
+function initSpeedScrollDetection() {
+    let lastScrollTop = 0;
+    let scrollSpeed = 0;
+    let speedLinesActive = false;
+
+    const mainContainer = document.getElementById('main-container');
+    if (!mainContainer) return;
+
+    mainContainer.addEventListener('scroll', () => {
+        const currentScrollTop = mainContainer.scrollTop;
+        scrollSpeed = Math.abs(currentScrollTop - lastScrollTop);
+        lastScrollTop = currentScrollTop;
+
+        if (scrollSpeed > 100 && !speedLinesActive) {
+            triggerSpeedLines();
+            speedLinesActive = true;
+            setTimeout(() => speedLinesActive = false, 2000);
+        }
+    });
+}
+
+function triggerSpeedLines() {
+    const canvas = document.createElement('canvas');
+    canvas.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 9998;
+    `;
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    document.body.appendChild(canvas);
+
+    const ctx = canvas.getContext('2d');
+    const lines = [];
+
+    for (let i = 0; i < 30; i++) {
+        lines.push({
+            x: Math.random() * canvas.width,
+            y: Math.random() * canvas.height,
+            length: Math.random() * 100 + 50,
+            speed: Math.random() * 15 + 10,
+            opacity: Math.random() * 0.5 + 0.3
+        });
+    }
+
+    let frameCount = 0;
+    const animate = () => {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        lines.forEach(line => {
+            ctx.strokeStyle = `rgba(var(--primary-color-rgb, 80, 200, 120), ${line.opacity})`;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(line.x, line.y);
+            ctx.lineTo(line.x, line.y + line.length);
+            ctx.stroke();
+
+            line.y += line.speed;
+            if (line.y > canvas.height) {
+                line.y = -line.length;
+                line.x = Math.random() * canvas.width;
+            }
+        });
+
+        frameCount++;
+        if (frameCount < 60) {
+            requestAnimationFrame(animate);
+        } else {
+            canvas.remove();
+        }
+    };
+
+    animate();
+}
+
+// Easter Egg 9: Press F for "Pay Respects"
+function initPayRespects() {
+    document.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 'f' && e.target.tagName !== 'INPUT' && e.target.tagName !== 'TEXTAREA') {
+            if (!e.ctrlKey && !e.altKey && !e.metaKey) {
+                payRespects();
+            }
+        }
+    });
+}
+
+function payRespects() {
+    const respect = document.createElement('div');
+    respect.textContent = 'F';
+    respect.style.cssText = `
+        position: fixed;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 200px;
+        font-weight: 900;
+        color: var(--primary-color);
+        opacity: 0;
+        pointer-events: none;
+        z-index: 99999;
+        text-shadow: 0 0 30px var(--glow-color);
+    `;
+
+    document.body.appendChild(respect);
+
+    respect.animate([
+        { opacity: 0, transform: 'translate(-50%, -50%) scale(0.5)' },
+        { opacity: 1, transform: 'translate(-50%, -50%) scale(1)' },
+        { opacity: 0, transform: 'translate(-50%, -50%) scale(1.5)' }
+    ], {
+        duration: 1500,
+        easing: 'ease-out'
+    });
+
+    setTimeout(() => respect.remove(), 1500);
+}
+
+// Easter Egg 10: Rotate device/window rapidly
+function initRotationDetection() {
+    let lastOrientation = window.orientation || 0;
+    let rotationCount = 0;
+
+    window.addEventListener('orientationchange', () => {
+        rotationCount++;
+        if (rotationCount >= 2) {
+            triggerDizzyEffect();
+            rotationCount = 0;
+        }
+    });
+
+    // For desktop: detect window resize
+    let lastWidth = window.innerWidth;
+    window.addEventListener('resize', () => {
+        if (Math.abs(window.innerWidth - lastWidth) > 200) {
+            triggerDizzyEffect();
+        }
+        lastWidth = window.innerWidth;
+    });
+}
+
+function triggerDizzyEffect() {
+    showEasterEggNotification('😵 DIZZY MODE', 'Everything is spinning...');
+
+    document.body.style.animation = 'spin360 2s ease-in-out';
+
+    if (!document.getElementById('spin-animation')) {
+        const style = document.createElement('style');
+        style.id = 'spin-animation';
+        style.textContent = `
+            @keyframes spin360 {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    setTimeout(() => {
+        document.body.style.animation = '';
+    }, 2000);
+}
+
+// Easter Egg 11: Hold mouse down for 3 seconds
+function initLongPress() {
+    let pressTimer = null;
+    let pressX = 0;
+    let pressY = 0;
+
+    document.addEventListener('mousedown', (e) => {
+        pressX = e.clientX;
+        pressY = e.clientY;
+
+        pressTimer = setTimeout(() => {
+            triggerPowerCharge(pressX, pressY);
+        }, 3000);
+    });
+
+    document.addEventListener('mouseup', () => {
+        if (pressTimer) clearTimeout(pressTimer);
+    });
+
+    document.addEventListener('mousemove', (e) => {
+        if (pressTimer && (Math.abs(e.clientX - pressX) > 10 || Math.abs(e.clientY - pressY) > 10)) {
+            clearTimeout(pressTimer);
+        }
+    });
+}
+
+function triggerPowerCharge(x, y) {
+    showEasterEggNotification('⚡ POWER CHARGED!', 'Energy released!');
+
+    // Create expanding energy ring
+    const ring = document.createElement('div');
+    ring.style.cssText = `
+        position: fixed;
+        left: ${x}px;
+        top: ${y}px;
+        width: 20px;
+        height: 20px;
+        border: 4px solid var(--primary-color);
+        border-radius: 50%;
+        transform: translate(-50%, -50%);
+        pointer-events: none;
+        z-index: 99999;
+        box-shadow: 0 0 20px var(--glow-color), inset 0 0 20px var(--glow-color);
+    `;
+
+    document.body.appendChild(ring);
+
+    ring.animate([
+        { transform: 'translate(-50%, -50%) scale(1)', opacity: 1 },
+        { transform: 'translate(-50%, -50%) scale(30)', opacity: 0 }
+    ], {
+        duration: 1500,
+        easing: 'ease-out'
+    });
+
+    setTimeout(() => ring.remove(), 1500);
+}
+
+// Easter Egg 12: Type "disco" for disco mode
+function initDiscoMode() {
+    let typedChars = [];
+    const secretWord = 'disco';
+
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+        typedChars.push(e.key.toLowerCase());
+        if (typedChars.length > secretWord.length) typedChars.shift();
+
+        if (typedChars.join('') === secretWord) {
+            activateDiscoMode();
+            typedChars = [];
+        }
+    });
+}
+
+function activateDiscoMode() {
+    showEasterEggNotification('🕺 DISCO MODE', 'Let\'s party!');
+
+    const colors = ['#ff0080', '#00d4ff', '#9d4eed', '#ff6b35', '#50c878', '#ffd700'];
+    let colorIndex = 0;
+
+    const discoInterval = setInterval(() => {
+        document.documentElement.style.setProperty('--primary-color', colors[colorIndex]);
+        document.documentElement.style.setProperty('--glow-color', colors[colorIndex]);
+        colorIndex = (colorIndex + 1) % colors.length;
+    }, 200);
+
+    // Add disco ball
+    const discoBall = document.createElement('div');
+    discoBall.textContent = '🪩';
+    discoBall.style.cssText = `
+        position: fixed;
+        left: 50%;
+        top: 20%;
+        transform: translateX(-50%);
+        font-size: 100px;
+        z-index: 99999;
+        animation: discoSpin 2s linear infinite;
+        filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.8));
+    `;
+
+    if (!document.getElementById('disco-spin-animation')) {
+        const style = document.createElement('style');
+        style.id = 'disco-spin-animation';
+        style.textContent = `
+            @keyframes discoSpin {
+                from { transform: translateX(-50%) rotate(0deg); }
+                to { transform: translateX(-50%) rotate(360deg); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    document.body.appendChild(discoBall);
+
+    setTimeout(() => {
+        clearInterval(discoInterval);
+        discoBall.remove();
+        const savedTheme = localStorage.getItem('portfolio-theme') || 'green';
+        updateParticleColor(savedTheme);
+    }, 5000);
+}
+
+// Easter Egg 13: Press arrow keys in Tetris pattern
+function initTetrisPattern() {
+    const tetrisPattern = ['ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+    let patternIndex = 0;
+
+    document.addEventListener('keydown', (e) => {
+        if (e.key === tetrisPattern[patternIndex]) {
+            patternIndex++;
+            if (patternIndex === tetrisPattern.length) {
+                triggerTetrisEffect();
+                patternIndex = 0;
+            }
+        } else if (tetrisPattern.includes(e.key)) {
+            patternIndex = 0;
+        }
+    });
+}
+
+function triggerTetrisEffect() {
+    showEasterEggNotification('🎮 TETRIS MODE', 'Blocks are falling!');
+
+    const shapes = ['▢', '▣', '◆', '◇', '▲', '▼'];
+    const colors = ['#ff0080', '#00d4ff', '#9d4eed', '#ff6b35', '#50c878'];
+
+    for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+            const block = document.createElement('div');
+            block.textContent = shapes[Math.floor(Math.random() * shapes.length)];
+            block.style.cssText = `
+                position: fixed;
+                left: ${Math.random() * window.innerWidth}px;
+                top: -50px;
+                font-size: 40px;
+                color: ${colors[Math.floor(Math.random() * colors.length)]};
+                pointer-events: none;
+                z-index: 99999;
+            `;
+
+            document.body.appendChild(block);
+
+            const fallDuration = 2000 + Math.random() * 1000;
+            block.animate([
+                { transform: 'translateY(0) rotate(0deg)', opacity: 1 },
+                { transform: `translateY(${window.innerHeight + 50}px) rotate(${Math.random() * 360}deg)`, opacity: 0.5 }
+            ], {
+                duration: fallDuration,
+                easing: 'linear'
+            });
+
+            setTimeout(() => block.remove(), fallDuration);
+        }, i * 200);
+    }
+}
+
+// Easter Egg 14: Hover on corners for 2 seconds each
+function initCornerHover() {
+    const corners = {
+        'top-left': { hovered: false, timer: null },
+        'top-right': { hovered: false, timer: null },
+        'bottom-left': { hovered: false, timer: null },
+        'bottom-right': { hovered: false, timer: null }
+    };
+
+    let allCornersHovered = false;
+
+    document.addEventListener('mousemove', (e) => {
+        if (allCornersHovered) return;
+
+        const margin = 50;
+        const x = e.clientX;
+        const y = e.clientY;
+        const w = window.innerWidth;
+        const h = window.innerHeight;
+
+        let currentCorner = null;
+
+        if (x < margin && y < margin) currentCorner = 'top-left';
+        else if (x > w - margin && y < margin) currentCorner = 'top-right';
+        else if (x < margin && y > h - margin) currentCorner = 'bottom-left';
+        else if (x > w - margin && y > h - margin) currentCorner = 'bottom-right';
+
+        // Reset timers for corners not being hovered
+        Object.keys(corners).forEach(corner => {
+            if (corner !== currentCorner && corners[corner].timer) {
+                clearTimeout(corners[corner].timer);
+                corners[corner].timer = null;
+            }
+        });
+
+        // Start timer for current corner
+        if (currentCorner && !corners[currentCorner].hovered && !corners[currentCorner].timer) {
+            corners[currentCorner].timer = setTimeout(() => {
+                corners[currentCorner].hovered = true;
+
+                // Check if all corners hovered
+                if (Object.values(corners).every(c => c.hovered)) {
+                    allCornersHovered = true;
+                    unlockMasterSecret();
+                }
+            }, 2000);
+        }
+    });
+}
+
+function unlockMasterSecret() {
+    showEasterEggNotification('🏆 MASTER UNLOCKED!', 'You\'ve discovered everything!');
+
+    // Epic celebration
+    document.body.style.animation = 'rainbow-pulse 2s ease-in-out';
+
+    if (!document.getElementById('rainbow-pulse-animation')) {
+        const style = document.createElement('style');
+        style.id = 'rainbow-pulse-animation';
+        style.textContent = `
+            @keyframes rainbow-pulse {
+                0%, 100% { filter: hue-rotate(0deg) brightness(1); }
+                25% { filter: hue-rotate(90deg) brightness(1.2); }
+                50% { filter: hue-rotate(180deg) brightness(1.4); }
+                75% { filter: hue-rotate(270deg) brightness(1.2); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    setTimeout(() => {
+        document.body.style.animation = '';
+    }, 2000);
+}
+
+// Initialize all 10 new easter eggs
+function initAdditional10EasterEggs() {
+    initDeveloperMode();         // Easter Egg 5
+    initTripleClick();           // Easter Egg 6
+    initGravityEasterEgg();      // Easter Egg 7
+    initSpeedScrollDetection();  // Easter Egg 8
+    initPayRespects();           // Easter Egg 9
+    initRotationDetection();     // Easter Egg 10
+    initLongPress();             // Easter Egg 11
+    initDiscoMode();             // Easter Egg 12
+    initTetrisPattern();         // Easter Egg 13
+    initCornerHover();           // Easter Egg 14
 }
 
 console.log('✨ Futuristic Portfolio initialized!');
