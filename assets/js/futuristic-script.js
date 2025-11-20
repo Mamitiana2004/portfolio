@@ -21,6 +21,8 @@ function initAll() {
     initContactForm();
     initSettings();
     initDigitalClock();
+    initSkillModal();
+    initSectionNavigation();
 }
 
 // Store Three.js materials for theme updates
@@ -61,7 +63,7 @@ function init3DBackground() {
     particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
 
     const particlesMaterial = new THREE.PointsMaterial({
-        size: 0.1,
+        size: 0.3,
         color: window.currentThemeColor || 0x50c878,
         transparent: true,
         opacity: 0.6,
@@ -726,6 +728,136 @@ function initDigitalClock() {
 
     // Update every second
     setInterval(updateClock, 1000);
+}
+
+// ============ SKILL MODAL ============
+function initSkillModal() {
+    const skillTags = document.querySelectorAll('.skill-tag');
+    const modal = document.getElementById('skill-modal');
+    const modalOverlay = modal?.querySelector('.modal-overlay');
+    const modalClose = modal?.querySelector('.modal-close');
+    const modalSkillName = document.getElementById('modal-skill-name');
+    const modalProgress = document.getElementById('modal-progress');
+    const modalPercentage = document.getElementById('modal-percentage');
+    const modalFrameworksList = document.getElementById('modal-frameworks-list');
+
+    if (!modal) return;
+
+    // Open modal on skill tag click
+    skillTags.forEach(tag => {
+        tag.addEventListener('click', () => {
+            const skillName = tag.textContent.trim();
+            const skillLevel = tag.getAttribute('data-level');
+            const skillType = tag.getAttribute('data-type');
+            const frameworksData = tag.getAttribute('data-frameworks');
+
+            // Update modal content
+            modalSkillName.textContent = skillName;
+
+            // Animate progress bar
+            modalProgress.style.width = '0%';
+            modalPercentage.textContent = '0%';
+
+            setTimeout(() => {
+                modalProgress.style.width = skillLevel + '%';
+                animateNumber(modalPercentage, 0, parseInt(skillLevel), 1000);
+            }, 100);
+
+            // Update frameworks list
+            modalFrameworksList.innerHTML = '';
+            if (frameworksData) {
+                try {
+                    const frameworks = JSON.parse(frameworksData);
+                    frameworks.forEach(framework => {
+                        const li = document.createElement('li');
+                        li.textContent = framework;
+                        modalFrameworksList.appendChild(li);
+                    });
+                } catch (e) {
+                    console.error('Error parsing frameworks:', e);
+                }
+            } else if (skillType === 'language') {
+                // For languages, show proficiency level
+                const li = document.createElement('li');
+                li.textContent = `Proficiency: ${skillLevel}%`;
+                modalFrameworksList.appendChild(li);
+            }
+
+            // Show modal
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // Close modal on close button click
+    if (modalClose) {
+        modalClose.addEventListener('click', closeModal);
+    }
+
+    // Close modal on overlay click
+    if (modalOverlay) {
+        modalOverlay.addEventListener('click', closeModal);
+    }
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && modal.classList.contains('active')) {
+            closeModal();
+        }
+    });
+
+    function closeModal() {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// ============ SECTION NAVIGATION TIMELINE ============
+function initSectionNavigation() {
+    const navDots = document.querySelectorAll('.nav-dot');
+    const sections = document.querySelectorAll('.section');
+    const mainContainer = document.getElementById('main-container');
+
+    if (!mainContainer || navDots.length === 0) return;
+
+    // Handle dot click navigation
+    navDots.forEach(dot => {
+        dot.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = dot.getAttribute('href').substring(1);
+            const targetSection = document.getElementById(targetId);
+
+            if (targetSection) {
+                mainContainer.scrollTo({
+                    top: targetSection.offsetTop,
+                    behavior: 'smooth'
+                });
+            }
+        });
+    });
+
+    // Update active dot on scroll
+    mainContainer.addEventListener('scroll', () => {
+        let currentSection = '';
+        const scrollPosition = mainContainer.scrollTop;
+
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.offsetHeight;
+
+            if (scrollPosition >= sectionTop - 200) {
+                currentSection = section.getAttribute('id');
+            }
+        });
+
+        navDots.forEach(dot => {
+            dot.classList.remove('active');
+            const dotSection = dot.getAttribute('data-section');
+            if (dotSection === currentSection) {
+                dot.classList.add('active');
+            }
+        });
+    });
 }
 
 console.log('✨ Futuristic Portfolio initialized!');
