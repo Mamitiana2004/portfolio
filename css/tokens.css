@@ -1,0 +1,91 @@
+/* Tokens — v4. Off-white light theme and a deep dark theme; Geist only (no serif),
+   Geist Mono for labels.
+   The logo's green stays as a small accent (status, highlights). Text pairs meet 4.5:1. */
+
+:root {
+  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  --fs-hero: clamp(2.25rem, 1.2rem + 2.8vw, 4.25rem);
+  --fs-h2: clamp(2.25rem, 1.3rem + 3.6vw, 5rem);
+  --fs-h3: 1.5rem;
+  --fs-lead: clamp(1.0625rem, 0.98rem + 0.3vw, 1.25rem);
+  --fs-body: 1rem;
+  --fs-small: 0.9375rem;
+  --fs-mono: 0.75rem;
+
+  --r-sm: 10px;
+  --r-md: 16px;
+  --r-lg: 28px;
+  --r-pill: 999px;
+
+  --container: 1360px;
+  --gutter: clamp(16px, 3vw, 40px);
+  --gap: clamp(10px, 1vw, 16px);
+
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-fast: 180ms;
+  --dur: 320ms;
+
+  --accent: #3fb36a;
+  --accent-ink: #062513;
+}
+
+/* ---------- Light: off-white paper ---------- */
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f3f1ec;
+  --card: #fbfaf7;
+  --card-2: #efece6;
+  --line: rgba(20, 18, 14, 0.08);
+  --line-strong: rgba(20, 18, 14, 0.16);
+
+  --fg: #141311;
+  --fg-2: #3d3a35;
+  --muted: #6b665e;
+  --faint: #7a756c;
+
+  --accent-text: #1f7a43;
+  --accent-soft: rgba(63, 179, 106, 0.12);
+
+  --btn-dark: #141311;
+  --btn-dark-ink: #fbfaf7;
+  --tile: #ffffff;
+  --tile-line: rgba(20, 18, 14, 0.08);
+  --nav-bg: rgba(251, 250, 247, 0.72);
+  --shadow-sm: 0 1px 2px rgba(20, 18, 14, 0.04), 0 4px 16px -8px rgba(20, 18, 14, 0.08);
+  --shadow-lg: 0 30px 80px -40px rgba(20, 18, 14, 0.35);
+  --code-bg: #141311;
+  --code-bar: #1d1b18;
+  --glow: rgba(63, 179, 106, 0.18);
+}
+
+/* ---------- Dark ---------- */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0c0c0c;
+  --card: #151515;
+  --card-2: #1c1c1c;
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.14);
+
+  --fg: #f2f0ec;
+  --fg-2: #d2cfc8;
+  --muted: #9b968e;
+  --faint: #8d887f;
+
+  --accent-text: #5fcf8a;
+  --accent-soft: rgba(63, 179, 106, 0.14);
+
+  --btn-dark: #f2f0ec;
+  --btn-dark-ink: #0c0c0c;
+  --tile: #f4f2ee;
+  --tile-line: rgba(255, 255, 255, 0.06);
+  --nav-bg: rgba(21, 21, 21, 0.7);
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3), 0 4px 16px -8px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 30px 80px -40px rgba(0, 0, 0, 0.9);
+  --code-bg: #0e0e0e;
+  --code-bar: #181818;
+  --glow: rgba(63, 179, 106, 0.16);
+}
